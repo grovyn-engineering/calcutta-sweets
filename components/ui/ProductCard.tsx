@@ -1,10 +1,14 @@
 import Image from "next/image";
-import Link from "next/link";
+import { Star } from "lucide-react";
 
 interface ProductCardProps {
   name: string;
   description: string;
   price: number;
+  originalPrice?: number;
+  weight?: string;
+  rating?: number;
+  reviewCount?: number;
   image: string;
   href?: string;
 }
@@ -13,49 +17,69 @@ export default function ProductCard({
   name,
   description,
   price,
+  originalPrice,
+  weight = "200g",
+  rating = 4.9,
+  reviewCount,
   image,
   href = "#",
 }: ProductCardProps) {
   return (
-    <div className="flex flex-col bg-white rounded-[2rem] overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+    <div className="flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group">
       {/* Image Container */}
-      <div className="relative aspect-[4/3] w-full bg-zinc-900">
+      <div className="relative aspect-[4/3] w-full bg-zinc-100 overflow-hidden">
         <Image
           src={image}
           alt={name}
           fill
-          className="object-cover"
+          className="object-cover group-hover:scale-105 transition-transform duration-500"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
-        {/* Price Tag Pill */}
-        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-1.5 rounded-full z-10">
-          <span className="font-sans font-medium text-sm text-zinc-800">
-            ₹{price}/pc
-          </span>
-        </div>
       </div>
 
       {/* Content */}
-      <div className="flex flex-col p-8 flex-grow">
-        <h3 className="font-dm-serif text-3xl text-zinc-900 mb-3">{name}</h3>
-        <p className="font-sans text-zinc-500 text-sm leading-relaxed mb-8 flex-grow">
+      <div className="flex flex-col p-5 flex-grow">
+        {/* Star Rating */}
+        <div className="flex items-center gap-1 mb-2">
+          <div className="flex items-center gap-0.5">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Star
+                key={i}
+                className="w-3 h-3 fill-amber-400 text-amber-400"
+                strokeWidth={0}
+              />
+            ))}
+          </div>
+          <span className="font-sans text-xs text-zinc-400 ml-1">
+            ({rating})
+          </span>
+        </div>
+
+        {/* Name */}
+        <h3 className="font-dm-serif text-lg text-zinc-900 mb-1.5">{name}</h3>
+
+        {/* Description */}
+        <p className="font-sans text-zinc-400 text-xs leading-relaxed mb-4 flex-grow line-clamp-2">
           {description}
         </p>
 
-        {/* Actions */}
-        <div className="flex items-center gap-4 mt-auto">
-          <Link
-            href={href}
-            className="flex-1 text-center py-3 rounded-full border border-foreground text-foreground font-sans font-medium text-sm hover:bg-foreground/5 transition-colors"
-          >
-            Get Details
-          </Link>
-          <Link
-            href={href}
-            className="flex-1 text-center py-3 rounded-full bg-[#C8773A] text-white font-sans font-medium text-sm hover:bg-[#b06832] transition-colors shadow-sm"
-          >
+        {/* Price + Order Button */}
+        <div className="flex items-center justify-between mt-auto">
+          <div className="flex items-baseline gap-1.5">
+            <span className="font-dm-serif text-lg text-zinc-900">
+              ₹{price}
+            </span>
+            {originalPrice && (
+              <span className="font-sans text-xs text-zinc-400 line-through">
+                ₹{originalPrice}
+              </span>
+            )}
+            <span className="font-sans text-xs text-zinc-400">/{weight}</span>
+          </div>
+
+          <button className="px-4 py-1.5 rounded-full bg-zinc-900 text-white font-sans font-medium text-xs hover:bg-zinc-800 transition-colors">
             Order Now
-          </Link>
+          </button>
         </div>
       </div>
     </div>

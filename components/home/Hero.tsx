@@ -39,7 +39,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative w-full pt-60 overflow-hidden bg-[var(--background)] min-h-[100vh]"
+      className="relative w-full pt-32 sm:pt-44 md:pt-60 overflow-hidden bg-[var(--background)] min-h-[60vh] sm:min-h-[80vh] md:min-h-[100vh]"
     >
       {/* Background text — crossfades between slides */}
       {sweets.map((sweet, index) => (

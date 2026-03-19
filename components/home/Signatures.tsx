@@ -26,7 +26,7 @@ export default function Signatures() {
     <section className="w-full bg-[var(--background)] py-24 px-8 md:px-12 lg:px-24">
       {/* Section Header */}
       <div className="flex flex-col gap-2 mb-16">
-        <h2 className="font-dm-serif text-5xl text-zinc-900 uppercase tracking-wide">
+        <h2 className="font-dm-serif text-3xl sm:text-4xl md:text-5xl text-zinc-900 uppercase tracking-wide">
           THE SIGNATURES
         </h2>
         <span className="font-sans text-foreground font-medium text-lg">
