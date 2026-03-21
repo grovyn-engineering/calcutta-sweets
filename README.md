@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Calcutta Sweets
 
-## Getting Started
+Calcutta Sweets is a premium web application designed for an artisanal Bengali sweet shop. It blends traditional heritage with a modern, high-performance web experience to showcase authentic recipes and craftsmanship.
 
-First, run the development server:
+## 🚀 Tech Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Framework**: [Next.js 15+](https://nextjs.org/) (App Router)
+- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/)
+- **Animations**: [GSAP](https://gsap.com/) (GreenSock Animation Platform)
+- **State Management**: [Zustand](https://zustand-demo.pmnd.rs/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+
+## ✨ Key Features
+
+- **Artisanal Hero Section**: A dynamic, high-impact carousel showcasing signature sweets with smooth transitions.
+- **Our Story**: A dedicated section highlighting the three-generation legacy and the brand's roots in Tatibandh.
+- **Categorized Menu**: Browse through various categories of sweets like Sondesh, Roshogulla, and Malpua.
+- **Responsive Design**: Fully optimized for a seamless experience across mobile, tablet, and desktop devices.
+- **Interactive UI**: Micro-animations and smooth scroll effects powered by GSAP for a premium look and feel.
+
+## 📂 Project Structure
+
+```text
+├── app/              # Next.js App Router (Pages & Layouts)
+├── components/       # Reusable UI Components
+│   ├── home/         # Homepage specific sections
+│   ├── menu/         # Menu and product components
+│   ├── ui/           # Shared UI primitives (buttons, cards, etc.)
+├── lib/              # Utility functions and shared logic
+├── store/            # State management (Zustand)
+├── public/           # Static assets (Images, Fonts)
+└── types/            # TypeScript type definitions
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Prerequisites
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Node.js (Latest LTS version recommended)
+- npm, yarn, pnpm, or bun
 
-## Learn More
+### Installation
 
-To learn more about Next.js, take a look at the following resources:
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-## Deploy on Vercel
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📜 License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Created for Calcutta Sweets. All rights reserved.
