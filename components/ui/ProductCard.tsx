@@ -40,7 +40,7 @@ export default function ProductCard({
       {/* Content */}
       <div className="flex flex-col p-5 flex-grow">
         {/* Star Rating */}
-        <div className="flex items-center gap-1 mb-2">
+        {/* <div className="flex items-center gap-1 mb-2">
           <div className="flex items-center gap-0.5">
             {Array.from({ length: 5 }).map((_, i) => (
               <Star
@@ -53,7 +53,7 @@ export default function ProductCard({
           <span className="font-sans text-xs text-zinc-400 ml-1">
             ({rating})
           </span>
-        </div>
+        </div> */}
 
         {/* Name */}
         <h3 className="font-dm-serif text-lg text-zinc-900 mb-1.5">{name}</h3>

@@ -1,63 +1,72 @@
 import Link from "next/link";
 
 const stats = [
-  { value: "500+", label: "Orders Delivered" },
-  { value: "3 Days", label: "Advance Booking" },
-  { value: "100%", label: "Fresh Guarantee" },
-  { value: "20+", label: "Sweet Varieties" },
+  { value: "500+", label: "ORDERS MONTHLY" },
+  { value: "3 Days", label: "ADVANCE BOOKING" },
+  { value: "100%", label: "PURE DESI GHEE" },
+  { value: "20+", label: "AWARDED RECIPES" },
 ];
 
 export default function CateringCTA() {
   return (
-    <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-12">
-      <div className="max-w-6xl mx-auto">
-        <div className="rounded-3xl bg-zinc-900 overflow-hidden">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-            {/* Left: Text Content */}
-            <div className="p-8 sm:p-10 md:p-14 flex flex-col justify-center">
-              <h2 className="font-dm-serif text-2xl sm:text-3xl md:text-4xl text-white leading-tight mb-4">
-                Planning a wedding
-                <br />
-                or gathering?
-              </h2>
-              <p className="font-sans text-white/60 text-sm leading-relaxed mb-8 max-w-sm">
-                We cater to special occasions seamlessly with our bulk ordering
-                and custom packaging services, making your celebrations truly
-                unforgettable.
-              </p>
+    <section className="py-20 px-6 md:px-12 bg-[#FAF3E8]">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        
+        {/* LEFT CONTENT */}
+        <div>
+          <h2 className="text-3xl md:text-4xl font-serif text-[#3E2F26] leading-tight mb-4">
+            Planning a wedding or gathering?
+          </h2>
 
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
-                <Link
-                  href="#"
-                  className="px-6 py-3 rounded-full bg-foreground text-white font-sans text-sm font-medium hover:bg-foreground/90 transition-colors"
-                >
-                  Contact Us
-                </Link>
-                <Link
-                  href="#"
-                  className="px-6 py-3 rounded-full border border-white/20 text-white font-sans text-sm font-medium hover:bg-white/10 transition-colors"
-                >
-                  Download Brochure
-                </Link>
-              </div>
-            </div>
+          <p className="text-sm text-[#6F6F6F] leading-relaxed mb-8 max-w-md">
+            Make your special occasions even sweeter with our bulk catering
+            services. We offer customized packaging and fresh delivery for
+            events of all sizes.
+          </p>
 
-            {/* Right: Stats Grid */}
-            <div className="grid grid-cols-2 gap-px bg-white/10">
-              {stats.map((stat) => (
+          {/* BUTTONS */}
+          <div className="flex flex-wrap gap-4">
+            <Link
+              href="#"
+              className="px-6 py-3 rounded-full bg-[#4B2E1E] text-white text-sm font-medium hover:bg-[#3b2417] transition"
+            >
+              Enquire Now
+            </Link>
+
+            <Link
+              href="#"
+              className="px-6 py-3 rounded-full border border-[#4B2E1E] text-[#4B2E1E] text-sm font-medium hover:bg-[#4B2E1E]/10 transition"
+            >
+              Download Brochure
+            </Link>
+          </div>
+        </div>
+
+        {/* RIGHT STATS CARD */}
+        <div className="relative">
+          <div className="rounded-2xl bg-gradient-to-br from-[#4B2E1E] to-[#2E1B12] text-white p-8 md:p-10 shadow-xl">
+            
+            <div className="grid grid-cols-2">
+              
+              {stats.map((stat, index) => (
                 <div
                   key={stat.label}
-                  className="bg-zinc-900 p-6 sm:p-8 md:p-10 flex flex-col items-center justify-center text-center"
+                  className={`p-6 flex flex-col items-center text-center ${
+                    index === 0 ? "border-b border-r border-white/10" :
+                    index === 1 ? "border-b border-white/10" :
+                    index === 2 ? "border-r border-white/10" : ""
+                  }`}
                 >
-                  <span className="font-dm-serif text-2xl sm:text-3xl md:text-4xl text-foreground mb-2">
+                  <span className="text-2xl md:text-3xl font-semibold text-[#F0A23A] mb-2">
                     {stat.value}
                   </span>
-                  <span className="font-sans text-xs text-white/50 uppercase tracking-wider">
+
+                  <span className="text-[10px] tracking-widest text-white/60 uppercase">
                     {stat.label}
                   </span>
                 </div>
               ))}
+
             </div>
           </div>
         </div>

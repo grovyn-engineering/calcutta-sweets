@@ -1,27 +1,28 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState, useEffect } from "react";
 
 const sweets = [
   {
     name: "Sondesh",
-    image: "/images/sandesh.png",
+    image: "/images/sondesh2.png",
     alt: "Assorted Sondesh – traditional Bengali milk sweets",
   },
   {
     name: "Chamcham",
-    image: "/images/chamcham.png",
+    image: "/images/chamcham2.png",
     alt: "Delicious Chamcham sweets",
   },
   {
     name: "Malpua",
-    image: "/images/malpua.png",
+    image: "/images/malpua2.png",
     alt: "Golden brown Malpua dessert",
   },
   {
     name: "Roshogulla",
-    image: "/images/roshogulla.png",
+    image: "/images/roshogulla2.png",
     alt: "Spongy Roshogulla in sugar syrup",
   },
 ];
@@ -48,9 +49,9 @@ export default function Hero() {
           className={`absolute text-center inset-x-0 select-none pointer-events-none z-0 font-dm-serif font-normal text-foreground tracking-wide transition-opacity duration-1000 ease-in-out ${index === currentIndex ? "opacity-100" : "opacity-0"
             }`}
           style={{
-            fontSize: "clamp(5rem, 14vw, 16rem)",
+            fontSize: "clamp(4rem, 11vw, 13rem)",
             lineHeight: 1,
-            top: "8%",
+            top: "20%",
             whiteSpace: "nowrap"
           }}
         >
@@ -59,7 +60,7 @@ export default function Hero() {
       ))}
 
       {/* Product images — absolute positioning to stack them and crossfade */}
-      <div className="relative z-10 w-full h-full min-h-[50vh]">
+      <div className="relative z-10 w-full h-96 min-h-[50vh]">
         {sweets.map((sweet, index) => (
           <div
             key={sweet.image}
@@ -95,8 +96,8 @@ export default function Hero() {
       </div>
 
       {/* Floating CTA Button */}
-      <div className="absolute top-1/3 right-12 z-20 -translate-y-1/2 hidden lg:block">
-        <a
+      <div className="absolute top-1/2 right-24 z-20 -translate-y-1/2 hidden lg:block">
+        <Link
           href="/menu"
           className="flex items-center gap-2 px-6 py-3 rounded-full border border-foreground/20 bg-background/60 backdrop-blur-md text-foreground font-sans font-medium hover:bg-foreground/5 transition-colors group"
         >
@@ -104,7 +105,7 @@ export default function Hero() {
           <span className="group-hover:translate-x-1 transition-transform">
             →
           </span>
-        </a>
+        </Link>
       </div>
     </section>
   );

@@ -74,7 +74,7 @@ export default function OurStory() {
             {/* Main Image */}
             <div className="relative w-full h-full rounded-2xl lg:rounded-[2rem] overflow-hidden shadow-2xl">
               <Image 
-                src="https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=1200" 
+                src="/images/shop2.jpg" 
                 alt="Traditional sweets assortment on a brass plate"
                 fill
                 className="object-cover"

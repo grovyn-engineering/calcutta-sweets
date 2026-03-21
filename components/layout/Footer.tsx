@@ -38,9 +38,14 @@ export default function Footer() {
           <div className="lg:col-span-2 flex flex-col">
             <h4 className="font-dm-serif text-white text-xl mb-6">Explore</h4>
             <div className="flex flex-col gap-4">
-              {['Order Online', 'Catering Services', 'Gift Hampers', 'Bulk Orders'].map((link) => (
-                <Link key={link} href="#" className="font-sans text-white/60 text-sm hover:text-white transition-colors w-fit">
-                  {link}
+              {[
+                { name: 'Menu', href: '/menu' },
+                { name: 'Story', href: '/story' },
+                { name: 'Visit Us', href: '/visit-us' },
+                { name: 'Celebrations', href: '/celebration' }
+              ].map((link) => (
+                <Link key={link.name} href={link.href} className="font-sans text-white/60 text-sm hover:text-white transition-colors w-fit">
+                  {link.name}
                 </Link>
               ))}
             </div>

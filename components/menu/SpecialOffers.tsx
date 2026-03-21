@@ -3,65 +3,94 @@ import Image from "next/image";
 const offers = [
   {
     name: "Festive Box",
-    image: "/images/sandesh.png",
-    price: 999,
+    image: "/images/sweet10.jpg",
+    price: 1200,
+    tag: "LIMITED EDITION",
+    description: "A grand collection of our top 12 signature sweets.",
   },
   {
-    name: "Sweet Box",
-    image: "/images/roshogulla.png",
-    price: 1199,
+    name: "Classic Box",
+    image: "/images/sweet2.jpg",
+    price: 850,
+    tag: "BEST SELLER",
+    description: "The essential trio: Sandesh, Roshogolla, and Doi.",
   },
   {
     name: "Joy of Gifting",
-    image: "/images/chamcham.png",
-    price: 1499,
+    image: "/images/sweet5.jpg",
+    price: 1500,
+    tag: "CELEBRATION",
+    description: "Perfect assortment for your loved ones this season.",
   },
 ];
 
 export default function SpecialOffers() {
   return (
-    <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-12 bg-[#F5EDE0]">
+    <section className="py-24 px-6 md:px-12 bg-[#FAF3E8]">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="font-dm-serif text-3xl sm:text-4xl md:text-5xl text-zinc-900 mb-4">
-            Special Offers
-          </h2>
-          <p className="font-sans text-zinc-500 text-sm max-w-lg mx-auto">
-            Curated gift boxes specially assembled for festivals and celebrations.
-            Perfect for sharing the sweetness.
-          </p>
-        </div>
 
-        {/* Offer Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {offers.map((offer) => (
-            <div
-              key={offer.name}
-              className="relative rounded-2xl overflow-hidden group cursor-pointer aspect-[4/3]"
-            >
-              {/* Background Image */}
-              <Image
-                src={offer.image}
-                alt={offer.name}
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
-                sizes="(max-width: 768px) 100vw, 33vw"
-              />
-              {/* Dark Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
+        {/* 3D PANEL WRAPPER */}
+        <div className="relative bg-[#F6F0E6] rounded-xl px-10 py-16 shadow-[0_20px_40px_rgba(0,0,0,0.08)]">
+          
+          {/* Inner border (subtle frame like UI) */}
+          <div className="absolute inset-0 rounded-xl border border-black/10 pointer-events-none" />
 
-              {/* Content */}
-              <div className="absolute inset-0 flex flex-col justify-end p-6">
-                <h3 className="font-dm-serif text-2xl text-white mb-4">
-                  {offer.name}
-                </h3>
-                <button className="self-start px-6 py-2.5 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 text-white font-sans text-sm font-medium hover:bg-white/30 transition-colors">
-                  Buy at ₹{offer.price}
-                </button>
+          {/* Header */}
+          <div className="text-center mb-14">
+            <h2 className="text-4xl md:text-5xl font-serif text-[#3E2F26] mb-3">
+              Special Offers
+            </h2>
+            <p className="text-sm text-[#7A7A7A]">
+              Check out our specially curated boxes for every occasion.
+            </p>
+          </div>
+
+          {/* Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {offers.map((offer) => (
+              <div
+                key={offer.name}
+                className="relative h-[380px] rounded-2xl overflow-hidden 
+                shadow-[0_10px_25px_rgba(0,0,0,0.15)] 
+                group transition-transform duration-300 hover:-translate-y-2"
+              >
+                {/* Image */}
+                <Image
+                  src={offer.image}
+                  alt={offer.name}
+                  fill
+                  className="object-cover group-hover:scale-105 transition duration-500"
+                />
+
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#2A1E17]/90 via-[#2A1E17]/50 to-transparent" />
+
+                {/* Content */}
+                <div className="absolute inset-0 flex flex-col justify-end p-6">
+                  
+                  {/* Badge */}
+                  <span className="absolute top-5 left-5 text-[10px] tracking-wide bg-[#D18B2F] text-white px-3 py-1 rounded-full font-semibold">
+                    {offer.tag}
+                  </span>
+
+                  {/* Title */}
+                  <h3 className="text-2xl font-serif text-white mb-2">
+                    {offer.name}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-xs text-white/80 mb-5 max-w-[240px]">
+                    {offer.description}
+                  </p>
+
+                  {/* Button */}
+                  <button className="w-full bg-white text-[#3E2F26] text-sm font-medium py-3 rounded-lg shadow-md hover:bg-[#f3f3f3] transition">
+                    Buy for ₹{offer.price}
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
