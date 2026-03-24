@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer, hoverScale } from "@/lib/animations";
 
@@ -65,29 +66,34 @@ export default function Family() {
               className={`flex flex-col ${i === 1 ? "md:mt-8" : ""}`}
             >
               {/* Profile card featuring portrait and key designation */}
-              <motion.div 
-                whileHover={hoverScale}
-                className="bg-white rounded-2xl overflow-hidden shadow-sm border border-zinc-100 group cursor-pointer"
+              <Link
+                href="/menu"
+                className="bg-white rounded-2xl overflow-hidden shadow-sm border border-zinc-100 group cursor-pointer block"
               >
-                <div className="relative aspect-[4/5] w-full bg-[#F5EDE3]">
-                  <Image
-                    src={member.image}
-                    alt={member.name}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                </div>
+                <motion.div 
+                  whileHover={hoverScale}
+                  className="w-full h-full"
+                >
+                  <div className="relative aspect-[4/5] w-full bg-[#F5EDE3]">
+                    <Image
+                      src={member.image}
+                      alt={member.name}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                  </div>
 
-                <div className="px-5 py-4">
-                  <span className="font-sans text-[10px] text-[#C8773A] font-bold uppercase tracking-[0.2em] block mb-1">
-                    {member.title}
-                  </span>
-                  <h3 className="font-dm-serif text-lg text-zinc-900">
-                    {member.name}
-                  </h3>
-                </div>
-              </motion.div>
+                  <div className="px-5 py-4">
+                    <span className="font-sans text-[10px] text-[#C8773A] font-bold uppercase tracking-[0.2em] block mb-1">
+                      {member.title}
+                    </span>
+                    <h3 className="font-dm-serif text-lg text-zinc-900">
+                      {member.name}
+                    </h3>
+                  </div>
+                </motion.div>
+              </Link>
 
               {/* Contextual biography detailing their individual contribution to the legacy */}
               <p className="font-sans text-sm text-zinc-500 leading-relaxed mt-5 px-1">

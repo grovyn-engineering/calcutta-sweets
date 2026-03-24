@@ -37,35 +37,35 @@ export default function FindUs() {
           {/* Info List */}
           <div className="flex flex-col gap-8">
             {/* Address */}
-            <div className="flex items-start gap-5">
-              <div className="w-10 h-10 rounded-full bg-[#F6EDDF] flex items-center justify-center shrink-0">
-                <MapPin className="w-4 h-4 text-[#D38B57]" />
+            <a href="https://www.google.com/maps/dir/?api=1&destination=Calcutta+Sweets+Tatibandh+Raipur" target="_blank" rel="noopener noreferrer" className="flex items-start gap-5 group">
+              <div className="w-10 h-10 rounded-full bg-[#F6EDDF] flex items-center justify-center shrink-0 group-hover:bg-[#D38B57] transition-colors">
+                <MapPin className="w-4 h-4 text-[#D38B57] group-hover:text-white transition-colors" />
               </div>
               <div className="pt-1">
                 <h3 className="font-sans font-bold text-sm text-[#3E2B1E] mb-1">
                   Address
                 </h3>
-                <p className="font-sans text-xs text-[#5A4F44] leading-relaxed">
+                <p className="font-sans text-xs text-[#5A4F44] leading-relaxed group-hover:text-[#D38B57] transition-colors">
                   Main Road, Tatibandh, <br />
                   Raipur, Chhattisgarh 492099
                 </p>
               </div>
-            </div>
+            </a>
 
             {/* Contact */}
-            <div className="flex items-start gap-5">
-              <div className="w-10 h-10 rounded-full bg-[#F6EDDF] flex items-center justify-center shrink-0">
-                <Phone className="w-4 h-4 text-[#D38B57]" />
+            <a href="tel:+919876543210" className="flex items-start gap-5 group">
+              <div className="w-10 h-10 rounded-full bg-[#F6EDDF] flex items-center justify-center shrink-0 group-hover:bg-[#D38B57] transition-colors">
+                <Phone className="w-4 h-4 text-[#D38B57] group-hover:text-white transition-colors" />
               </div>
               <div className="pt-1">
                 <h3 className="font-sans font-bold text-sm text-[#3E2B1E] mb-1">
                   Contact
                 </h3>
-                <p className="font-sans text-xs text-[#5A4F44]">
+                <p className="font-sans text-xs text-[#5A4F44] group-hover:text-[#D38B57] transition-colors">
                   +91 98765 43210
                 </p>
               </div>
-            </div>
+            </a>
 
             {/* Hours */}
             <div className="flex items-start gap-5">

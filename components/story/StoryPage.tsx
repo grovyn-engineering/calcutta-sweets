@@ -91,27 +91,29 @@ export default function StoryPage() {
               <motion.div
                 key={i}
                 variants={fadeUp}
-                className={`relative ${item.colSpan} ${item.rowSpan} rounded-2xl lg:rounded-3xl overflow-hidden group shadow-sm`}
+                className={`relative ${item.colSpan} ${item.rowSpan} rounded-2xl lg:rounded-3xl overflow-hidden group shadow-sm cursor-pointer`}
               >
-                <Image
-                  src={item.src}
-                  alt={item.title}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  sizes="(max-width: 1024px) 33vw, 20vw"
-                />
+                <Link href="/menu" className="block w-full h-full">
+                  <Image
+                    src={item.src}
+                    alt={item.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 1024px) 33vw, 20vw"
+                  />
 
-                {/* Sub-content revealed upon interaction */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  {/* Sub-content revealed upon interaction */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                <div className="absolute bottom-0 inset-x-0 p-4 lg:p-5 flex flex-col gap-1 items-start opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="flex items-center justify-between w-full">
-                    <p className="font-dm-serif text-white text-lg lg:text-xl leading-tight">{item.title}</p>
-                    <span className="text-white text-xs opacity-70">&gt;</span>
+                  <div className="absolute bottom-0 inset-x-0 p-4 lg:p-5 flex flex-col gap-1 items-start opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="flex items-center justify-between w-full">
+                      <p className="font-dm-serif text-white text-lg lg:text-xl leading-tight">{item.title}</p>
+                      <span className="text-white text-xs opacity-70">&gt;</span>
+                    </div>
+                    <p className="font-sans text-white/70 text-[10px] lg:text-[11px] leading-snug">{item.subTitle}</p>
+                    <p className="font-sans text-white/50 text-[9px] lg:text-[10px]">{item.delivery}</p>
                   </div>
-                  <p className="font-sans text-white/70 text-[10px] lg:text-[11px] leading-snug">{item.subTitle}</p>
-                  <p className="font-sans text-white/50 text-[9px] lg:text-[10px]">{item.delivery}</p>
-                </div>
+                </Link>
               </motion.div>
             ))}
           </motion.div>

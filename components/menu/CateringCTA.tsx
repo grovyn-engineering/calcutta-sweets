@@ -38,7 +38,7 @@ export default function CateringCTA() {
           {/* Primary actions for enquiries and informational downloads */}
           <div className="flex flex-wrap gap-4">
             <Link
-              href="#"
+              href="/celebration"
               className="px-6 py-3 rounded-full bg-[#4B2E1E] text-white text-sm font-medium hover:bg-[#3b2417] hover:scale-105 transition-all active:scale-95 shadow-sm"
             >
               Enquire Now

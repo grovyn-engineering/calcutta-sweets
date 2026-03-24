@@ -29,10 +29,10 @@ export default function Footer() {
               Bringing the legendary flavors of Bengal to the heart of Chhattisgarh since 2000.
             </p>
             <div className="flex items-center gap-4">
-              <a href="#" className="p-2 rounded-full border border-white/20 text-white hover:bg-white/10 transition-colors" aria-label="Twitter">
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full border border-white/20 text-white hover:bg-white/10 transition-colors" aria-label="Twitter">
                 <Twitter className="w-4 h-4" />
               </a>
-              <a href="#" className="p-2 rounded-full border border-white/20 text-white hover:bg-white/10 transition-colors" aria-label="Instagram">
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full border border-white/20 text-white hover:bg-white/10 transition-colors" aria-label="Instagram">
                 <Instagram className="w-4 h-4" />
               </a>
             </div>

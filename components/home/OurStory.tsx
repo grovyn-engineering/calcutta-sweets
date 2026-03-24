@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "@/lib/animations";
 
@@ -77,12 +78,12 @@ export default function OurStory() {
             
             {/* Primary actions: menu exploration and deep dive into heritage */}
             <div className="flex flex-wrap items-center gap-4">
-              <button className="px-8 py-3.5 rounded-full bg-[#C8773A] text-white font-sans font-medium text-sm hover:bg-[#b06832] hover:scale-105 active:scale-95 transition-all shadow-sm">
+              <Link href="/story" className="px-8 py-3.5 rounded-full bg-[#C8773A] text-white font-sans font-medium text-sm hover:bg-[#b06832] hover:scale-105 active:scale-95 transition-all shadow-sm">
                 Get the Recipe Book
-              </button>
-              <button className="px-8 py-3.5 rounded-full border border-black/20 text-[#3D2B1F] font-sans font-medium text-sm hover:bg-black/5 hover:scale-105 active:scale-95 transition-all">
+              </Link>
+              <Link href="/story" className="px-8 py-3.5 rounded-full border border-black/20 text-[#3D2B1F] font-sans font-medium text-sm hover:bg-black/5 hover:scale-105 active:scale-95 transition-all">
                 Read Full Story
-              </button>
+              </Link>
             </div>
           </motion.div>
 
@@ -111,7 +112,7 @@ export default function OurStory() {
             {/* Main sectional image with subtle interaction scale */}
             <div className="relative w-full h-full rounded-2xl lg:rounded-[2rem] overflow-hidden shadow-2xl group">
               <Image 
-                src="/images/shop2.jpg" 
+                src="/images/shopInterior.png" 
                 alt="Traditional sweets assortment on a brass plate"
                 fill
                 className="object-cover transition-transform duration-1000 group-hover:scale-105"

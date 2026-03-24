@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 /**
  * Curated promotional collections and limited-edition gift boxes.
@@ -16,7 +17,7 @@ const offers = [
     image: "/images/sweet2.jpg",
     price: 850,
     tag: "BEST SELLER",
-    description: "The essential trio: Sandesh, Roshogolla, and Doi.",
+    description: "The essential trio: Sandesh, Roshogulla, and Doi.",
   },
   {
     name: "Joy of Gifting",
@@ -88,9 +89,9 @@ export default function SpecialOffers() {
                   </p>
 
                   {/* Primary purchase trigger for the specific curation */}
-                  <button className="w-full bg-white text-[#3E2F26] text-sm font-medium py-3 rounded-lg shadow-md hover:bg-[#f3f3f3] transition">
+                  <Link href="/menu" className="w-full bg-white text-[#3E2F26] text-sm font-medium py-3 rounded-lg shadow-md hover:bg-[#f3f3f3] transition text-center block">
                     Buy for ₹{offer.price}
-                  </button>
+                  </Link>
                 </div>
               </div>
             ))}

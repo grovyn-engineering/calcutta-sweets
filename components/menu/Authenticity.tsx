@@ -27,7 +27,7 @@ export default function Authenticity() {
               {/* Primary archival image within the custom arched frame */}
               <div className="absolute inset-0 overflow-hidden" style={{ borderRadius: "200px 200px 0 0" }}>
                 <Image
-                  src="/images/shop1.jpg"
+                  src="/images/shopInterior.png"
                   alt="Traditional sweets preparation"
                   fill
                   className="object-cover"

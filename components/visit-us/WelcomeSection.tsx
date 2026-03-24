@@ -41,7 +41,7 @@ export default function WelcomeSection() {
         <div className="flex flex-col gap-6">
           
           {/* Location Card */}
-          <button className="flex items-center justify-between w-full text-left p-4 sm:p-5 pr-6 sm:pr-8 rounded-full bg-white/40 backdrop-blur-md border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:bg-white/50 transition-all duration-300 group">
+          <a href="https://www.google.com/maps/dir/?api=1&destination=Calcutta+Sweets+Tatibandh+Raipur" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between w-full text-left p-4 sm:p-5 pr-6 sm:pr-8 rounded-full bg-white/40 backdrop-blur-md border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:bg-white/50 transition-all duration-300 group">
             <div className="flex items-center gap-5 sm:gap-6">
               <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#F0EBE0] flex items-center justify-center shrink-0">
                 <Map className="w-5 h-5 sm:w-6 sm:h-6 text-[#72532E]" />
@@ -56,10 +56,10 @@ export default function WelcomeSection() {
               </div>
             </div>
             <ChevronRight className="w-6 h-6 sm:w-7 sm:h-7 text-[#8B7563] group-hover:translate-x-1 transition-transform" />
-          </button>
+          </a>
 
           {/* Call Us Card */}
-          <button className="flex items-center justify-between w-full text-left p-4 sm:p-5 pr-6 sm:pr-8 rounded-full bg-white/40 backdrop-blur-md border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:bg-white/50 transition-all duration-300 group">
+          <a href="tel:+917714052300" className="flex items-center justify-between w-full text-left p-4 sm:p-5 pr-6 sm:pr-8 rounded-full bg-white/40 backdrop-blur-md border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:bg-white/50 transition-all duration-300 group">
             <div className="flex items-center gap-5 sm:gap-6">
               <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#F0EBE0] flex items-center justify-center shrink-0">
                 <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-[#72532E]" />
@@ -74,10 +74,10 @@ export default function WelcomeSection() {
               </div>
             </div>
             <ChevronRight className="w-6 h-6 sm:w-7 sm:h-7 text-[#8B7563] group-hover:translate-x-1 transition-transform" />
-          </button>
+          </a>
 
           {/* Hours Card */}
-          <button className="flex items-center justify-between w-full text-left p-4 sm:p-5 pr-6 sm:pr-8 rounded-full bg-white/40 backdrop-blur-md border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:bg-white/50 transition-all duration-300 group">
+          <div className="flex items-center justify-between w-full text-left p-4 sm:p-5 pr-6 sm:pr-8 rounded-full bg-white/40 backdrop-blur-md border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:bg-white/50 transition-all duration-300 group">
             <div className="flex items-center gap-5 sm:gap-6">
               <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#F0EBE0] flex items-center justify-center shrink-0">
                 <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-[#72532E]" />
@@ -92,7 +92,7 @@ export default function WelcomeSection() {
               </div>
             </div>
             <ChevronRight className="w-6 h-6 sm:w-7 sm:h-7 text-[#8B7563] group-hover:translate-x-1 transition-transform" />
-          </button>
+          </div>
 
         </div>
 
