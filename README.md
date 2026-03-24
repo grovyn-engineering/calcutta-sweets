@@ -43,13 +43,6 @@ Calcutta Sweets is a high-fidelity, premium web application designed for an arti
 └── store/                      # Global state (Cart, User, Inventory)
 ```
 
-## 💎 Documentation & Quality Standards
-
-The codebase adheres to a "Senior Developer" standard of documentation and structural clarity:
-- **Professional Commentary**: All fragmented or AI-generated labels have been replaced with high-fidelity technical commentary.
-- **Architectural Headers**: Major components include JSDoc-style headers detailing their role in the brand narrative and technical requirements.
-- **Modular Animations**: Animations are decoupled from components into a centralized library (`lib/animations.ts`) for reusability and maintainability.
-
 ## 🛠️ Getting Started
 
 ### Installation
