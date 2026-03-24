@@ -1,29 +1,23 @@
-import Image from "next/image";
 import { MapPin, Phone, Clock, Star } from "lucide-react";
 
 export default function FindUs() {
   return (
     <section className="w-full px-4 md:px-8 lg:px-12 py-20 bg-[#FAF5F0]">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
-        
-        {/* Left Side: Map Illustration */}
-        <div className="relative aspect-square w-full max-w-[500px] mx-auto lg:max-w-none lg:mx-0 rounded-2xl overflow-hidden shadow-sm border border-black/5 bg-zinc-100">
-          <Image
-            src="/images/map-mockup.jpg" // Placeholder for an actual map graphic
-            alt="Map location in Raipur"
-            fill
-            className="object-cover"
+
+        {/* Left Side: Map */}
+        <div className="relative aspect-square w-full max-w-[500px] mx-auto lg:max-w-none lg:mx-0 rounded-2xl overflow-hidden shadow-sm border border-black/5">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3718.85!2d81.5775028!3d21.2592377!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a28de218cef56e9%3A0xe99b2422d3476171!2sCalcutta%20Sweets%20Tatibandh%20Raipur!5e0!3m2!1sen!2sin!4v1"
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className="absolute inset-0 w-full h-full"
+            title="Calcutta Sweets Tatibandh Raipur location"
           />
-          {/* Map Pin Overlay */}
-          <div className="absolute top-[40%] left-[45%] flex items-center justify-center w-10 h-10 bg-[#B45309] rounded-full shadow-lg border-2 border-white">
-            <svg
-              className="w-5 h-5 text-white"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
-            </svg>
-          </div>
         </div>
 
         {/* Right Side: Information */}
@@ -98,8 +92,8 @@ export default function FindUs() {
               FRESH BATCHES PREPARED TWICE DAILY
             </span>
           </div>
-
         </div>
+
       </div>
     </section>
   );

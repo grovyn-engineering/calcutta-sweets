@@ -1,21 +1,8 @@
 import { Product } from "./types";
 
-// =============================================================================
-// MOCK DATA
-// =============================================================================
-// TODO: Replace this entire file with real API calls once the backend is ready.
-//       The function signatures should remain the same — only the bodies change.
-// =============================================================================
-
 /**
- * Simulates network latency. Remove when switching to real API calls.
- */
-const delay = (ms: number = 200): Promise<void> =>
-  new Promise((resolve) => setTimeout(resolve, ms));
-
-/**
- * Mock product catalogue for Calcutta Sweets.
- * Each entry mirrors the Prisma `Product` model.
+ * Mock data representing the initial product catalog.
+ * In production, this data would be fetched from a database.
  */
 export const mockProducts: Product[] = [
   {
@@ -177,42 +164,44 @@ export const mockProducts: Product[] = [
   },
 ];
 
-// =============================================================================
-// DATA ACCESS FUNCTIONS
-// =============================================================================
-// Each function below simulates an async API call with artificial delay.
-// To switch to a real backend, replace the function body with a fetch() call
-// while keeping the same signature and return type.
-// =============================================================================
+/**
+ * Artificial delay to simulate network latency for API-like behavior.
+ */
+const delay = (ms: number = 200): Promise<void> =>
+  new Promise((resolve) => setTimeout(resolve, ms));
 
-/** Fetch all products. */
+/**
+ * Returns all products currently available in the mock database.
+ */
 export async function getAllProducts(): Promise<Product[]> {
-  // TODO: Replace with — return fetch("/api/products").then(res => res.json());
   await delay();
   return mockProducts;
 }
 
-/** Fetch a single product by its ID. Returns `null` if not found. */
+/**
+ * Retrieves a single product by its unique ID.
+ */
 export async function getProductById(id: string): Promise<Product | null> {
-  // TODO: Replace with — return fetch(`/api/products/${id}`).then(res => res.json());
   await delay();
   return mockProducts.find((p) => p.id === id) ?? null;
 }
 
-/** Fetch all products belonging to a specific category. */
+/**
+ * Filters the product list to return only those in a specific category.
+ */
 export async function getProductsByCategory(
   category: string
 ): Promise<Product[]> {
-  // TODO: Replace with — return fetch(`/api/products?category=${category}`).then(res => res.json());
   await delay();
   return mockProducts.filter(
     (p) => p.category?.toLowerCase() === category.toLowerCase()
   );
 }
 
-/** Search products by name or description (case-insensitive). */
+/**
+ * Searches product names and descriptions for a keyword.
+ */
 export async function searchProducts(query: string): Promise<Product[]> {
-  // TODO: Replace with — return fetch(`/api/products?q=${query}`).then(res => res.json());
   await delay();
   const q = query.toLowerCase();
   return mockProducts.filter(
@@ -222,9 +211,10 @@ export async function searchProducts(query: string): Promise<Product[]> {
   );
 }
 
-/** Fetch only active (listed) products. */
+/**
+ * Returns products that are marked as active for display.
+ */
 export async function getActiveProducts(): Promise<Product[]> {
-  // TODO: Replace with — return fetch("/api/products?active=true").then(res => res.json());
   await delay();
   return mockProducts.filter((p) => p.isActive);
 }

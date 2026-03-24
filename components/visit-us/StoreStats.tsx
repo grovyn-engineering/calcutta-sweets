@@ -17,11 +17,15 @@ export default function StoreStats() {
   return (
     <section className="w-full bg-[#FAF5F0] border-y border-[#3E2B1E]/10">
       <div className="max-w-7xl mx-auto px-6 sm:px-10 md:px-16 lg:px-24 py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4 text-center divide-y md:divide-y-0 md:divide-x divide-[#3E2B1E]/10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-0 text-center md:divide-x divide-[#3E2B1E]/10">
           {stats.map((s, idx) => (
-            <div 
-              key={s.label} 
-              className={`flex flex-col items-center gap-2 ${idx !== 0 ? 'pt-8 md:pt-0' : ''}`}
+            <div
+              key={s.label}
+              className={`flex flex-col items-center gap-2 py-8 md:py-0
+                ${idx !== 0 ? 'border-t border-[#3E2B1E]/10 md:border-t-0' : ''}
+                ${idx === 0 ? 'pt-0 md:py-0' : ''}
+                ${idx === stats.length - 1 ? 'pb-0 md:py-0' : ''}
+              `}
             >
               <h3 className="font-dm-serif text-2xl sm:text-3xl text-[#3E2B1E]">
                 {s.value}

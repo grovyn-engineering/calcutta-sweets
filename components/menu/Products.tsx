@@ -9,8 +9,15 @@ import CateringCTA from "@/components/menu/CateringCTA";
 import { getAllProducts } from "@/lib/products";
 import { Product } from "@/lib/types";
 
+/**
+ * Available taxonomy for filtering products in the menu.
+ */
 const categories = ["All category", "Chena", "Fried", "Dessert", "Baked", "Signatures"];
 
+/**
+ * MenuPage component serves as the primary catalog for the brand,
+ * offering category-based filtering and a responsive product showcase.
+ */
 export default function MenuPage() {
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get("category") || "All category";
@@ -19,13 +26,14 @@ export default function MenuPage() {
   const [activeCategory, setActiveCategory] = useState(initialCategory);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Synchronize product data from the localized data layer
   useEffect(() => {
-    // TODO: Replace with a real API call when the backend is ready.
     getAllProducts()
       .then(setProducts)
       .finally(() => setIsLoading(false));
   }, []);
 
+  // Filter application logic based on the current selection in the navigation UI
   const filteredItems =
     activeCategory === "All category"
       ? products
@@ -35,9 +43,10 @@ export default function MenuPage() {
 
   return (
     <main className="pt-20 sm:pt-24 md:pt-28 pb-12 sm:pb-20">
-      {/* Header Section */}
+      
+      {/* High-level heading and category-based navigation triggers */}
       <section className="text-center mb-12 relative">
-        {/* Decorative Elements */}
+        {/* Decorative accents providing subtle visual depth to the header */}
         <div className="absolute top-0 left-1/2 -translate-x-[120px] sm:-translate-x-[200px] -translate-y-4 opacity-60 pointer-events-none select-none hidden sm:block">
           <span className="text-3xl sm:text-5xl">.</span>
         </div>
@@ -49,7 +58,7 @@ export default function MenuPage() {
           Menu
         </h1>
 
-        {/* Category Filter Pills */}
+        {/* Dynamic filter bar with active state tracking */}
         <div className="flex items-center justify-center gap-2 sm:gap-3 mt-6 sm:mt-8 flex-wrap px-4">
           {categories.map((category) => (
             <button
@@ -66,7 +75,7 @@ export default function MenuPage() {
         </div>
       </section>
 
-      {/* Product Grid */}
+      {/* Primary catalog grid: renders product cards or empty/loading states */}
       <section className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 mb-24 md:mb-32">
         {isLoading ? (
           <div className="text-center py-20">
@@ -89,6 +98,7 @@ export default function MenuPage() {
           </div>
         )}
 
+        {/* Fallback messaging for empty filter results */}
         {!isLoading && filteredItems.length === 0 && (
           <div className="text-center py-20">
             <p className="font-sans text-zinc-400 text-lg">
@@ -98,14 +108,11 @@ export default function MenuPage() {
         )}
       </section>
 
-      {/* Focusing on Authenticity */}
+      {/* Contextual brand value and catering opportunities */}
       <Authenticity />
-
-      {/* Special Offers */}
       <SpecialOffers />
-
-      {/* Planning a Wedding / Catering CTA */}
       <CateringCTA />
+
     </main>
   );
 }

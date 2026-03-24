@@ -3,19 +3,23 @@
 import Link from "next/link";
 import { Twitter, Instagram, ChevronRight } from "lucide-react";
 
+/**
+ * Footer component provides the primary navigational and contact hub for the application,
+ * featuring brand identification, localized navigation, and seasonal newsletter subscription.
+ */
 export default function Footer() {
   return (
     <footer className="w-full bg-[#1C0F07] pt-20 pb-8 px-8 md:px-12 lg:px-24 border-t border-white/5">
       <div className="max-w-7xl mx-auto flex flex-col">
         
-        {/* Main Footer Content */}
+        {/* Core footer layout: distributing brand information, navigation, and engagement tools */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-20">
           
-          {/* Column 1: Brand Info */}
+          {/* Brand summary: establishing legacy and social presence */}
           <div className="lg:col-span-4 flex flex-col items-start">
             <Link href="/" className="flex flex-col items-start gap-1 mb-6">
               <span className="font-dm-serif text-white text-3xl leading-none tracking-wide">
-                কলकत्ता SWEETS
+                কলকत्ता SWEETS
               </span>
               <span className="font-sans text-[10px] text-white/50 uppercase font-medium tracking-[0.2em] leading-none">
                 THE ART OF BENGALI MITHAI
@@ -34,7 +38,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Column 2: Explore Links */}
+          {/* Primary site navigation organized for desktop and mobile discoverability */}
           <div className="lg:col-span-2 flex flex-col">
             <h4 className="font-dm-serif text-white text-xl mb-6">Explore</h4>
             <div className="flex flex-col gap-4">
@@ -51,7 +55,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Column 3: Visit Us */}
+          {/* Physical presence and direct contact information */}
           <div className="lg:col-span-3 flex flex-col">
             <h4 className="font-dm-serif text-white text-xl mb-6">Visit Us</h4>
             <div className="flex flex-col gap-4 font-sans text-white/60 text-sm leading-relaxed">
@@ -65,7 +69,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Column 4: Newsletter */}
+          {/* Engagement: Seasonal newsletter and promotional updates */}
           <div className="lg:col-span-3 flex flex-col">
             <h4 className="font-dm-serif text-white text-xl mb-6">Stay Sweet.</h4>
             <p className="font-sans text-white/60 text-sm mb-6">
@@ -90,7 +94,7 @@ export default function Footer() {
 
         </div>
 
-        {/* Bottom Bar */}
+        {/* Global metadata, legal links, and localized attribution */}
         <div className="w-full pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-6 font-sans text-xs text-white/40">
             <Link href="#" className="hover:text-white/80 transition-colors">Privacy Policy</Link>

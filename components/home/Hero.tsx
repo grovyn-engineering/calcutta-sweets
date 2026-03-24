@@ -3,28 +3,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { fadeUp } from "@/lib/animations";
 
 const sweets = [
-  {
-    name: "Sondesh",
-    image: "/images/sondesh2.png",
-    alt: "Assorted Sondesh – traditional Bengali milk sweets",
-  },
-  {
-    name: "Chamcham",
-    image: "/images/chamcham2.png",
-    alt: "Delicious Chamcham sweets",
-  },
-  {
-    name: "Malpua",
-    image: "/images/malpua2.png",
-    alt: "Golden brown Malpua dessert",
-  },
-  {
-    name: "Roshogulla",
-    image: "/images/roshogulla2.png",
-    alt: "Spongy Roshogulla in sugar syrup",
-  },
+  { name: "Sondesh", image: "/images/sandesh.png", alt: "Assorted Sondesh – traditional Bengali milk sweets" },
+  { name: "Chamcham", image: "/images/chamcham.png", alt: "Delicious Chamcham sweets" },
+  { name: "Malpua", image: "/images/malpua.png", alt: "Golden brown Malpua dessert" },
+  { name: "Roshogulla", image: "/images/roshogulla.png", alt: "Spongy Roshogulla in sugar syrup" },
 ];
 
 export default function Hero() {
@@ -33,79 +19,88 @@ export default function Hero() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % sweets.length);
-    }, 4000); // Change image every 4 seconds
+    }, 8000);
     return () => clearInterval(timer);
   }, []);
 
   return (
     <section
       id="hero"
-      className="relative w-full pt-32 sm:pt-44 md:pt-60 overflow-hidden bg-[var(--background)] min-h-[60vh] sm:min-h-[80vh] md:min-h-[100vh]"
+      className="relative w-full pt-32 sm:pt-44 md:pt-60 overflow-hidden bg-[var(--background)]"
     >
-      {/* Background text — crossfades between slides */}
+      {/* Background typography */}
       {sweets.map((sweet, index) => (
-        <h1
+        <motion.h1
           key={sweet.name}
-          className={`absolute text-center inset-x-0 select-none pointer-events-none z-0 font-dm-serif font-normal text-foreground tracking-wide transition-opacity duration-1000 ease-in-out ${index === currentIndex ? "opacity-100" : "opacity-0"
-            }`}
+          initial={{ opacity: 0, y: 20 }}
+          animate={index === currentIndex ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          className="absolute text-center inset-x-0 select-none pointer-events-none z-0 font-dm-serif font-normal text-foreground tracking-wide"
           style={{
             fontSize: "clamp(4rem, 11vw, 13rem)",
             lineHeight: 1,
-            top: "20%",
-            whiteSpace: "nowrap"
+            top: "10%",
+            whiteSpace: "nowrap",
           }}
         >
           {sweet.name}
-        </h1>
+        </motion.h1>
       ))}
-
-      {/* Product images — absolute positioning to stack them and crossfade */}
-      <div className="relative z-10 w-full h-96 min-h-[50vh]">
+      
+      {/* Main content container */}
+      <div className="relative z-10 w-full">
+        {/* Slide images */}
         {sweets.map((sweet, index) => (
-          <div
+          <motion.div
             key={sweet.image}
-            className={`absolute top-0 left-0 w-full transition-opacity duration-1000 ease-in-out ${index === currentIndex ? "opacity-100 relative" : "opacity-0"
-              }`}
+            initial={{ opacity: 0, scale: 1.05 }}
+            animate={index === currentIndex ? { opacity: 1, scale: 1 } : { opacity: 0 }}
+            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+            className={index === currentIndex ? "block" : "hidden"}
           >
             <Image
               src={sweet.image}
               alt={sweet.alt}
               width={1920}
               height={1080}
-              priority={index === 0} // Only prioritize the first image to prevent LCP issues
+              priority={index === 0}
               sizes="100vw"
-              className="block w-full h-auto drop-shadow-2xl"
+              className="w-full h-auto drop-shadow-2xl block"
             />
-          </div>
+          </motion.div>
         ))}
-      </div>
 
-      {/* Carousel Dots */}
-      <div className="absolute bottom-8 left-0 right-0 z-20 flex justify-center items-center gap-3">
-        {sweets.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentIndex(index)}
-            aria-label={`Go to slide ${index + 1}`}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentIndex
-              ? "bg-foreground scale-110"
-              : "bg-foreground/30 hover:bg-foreground/60"
+        {/* Dots overlaid at bottom of image */}
+        <div className="absolute bottom-6 left-0 right-0 z-20 flex justify-center items-center gap-3">
+          {sweets.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              aria-label={`Go to slide ${index + 1}`}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                index === currentIndex
+                  ? "bg-foreground scale-110"
+                  : "bg-foreground/30 hover:bg-foreground/60"
               }`}
-          />
-        ))}
+            />
+          ))}
+        </div>
       </div>
 
-      {/* Floating CTA Button */}
+      {/* CTA for large screens */}
       <div className="absolute top-1/2 right-24 z-20 -translate-y-1/2 hidden lg:block">
-        <Link
-          href="/menu"
-          className="flex items-center gap-2 px-6 py-3 rounded-full border border-foreground/20 bg-background/60 backdrop-blur-md text-foreground font-sans font-medium hover:bg-foreground/5 transition-colors group"
+        <motion.div
+          {...fadeUp}
+          transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
         >
-          Explore Menu
-          <span className="group-hover:translate-x-1 transition-transform">
-            →
-          </span>
-        </Link>
+          <Link
+            href="/menu"
+            className="flex items-center gap-2 px-6 py-3 rounded-full border border-foreground/20 bg-background/60 backdrop-blur-md text-foreground font-sans font-medium hover:bg-foreground hover:text-background hover:scale-105 active:scale-95 transition-all duration-300 group"
+          >
+            Explore Menu
+            <span className="group-hover:translate-x-1 transition-transform">→</span>
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

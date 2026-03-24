@@ -1,5 +1,8 @@
 import Image from "next/image";
 
+/**
+ * Curated promotional collections and limited-edition gift boxes.
+ */
 const offers = [
   {
     name: "Festive Box",
@@ -24,18 +27,22 @@ const offers = [
   },
 ];
 
+/**
+ * SpecialOffers component showcases seasonal and premium curated sweet boxes,
+ * utilizing a high-fidelity card design with interactive elevation.
+ */
 export default function SpecialOffers() {
   return (
     <section className="py-24 px-6 md:px-12 bg-[#FAF3E8]">
       <div className="max-w-6xl mx-auto">
 
-        {/* 3D PANEL WRAPPER */}
+        {/* Primary container with subtle depth and specialized panel styling */}
         <div className="relative bg-[#F6F0E6] rounded-xl px-10 py-16 shadow-[0_20px_40px_rgba(0,0,0,0.08)]">
           
-          {/* Inner border (subtle frame like UI) */}
+          {/* Decorative minimalist frame defining the interior content area */}
           <div className="absolute inset-0 rounded-xl border border-black/10 pointer-events-none" />
 
-          {/* Header */}
+          {/* Promotional header introducing the seasonal collections */}
           <div className="text-center mb-14">
             <h2 className="text-4xl md:text-5xl font-serif text-[#3E2F26] mb-3">
               Special Offers
@@ -45,7 +52,7 @@ export default function SpecialOffers() {
             </p>
           </div>
 
-          {/* Cards */}
+          {/* Interactive grid of seasonal offerings with localized elevation on hover */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {offers.map((offer) => (
               <div
@@ -54,7 +61,7 @@ export default function SpecialOffers() {
                 shadow-[0_10px_25px_rgba(0,0,0,0.15)] 
                 group transition-transform duration-300 hover:-translate-y-2"
               >
-                {/* Image */}
+                {/* Background asset featuring the gift curation */}
                 <Image
                   src={offer.image}
                   alt={offer.name}
@@ -62,28 +69,25 @@ export default function SpecialOffers() {
                   className="object-cover group-hover:scale-105 transition duration-500"
                 />
 
-                {/* Overlay */}
+                {/* Narrative-optimized gradient overlay for text legibility */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#2A1E17]/90 via-[#2A1E17]/50 to-transparent" />
 
-                {/* Content */}
                 <div className="absolute inset-0 flex flex-col justify-end p-6">
                   
-                  {/* Badge */}
+                  {/* Contextual badge for scarcity or popularity signals */}
                   <span className="absolute top-5 left-5 text-[10px] tracking-wide bg-[#D18B2F] text-white px-3 py-1 rounded-full font-semibold">
                     {offer.tag}
                   </span>
 
-                  {/* Title */}
                   <h3 className="text-2xl font-serif text-white mb-2">
                     {offer.name}
                   </h3>
 
-                  {/* Description */}
                   <p className="text-xs text-white/80 mb-5 max-w-[240px]">
                     {offer.description}
                   </p>
 
-                  {/* Button */}
+                  {/* Primary purchase trigger for the specific curation */}
                   <button className="w-full bg-white text-[#3E2F26] text-sm font-medium py-3 rounded-lg shadow-md hover:bg-[#f3f3f3] transition">
                     Buy for ₹{offer.price}
                   </button>
