@@ -61,7 +61,7 @@ const TimelineItem = ({ item, index }: { item: typeof milestones[0], index: numb
         </span>
         
         <div className="relative inline-block mt-1 mb-2">
-          <h3 className="font-sans font-bold text-xl sm:text-2xl text-zinc-900">
+          <h3 className="font-sans font-bold text-xl sm:text-2xl text-[#3E2F26]">
             {item.title}
           </h3>
           {/* Reactive progress underline synchronized with terminal intersection */}
@@ -119,7 +119,7 @@ export default function Timeline() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <h2 className="font-dm-serif text-4xl sm:text-5xl md:text-6xl text-zinc-900 mb-6">
+            <h2 className="font-dm-serif text-4xl sm:text-5xl md:text-6xl text-[#3E2F26] mb-6">
               Our Journey Through Time
             </h2>
             <p className="font-sans text-zinc-600 max-w-2xl mx-auto text-base sm:text-lg">

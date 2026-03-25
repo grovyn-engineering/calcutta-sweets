@@ -72,7 +72,7 @@ export default function OurStory() {
               recipe diary.
             </h2>
             
-            <p className="font-sans text-zinc-600 text-lg leading-relaxed mb-10 max-w-xl">
+            <p className="font-sans text-[#3E2F26] text-lg leading-relaxed mb-10 max-w-xl">
               Three generations of recipes handed down through whispers and wooden spoons. What started as a humble stall in the heart of Raipur has grown into a destination for those who seek the authentic taste of Bengal.
             </p>
             

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "@/lib/animations";
-import SignatureCard from "./SignatureCard";
+import SignatureCard from "@/components/ui/SignatureCard";
 import { Product } from "@/lib/types";
 
 interface SignaturesClientProps {

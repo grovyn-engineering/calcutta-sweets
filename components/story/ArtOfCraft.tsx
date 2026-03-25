@@ -43,7 +43,7 @@ export default function ArtOfCraft() {
           className="w-full lg:w-[45%] relative aspect-[3/2] rounded-[2rem] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.06)] shrink-0 group"
         >
           <Image
-            src="/images/sweet3.jpg"
+            src="/images/ingredients.png"
             alt="Hand-kneaded sweet preparation"
             fill
             className="object-cover transition-transform duration-1000 group-hover:scale-105"

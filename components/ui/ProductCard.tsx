@@ -57,7 +57,7 @@ export default function ProductCard({
         </div> */}
 
         {/* Name */}
-        <h3 className="font-dm-serif text-lg text-zinc-900 mb-1.5">{name}</h3>
+        <h3 className="font-dm-serif text-lg text-[#3E2F26] mb-1.5">{name}</h3>
 
         {/* Description */}
         <p className="font-sans text-zinc-400 text-xs leading-relaxed mb-4 flex-grow line-clamp-2">
@@ -67,7 +67,7 @@ export default function ProductCard({
         {/* Price + Order Button */}
         <div className="flex items-center justify-between mt-auto">
           <div className="flex items-baseline gap-1.5">
-            <span className="font-dm-serif text-lg text-zinc-900">
+            <span className="font-dm-serif text-lg text-[#3E2F26]">
               ₹{price}
             </span>
             {originalPrice && (

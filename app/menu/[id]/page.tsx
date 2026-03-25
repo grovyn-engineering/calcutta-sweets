@@ -20,7 +20,7 @@ export default function ProductDetailPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
         <div className="aspect-square bg-zinc-100 rounded-3xl animate-pulse" />
         <div className="flex flex-col justify-center">
-          <h1 className="font-dm-serif text-5xl text-zinc-900 mb-4">
+          <h1 className="font-dm-serif text-5xl text-[#3E2F26] mb-4">
             Product {id}
           </h1>
           <p className="font-sans text-zinc-500 text-lg mb-8">

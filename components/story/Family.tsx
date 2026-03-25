@@ -43,7 +43,7 @@ export default function Family() {
         
         {/* Narrative-style section headline with grounding accent line */}
         <motion.div {...fadeUp}>
-          <h2 className="font-dm-serif text-3xl sm:text-4xl md:text-5xl text-zinc-900 text-center mb-4 leading-tight">
+          <h2 className="font-dm-serif text-3xl sm:text-4xl md:text-5xl text-[#3E2F26] text-center mb-4 leading-tight">
             Three Generations, One
             <br />
             Family.
@@ -88,7 +88,7 @@ export default function Family() {
                     <span className="font-sans text-[10px] text-[#C8773A] font-bold uppercase tracking-[0.2em] block mb-1">
                       {member.title}
                     </span>
-                    <h3 className="font-dm-serif text-lg text-zinc-900">
+                    <h3 className="font-dm-serif text-lg text-[#3E2F26]">
                       {member.name}
                     </h3>
                   </div>
@@ -96,7 +96,7 @@ export default function Family() {
               </Link>
 
               {/* Contextual biography detailing their individual contribution to the legacy */}
-              <p className="font-sans text-sm text-zinc-500 leading-relaxed mt-5 px-1">
+              <p className="font-sans text-sm text-[#3E2F26] leading-relaxed mt-5 px-1">
                 {member.description}
               </p>
             </motion.div>
