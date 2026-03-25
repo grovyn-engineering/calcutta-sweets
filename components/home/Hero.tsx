@@ -17,11 +17,30 @@ export default function Hero() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % sweets.length);
-    }, 6000);
+    const isFirstVisit = !sessionStorage.getItem("hero-first-visited");
+
+    let timer: NodeJS.Timeout;
+
+    if (isFirstVisit) {
+      timer = setTimeout(() => {
+        setCurrentIndex(1);
+        sessionStorage.setItem("hero-first-visited", "true");
+
+        startNormalLoop();
+      }, 8000); 
+    } else {
+      startNormalLoop();
+    }
+
+    function startNormalLoop() {
+      timer = setInterval(() => {
+        setCurrentIndex((prev) => (prev + 1) % sweets.length);
+      }, 4000);
+    }
+
     return () => clearInterval(timer);
   }, []);
+
 
   return (
     <section
