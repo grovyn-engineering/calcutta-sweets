@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Calcutta Sweets
 
-## Getting Started
+Calcutta Sweets is a high-fidelity, premium web application designed for an artisanal Bengali sweet shop. It blends traditional heritage with a sophisticated, motion-driven web experience to showcase authentic recipes and craftsmanship through an Apple-inspired minimal aesthetic.
 
-First, run the development server:
+## 🚀 Tech Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Framework**: [Next.js 15+](https://nextjs.org/) (App Router, Server Components)
+- **Styling**: [Tailwind CSS 14+](https://tailwindcss.com/)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/) (High-performance transition system)
+- **State Management**: [Zustand](https://zustand-demo.pmnd.rs/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+
+## ✨ Key Features
+
+- **High-Fidelity Motion Design**: A unified animation system utilizing custom cubic-bezier easing for smooth, premium transitions across all sections.
+- **Dynamic Storytelling**: An interactive timeline and masonry grid system that reveals the three-generation legacy of the brand.
+- **Arch-and-Circle Revelations**: Custom architectural image reveals in the Menu section to emphasize brand authenticity.
+- **Performance Optimized**: Leveraging React Server Components (RSC) to minimize client-side bundles while maintaining interactive animation layers.
+- **Responsive Excellence**: Fully fluid layouts optimized for everything from ultra-wide monitors to mobile devices.
+
+## 📂 Project Structure
+
+```text
+├── app/                        # Next.js App Router (Pages & Layouts)
+│   ├── celebration/            # Celebration & Events page
+│   ├── menu/                   # Digital Menu & Catalog
+│   ├── story/                  # Heritage & Brand story
+│   ├── visit-us/               # Store location & Contact
+│   └── globals.css             # Global styles & Tailwind layers
+├── components/                 # Atomic and Modular React components
+│   ├── celebration/            # Events & Enquiry components
+│   ├── home/                   # Homepage sections (Hero, Signatures, etc.)
+│   ├── layout/                 # Global UI (Sticky Navbar, Footer)
+│   ├── menu/                   # Menu-specific layers (Authenticity, Catering)
+│   ├── story/                  # Storytelling layers (Timeline, Family, Craft)
+│   └── ui/                     # Shared Design System primitives
+├── lib/                        # Core business logic & Animation tokens
+│   ├── animations.ts           # Centralized Framer Motion variants
+│   ├── products.ts             # Data layer for signature sweets
+│   └── types.ts                # Strict TypeScript interfaces
+├── public/                     # High-resolution visual assets
+└── store/                      # Global state (Cart, User, Inventory)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Clone the repository and install dependencies:
+   ```bash
+   npm install
+   ```
 
-## Learn More
+2. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+3. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
