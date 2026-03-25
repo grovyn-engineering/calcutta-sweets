@@ -31,6 +31,7 @@ export default function Authenticity() {
                   alt="Traditional sweets preparation"
                   fill
                   className="object-cover"
+                  sizes="(max-width: 640px) 90vw, 380px"
                 />
                 <div className="absolute inset-0 bg-black/20" />
               </div>
@@ -48,6 +49,7 @@ export default function Authenticity() {
                   alt="Sweets detail"
                   fill
                   className="object-cover"
+                  sizes="(max-width: 640px) 35vw, 155px"
                 />
               </motion.div>
             </div>

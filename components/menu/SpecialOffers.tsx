@@ -68,6 +68,7 @@ export default function SpecialOffers() {
                   alt={offer.name}
                   fill
                   className="object-cover group-hover:scale-105 transition duration-500"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
 
                 {/* Narrative-optimized gradient overlay for text legibility */}

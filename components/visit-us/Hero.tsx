@@ -139,6 +139,7 @@ export default function Hero() {
                     alt={feature.title}
                     fill
                     className="object-cover transition duration-700 group-hover:scale-110"
+                    sizes="(max-width: 768px) 100vw, 33vw"
                   />
                 </div>
 

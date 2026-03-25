@@ -20,10 +20,11 @@ export default function WelcomeSection() {
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-full overflow-hidden bg-zinc-200 relative shrink-0">
               <Image
-                src="/images/profile.jpg" // Placeholder for manager profile
+                src="/images/chef1.jpg"
                 alt="Mr. Antony"
                 fill
                 className="object-cover"
+                sizes="(max-width: 768px) 48px, 48px"
               />
             </div>
             <div className="flex flex-col">

@@ -21,7 +21,7 @@ export default function SignatureCard({ sweet, className }: SignatureCardProps) 
       whileHover={hoverScale}
       className={`relative w-full rounded-[2.5rem] overflow-hidden group cursor-pointer shadow-sm block ${className}`}
     >
-      <Link href={`/menu`} className="block w-full h-full">
+      <Link href={`/menu`} className="block w-full h-full relative">
         {/* Background product image with subtle scale transition */}
         <Image
           src={sweet.imageUrl || "/images/chamcham.png"}
@@ -32,7 +32,7 @@ export default function SignatureCard({ sweet, className }: SignatureCardProps) 
         />
 
         {/* Informational overlay: reveals title and description on hover */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#1F110B]/95 via-[#1F110B]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8 sm:p-10 z-10">
+        <div className="absolute inset-0 bg-linear-to-t from-[#1F110B]/95 via-[#1F110B]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8 sm:p-10 z-10">
           <div className="flex items-end justify-between translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out">
             <div className="flex flex-col gap-2">
               <h3 className="font-sans font-bold text-2xl sm:text-3xl text-white">
