@@ -29,10 +29,7 @@ export default function MenuPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [showAll, setShowAll] = useState(false);
 
-  // Reset showAll when category changes
-  useEffect(() => {
-    setShowAll(false);
-  }, [activeCategory]);
+  // State reset handled in onClick to avoid cascading renders
 
   // Synchronize product data from the localized data layer
   useEffect(() => {
@@ -83,7 +80,10 @@ export default function MenuPage() {
           {categories.map((category) => (
             <button
               key={category}
-              onClick={() => setActiveCategory(category)}
+              onClick={() => {
+                setActiveCategory(category);
+                setShowAll(false);
+              }}
               className={`px-4 sm:px-6 py-1.5 sm:py-2 rounded-full font-sans text-xs sm:text-sm font-medium transition-all duration-300 ${activeCategory === category
                 ? "bg-[#5D4037] text-white shadow-md"
                 : "bg-white text-[#3E2F26] border border-zinc-200 hover:border-zinc-400 hover:shadow-sm"
