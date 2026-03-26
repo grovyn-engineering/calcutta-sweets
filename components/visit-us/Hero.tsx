@@ -95,7 +95,7 @@ export default function Hero() {
             {/* Call */}
             <a
               href="tel:+919876543210"
-              className="px-5 py-2.5 sm:px-6 sm:py-3 rounded-full border border-white/40 text-white text-xs sm:text-sm font-medium backdrop-blur-sm hover:bg-white hover:text-black transition active:scale-95"
+              className="px-5 py-2.5 sm:px-6 sm:py-3 rounded-full border border-white/40 text-white text-xs sm:text-sm font-medium backdrop-blur-sm hover:bg-white hover:text-[#3E2F26] transition active:scale-95"
             >
               Call the Store
             </a>

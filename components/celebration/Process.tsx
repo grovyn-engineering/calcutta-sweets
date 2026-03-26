@@ -1,3 +1,7 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { fadeUp, staggerContainer } from "@/lib/animations";
 import { ClipboardEdit, Palette, CookingPot, Truck } from "lucide-react";
 
 export default function Process() {
@@ -32,19 +36,29 @@ export default function Process() {
     <section className="w-full py-24 bg-[#FEF7F2]">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         {/* Heading */}
-        <div className="text-center mb-16">
+        <motion.div 
+          {...fadeUp}
+          className="text-center mb-16"
+        >
           <h2 className="font-dm-serif text-3xl sm:text-4xl md:text-[2.5rem] text-[#2C1D13] mb-4 tracking-wide">
             Seamless Celebrations
           </h2>
-        </div>
+        </motion.div>
 
         {/* Process Steps */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 relative lg:px-10">
+        <motion.div 
+          variants={staggerContainer}
+          initial="initial"
+          whileInView="whileInView"
+          viewport={staggerContainer.viewport}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 relative lg:px-10"
+        >
           {steps.map((step) => {
             const Icon = step.icon;
             return (
-              <div 
+              <motion.div 
                 key={step.number} 
+                variants={fadeUp}
                 className="relative bg-[#FFFDFA] rounded-[2rem] p-6 lg:p-8 border border-[#F4EBE3] shadow-[0_8px_30px_rgb(0,0,0,0.03)] hover:shadow-[0_12px_40px_rgb(0,0,0,0.06)] transition-all duration-300 flex flex-col justify-between min-h-[260px]"
               >
                 {/* Top Row: Icon and Number */}
@@ -69,10 +83,10 @@ export default function Process() {
                     {step.description}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

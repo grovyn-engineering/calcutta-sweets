@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import ProductCard from "@/components/ui/ProductCard";
 import Authenticity from "@/components/menu/Authenticity";
 import SpecialOffers from "@/components/menu/SpecialOffers";
 import CateringCTA from "@/components/menu/CateringCTA";
 import { getAllProducts } from "@/lib/products";
 import { Product } from "@/lib/types";
+import Image from "next/image";
 
 /**
  * Available taxonomy for filtering products in the menu.
@@ -25,6 +27,9 @@ export default function MenuPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [activeCategory, setActiveCategory] = useState(initialCategory);
   const [isLoading, setIsLoading] = useState(true);
+  const [showAll, setShowAll] = useState(false);
+
+  // State reset handled in onClick to avoid cascading renders
 
   // Synchronize product data from the localized data layer
   useEffect(() => {
@@ -47,26 +52,41 @@ export default function MenuPage() {
       {/* High-level heading and category-based navigation triggers */}
       <section className="text-center mb-12 relative">
         {/* Decorative accents providing subtle visual depth to the header */}
-        <div className="absolute top-0 left-1/2 -translate-x-[120px] sm:-translate-x-[200px] -translate-y-4 opacity-60 pointer-events-none select-none hidden sm:block">
-          <span className="text-3xl sm:text-5xl">.</span>
-        </div>
-        <div className="absolute top-0 left-1/2 translate-x-[80px] sm:translate-x-[140px] -translate-y-4 opacity-60 pointer-events-none select-none hidden sm:block">
-          <span className="text-3xl sm:text-5xl">.</span>
-        </div>
+        <div className="flex items-center justify-center gap-4 sm:gap-6">
 
-        <h1 className="font-dm-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-zinc-900 mb-2">
-          Menu
-        </h1>
+          {/* LEFT SIDE */}
+          <div className="flex items-center gap-2">
+            <div className="h-[1px] w-16 sm:w-32 bg-gradient-to-r from-transparent via-[#9B6E2C]/80 to-[#9B6E2C]" />
+            <div className="w-1.5 h-1.5 rounded-full bg-[#9B6E2C]" />
+            <div className="w-2 h-2 rounded-full bg-[#9B6E2C]" />
+          </div>
+
+          {/* HEADING */}
+          <h1 className="font-dm-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-[#3E2F26] whitespace-nowrap">
+            Menu
+          </h1>
+
+          {/* RIGHT SIDE */}
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-[#9B6E2C]" />
+            <div className="w-1.5 h-1.5 rounded-full bg-[#9B6E2C]" />
+            <div className="h-[1px] w-16 sm:w-32 bg-gradient-to-l from-transparent via-[#9B6E2C]/80 to-[#9B6E2C]" />
+          </div>
+
+        </div>
 
         {/* Dynamic filter bar with active state tracking */}
         <div className="flex items-center justify-center gap-2 sm:gap-3 mt-6 sm:mt-8 flex-wrap px-4">
           {categories.map((category) => (
             <button
               key={category}
-              onClick={() => setActiveCategory(category)}
+              onClick={() => {
+                setActiveCategory(category);
+                setShowAll(false);
+              }}
               className={`px-4 sm:px-6 py-1.5 sm:py-2 rounded-full font-sans text-xs sm:text-sm font-medium transition-all duration-300 ${activeCategory === category
-                ? "bg-zinc-900 text-white shadow-md"
-                : "bg-white text-zinc-600 border border-zinc-200 hover:border-zinc-400 hover:shadow-sm"
+                ? "bg-[#5D4037] text-white shadow-md"
+                : "bg-white text-[#3E2F26] border border-zinc-200 hover:border-zinc-400 hover:shadow-sm"
                 }`}
             >
               {category}
@@ -76,7 +96,7 @@ export default function MenuPage() {
       </section>
 
       {/* Primary catalog grid: renders product cards or empty/loading states */}
-      <section className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 mb-24 md:mb-32">
+      <section className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 mb-12 md:mb-16">
         {isLoading ? (
           <div className="text-center py-20">
             <p className="font-sans text-zinc-400 text-lg">
@@ -85,7 +105,7 @@ export default function MenuPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredItems.map((item) => (
+            {filteredItems.slice(0, showAll ? undefined : 6).map((item) => (
               <ProductCard
                 key={item.id}
                 name={item.name}
@@ -95,6 +115,23 @@ export default function MenuPage() {
                 image={item.imageUrl ?? "/images/sweet5.png"}
               />
             ))}
+          </div>
+        )}
+
+        {/* Dynamic card visibility toggle button */}
+        {!isLoading && filteredItems.length > 6 && (
+          <div className="flex justify-center mt-8 sm:mt-10">
+            <button
+              onClick={() => setShowAll(!showAll)}
+              className="text-[#5D4037] font-sans font-semibold hover:opacity-80 transition-all duration-300 flex items-center gap-1 group"
+            >
+              {showAll ? "View Less" : "View More"}
+              {showAll ? (
+                <ChevronUp className="w-4 h-4 transition-transform group-hover:-translate-y-0.5" />
+              ) : (
+                <ChevronDown className="w-4 h-4 transition-transform group-hover:translate-y-0.5" />
+              )}
+            </button>
           </div>
         )}
 

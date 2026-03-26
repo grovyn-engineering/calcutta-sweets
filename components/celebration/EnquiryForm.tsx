@@ -1,6 +1,8 @@
 "use client";
 
 import React from "react";
+import { motion } from "framer-motion";
+import { fadeUp } from "@/lib/animations";
 import { CheckCircle2, Snowflake, Leaf } from "lucide-react";
 
 export default function EnquiryForm() {
@@ -14,7 +16,10 @@ export default function EnquiryForm() {
     <section className="w-full py-20 px-6 sm:px-10 md:px-16 lg:px-24 bg-[#3E2B1E] text-white">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
         {/* Left Side: Context & Trust Badges */}
-        <div className="flex flex-col gap-8">
+        <motion.div 
+          {...fadeUp}
+          className="flex flex-col gap-8"
+        >
           <div>
             <h2 className="font-dm-serif text-4xl sm:text-5xl md:text-6xl text-[#FDFBF7] leading-tight mb-6">
               Let&apos;s Design Your
@@ -41,10 +46,14 @@ export default function EnquiryForm() {
               <span className="font-sans text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-white/80">100% Egg-Free</span>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Right Side: Form Card */}
-        <div className="bg-[#FAF5F0] rounded-3xl p-8 sm:p-10 md:p-12 shadow-2xl">
+        <motion.div 
+          {...fadeUp}
+          transition={{ ...fadeUp.whileInView.transition, delay: 0.2 }}
+          className="bg-[#FAF5F0] rounded-3xl p-8 sm:p-10 md:p-12 shadow-2xl"
+        >
           <h3 className="font-dm-serif text-2xl text-[#3E2B1E] mb-8">Enquiry Form</h3>
           
           <form onSubmit={handleSubmit} className="flex flex-col gap-6">
@@ -146,7 +155,7 @@ export default function EnquiryForm() {
               Request a Call Back
             </button>
           </form>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

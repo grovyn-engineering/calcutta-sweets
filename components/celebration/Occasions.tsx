@@ -4,27 +4,27 @@ import { MoveRight, Heart, Cake, Landmark, Flame, Briefcase } from "lucide-react
 const occasions = [
   {
     title: "Weddings",
-    image: "/images/sweet.jpg",
+    image: "/images/wedding.png",
     icon: Heart,
   },
   {
     title: "Birthdays",
-    image: "/images/sweet2.jpg",
+    image: "/images/birthday.png",
     icon: Cake,
   },
   {
     title: "Durga Puja",
-    image: "/images/sweet3.jpg",
+    image: "/images/puja.png",
     icon: Landmark,
   },
   {
     title: "Diwali",
-    image: "/images/sweet4.jpg",
+    image: "/images/diwali.png",
     icon: Flame,
   },
   {
     title: "Corporate",
-    image: "/images/sweet5.jpg",
+    image: "/images/corporate.png",
     icon: Briefcase,
   },
 ];
