@@ -50,7 +50,7 @@ export default function Occasions() {
             return (
               <div
                 key={occasion.title}
-                className="relative w-full h-[350px] sm:h-[400px] lg:h-[450px] rounded-[2rem] overflow-hidden group shadow-md transition-all duration-500 hover:-translate-y-4 hover:shadow-xl hover:shadow-black/10"
+                className="relative w-full h-[350px] sm:h-[400px] lg:h-[450px] rounded-[2rem] overflow-hidden group shadow-md transition-all duration-500 hover:-translate-y-4 hover:shadow-xl hover:shadow-brand-brown/10"
               >
                 <Image
                   src={occasion.image}
@@ -60,7 +60,7 @@ export default function Occasions() {
                   sizes="(max-width: 1024px) 100vw, 20vw"
                 />
                 {/* Gradient Overlay for text readability */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-brown/80 via-brand-brown/30 to-brand-brown/10" />
                 
                 {/* Content anchored to the bottom */}
                 <div className="absolute inset-x-0 bottom-0 p-6 flex flex-col items-start gap-1">
@@ -68,7 +68,7 @@ export default function Occasions() {
                   <h3 className="font-dm-serif text-2xl text-white mb-2 tracking-wide">
                     {occasion.title}
                   </h3>
-                  <button className="flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/40 bg-black/20 hover:bg-black/40 text-white text-[11px] font-sans transition-all backdrop-blur-sm">
+                  <button className="flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/40 bg-brand-brown/20 hover:bg-brand-brown/40 text-white text-[11px] font-sans transition-all backdrop-blur-sm">
                     Enquire Now <MoveRight className="w-3 h-3" />
                   </button>
                 </div>

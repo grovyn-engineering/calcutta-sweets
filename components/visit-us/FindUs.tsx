@@ -6,7 +6,7 @@ export default function FindUs() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
 
         {/* Left Side: Map */}
-        <div className="relative aspect-square w-full max-w-[500px] mx-auto lg:max-w-none lg:mx-0 rounded-2xl overflow-hidden shadow-sm border border-black/5">
+        <div className="relative aspect-square w-full max-w-[500px] mx-auto lg:max-w-none lg:mx-0 rounded-2xl overflow-hidden shadow-sm border border-brand-brown/5">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3718.85!2d81.5775028!3d21.2592377!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a28de218cef56e9%3A0xe99b2422d3476171!2sCalcutta%20Sweets%20Tatibandh%20Raipur!5e0!3m2!1sen!2sin!4v1"
             width="100%"
@@ -53,7 +53,7 @@ export default function FindUs() {
             </a>
 
             {/* Contact */}
-            <a href="tel:+919876543210" className="flex items-start gap-5 group">
+            <a href="tel:+919993060082" className="flex items-start gap-5 group">
               <div className="w-10 h-10 rounded-full bg-[#F6EDDF] flex items-center justify-center shrink-0 group-hover:bg-[#D38B57] transition-colors">
                 <Phone className="w-4 h-4 text-[#D38B57] group-hover:text-white transition-colors" />
               </div>
@@ -62,7 +62,7 @@ export default function FindUs() {
                   Contact
                 </h3>
                 <p className="font-sans text-xs text-[#5A4F44] group-hover:text-[#D38B57] transition-colors">
-                  +91 98765 43210
+                  +91 99930 60082
                 </p>
               </div>
             </a>
@@ -84,7 +84,7 @@ export default function FindUs() {
           </div>
 
           {/* Tagline */}
-          <div className="flex items-center gap-4 mt-10 pt-8 border-t border-black/5">
+          <div className="flex items-center gap-4 mt-10 pt-8 border-t border-brand-brown/5">
             <div className="w-6 h-6 rounded-full bg-[#F6EDDF] flex items-center justify-center shrink-0">
               <Star className="w-3 h-3 text-[#D38B57] fill-[#D38B57]" />
             </div>

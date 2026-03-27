@@ -9,7 +9,7 @@ export const mockProducts: Product[] = [
     id: "a1b2c3d4-e5f6-7890-abcd-ef1234567801",
     name: "Royal Rasmalai",
     description:
-      "Soft chenna patties immersed in thickened, sweetened saffron-infused milk with pistachios.",
+      "Soft chenna patties immersed in thickened, sweetened saffron infused milk with pistachios.",
     price: 280,
     costPrice: 150,
     barcode: "8901234560001",
@@ -49,7 +49,7 @@ export const mockProducts: Product[] = [
     id: "a1b2c3d4-e5f6-7890-abcd-ef1234567803",
     name: "Golden Gulab Jamun",
     description:
-      "Deep-fried dumplings made of milk solids, dipped in rose-scented sugar syrup.",
+      "Deep fried dumplings made of milk solids, dipped in rose scented sugar syrup.",
     price: 180,
     costPrice: 80,
     barcode: "8901234560003",
@@ -109,7 +109,7 @@ export const mockProducts: Product[] = [
     id: "a1b2c3d4-e5f6-7890-abcd-ef1234567806",
     name: "Classic Sandesh",
     description:
-      "Delicate, melt-in-your-mouth milk fudge made from fresh chenna and aromatic cardamom.",
+      "Delicate, melt in your mouth milk fudge made from fresh chenna and aromatic cardamom.",
     price: 250,
     costPrice: 120,
     barcode: "8901234560006",
@@ -128,7 +128,7 @@ export const mockProducts: Product[] = [
     id: "a1b2c3d4-e5f6-7890-abcd-ef1234567807",
     name: "Patishapta Crepe",
     description:
-      "Thin rice-flour crepes filled with sweetened coconut and kheer, a winter delicacy.",
+      "Thin rice flour crepes filled with sweetened coconut and kheer, a winter delicacy.",
     price: 200,
     costPrice: 95,
     barcode: "8901234560007",
@@ -147,7 +147,7 @@ export const mockProducts: Product[] = [
     id: "a1b2c3d4-e5f6-7890-abcd-ef1234567808",
     name: "Nolen Gurer Payesh",
     description:
-      "Aromatic rice pudding cooked with date-palm jaggery, a quintessential Bengali winter treat.",
+      "Aromatic rice pudding cooked with date palm jaggery, a quintessential Bengali winter treat.",
     price: 180,
     costPrice: 85,
     barcode: "8901234560008",

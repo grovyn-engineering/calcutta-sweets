@@ -41,7 +41,7 @@ export default function SpecialOffers() {
         <div className="relative bg-[#F6F0E6] rounded-xl px-10 py-16 shadow-[0_20px_40px_rgba(0,0,0,0.08)]">
           
           {/* Decorative minimalist frame defining the interior content area */}
-          <div className="absolute inset-0 rounded-xl border border-black/10 pointer-events-none" />
+          <div className="absolute inset-0 rounded-xl border border-brand-brown/10 pointer-events-none" />
 
           {/* Promotional header introducing the seasonal collections */}
           <div className="text-center mb-14">

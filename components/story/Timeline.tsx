@@ -10,22 +10,22 @@ const milestones = [
   {
     year: "1947",
     title: "The Humble Threshold",
-    description: "Opened our first 10x10 wooden shop in North Calcutta, serving only three types of sweets.",
+    description: "Our family started with a tiny wooden shop in North Calcutta, where we sold just three kinds of traditional sweets.",
   },
   {
     year: "1978",
     title: "The Pehla Revolution",
-    description: "Introduced our signature winter Nolen Gur collection that became a city-wide sensation.",
+    description: "We launched our winter Nolen Gur sweets and they quickly became a favorite across the city.",
   },
   {
     year: "2005",
     title: "Legacy Modernised",
-    description: "Expanding to our Raipur flagship shop, maintaining the same 50-year-old dough starters.",
+    description: "We moved to Raipur and opened our flagship store, still using the same traditional techniques we started with decades ago.",
   },
   {
     year: "Today",
     title: "A Taste of Heritage",
-    description: "Continuing the pure love of pure, hand-crafted joy for a new generation of connoisseurs.",
+    description: "We are still making everything by hand, sharing the sweets we love with a whole new generation.",
   },
 ];
 

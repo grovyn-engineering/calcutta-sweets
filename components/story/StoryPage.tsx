@@ -35,9 +35,7 @@ export default function StoryPage() {
             </h1>
 
             <p className="text-[#5A4D40] text-sm sm:text-base leading-[1.8] max-w-md">
-              Crafting the sacred proportions of Mishti requires more than patience.
-              It demands a lineage of hands that understand the precise moment when
-              milk turns to magic.
+              Making the perfect Mishti takes time and a lot of practice. It is about knowing exactly when the milk is ready. This is a skill passed down through three generations of our family.
             </p>
 
             <div className="flex flex-wrap gap-4 pt-2">

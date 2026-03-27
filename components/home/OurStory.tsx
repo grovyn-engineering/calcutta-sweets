@@ -73,7 +73,7 @@ export default function OurStory() {
             </h2>
             
             <p className="font-sans text-[#3E2F26] text-lg leading-relaxed mb-10 max-w-xl">
-              Three generations of recipes handed down through whispers and wooden spoons. What started as a humble stall in the heart of Raipur has grown into a destination for those who seek the authentic taste of Bengal.
+              Our recipes have been in the family for three generations. We started as a small shop here in Raipur and today we are still using those same traditional methods to bring you the real taste of Bengal.
             </p>
             
             {/* Primary actions: menu exploration and deep dive into heritage */}
@@ -81,7 +81,7 @@ export default function OurStory() {
               <Link href="/story" className="px-8 py-3.5 rounded-full bg-[#C8773A] text-white font-sans font-medium text-sm hover:bg-[#b06832] hover:scale-105 active:scale-95 transition-all shadow-sm">
                 Get the Recipe Book
               </Link>
-              <Link href="/story" className="px-8 py-3.5 rounded-full border border-black/20 text-[#3D2B1F] font-sans font-medium text-sm hover:bg-black/5 hover:scale-105 active:scale-95 transition-all">
+              <Link href="/story" className="px-8 py-3.5 rounded-full border border-brand-brown/20 text-[#3D2B1F] font-sans font-medium text-sm hover:bg-brand-brown/5 hover:scale-105 active:scale-95 transition-all">
                 Read Full Story
               </Link>
             </div>

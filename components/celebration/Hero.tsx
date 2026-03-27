@@ -27,7 +27,7 @@ export default function Hero() {
             <span className="text-[#CF7B38]">Celebration.</span>
           </h1>
           <p className="font-sans text-[#5A4D40] text-base sm:text-[17px] leading-[1.8] max-w-[480px] mb-10">
-            From artisanal Mishti boxes to grand wedding platters, bring the authentic heritage of Bengal to your most cherished moments. Crafted by hand, delivered with lots of love and care.
+            From custom gift boxes to wedding platters, we help make your celebrations a bit sweeter. Everything is made by hand and delivered fresh to your door.
           </p>
           
           {/* Action triggers: Direct pathways to curation and enquiry */}
@@ -35,7 +35,7 @@ export default function Hero() {
             <Link href="/menu" className="px-9 py-3.5 rounded-full bg-[#9B6E2C] text-white font-sans text-sm font-bold hover:bg-[#855B22] transition-colors shadow-sm active:scale-95">
               Curate Your Order
             </Link>
-            <a href="tel:+919876543210" className="px-9 py-3.5 rounded-full border border-[#BBAA9A] text-[#2D1B0F] font-sans text-sm font-bold hover:bg-[#F2E8DF] transition-colors active:scale-95">
+            <a href="tel:+919993060082" className="px-9 py-3.5 rounded-full border border-[#BBAA9A] text-[#2D1B0F] font-sans text-sm font-bold hover:bg-[#F2E8DF] transition-colors active:scale-95">
               Call to Enquire
             </a>
           </div>

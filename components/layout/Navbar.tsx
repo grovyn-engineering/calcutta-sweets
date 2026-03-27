@@ -1,13 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { Search, ShoppingCart, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
-/**
- * Global navigation links for the application.
- */
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/menu", label: "Menu" },
@@ -16,16 +13,11 @@ const navLinks = [
   { href: "/visit-us", label: "Visit Us" },
 ];
 
-/**
- * Navbar component provides a responsive, sticky navigation header with 
- * scroll-aware styling and a mobile-friendly overlay menu.
- */
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
 
-  // Handle background transition and shadow based on vertical scroll depth
   useEffect(() => {
     const handleScroll = () => {
       const hero = document.getElementById("hero");
@@ -34,99 +26,143 @@ export default function Navbar() {
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // Initial check on component mount
+    handleScroll();
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <>
-      {/* Primary navigation container with dynamic backdrop blurring and visibility */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 sm:px-8 py-4 sm:py-5 transition-all duration-300 border-b ${
-        isScrolled
-          ? "bg-white/70 backdrop-blur-md border-white/60 shadow-[0_4px_20px_rgb(0,0,0,0.03)] pointer-events-auto"
-          : "bg-transparent border-transparent pointer-events-none"
-      }`}>
-        
-        {/* Brand identity: Logo and establishment year */}
-        <Link
-          href="/"
-          className="pointer-events-auto flex flex-col items-start gap-0.5 sm:gap-1 px-5 py-2.5 sm:px-6 sm:py-3 rounded-full transition-all duration-300 border border-transparent bg-transparent"
-        >
-          <span className="font-sans font-bold text-zinc-900 text-sm sm:text-xl leading-none tracking-wide">
-            কলকत्ता SWEETS
-          </span>
-          <span className="font-sans text-[7px] sm:text-[10px] text-zinc-600 uppercase font-medium tracking-[0.2em] leading-none">
-            EST 2000
-          </span>
-        </Link>
-
-        {/* Desktop-only navigation links with active state tracking */}
-        <div className={`pointer-events-auto hidden lg:flex items-center gap-8 px-8 py-3 rounded-full transition-all duration-300 ${
+      {/* Navbar */}
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled
-            ? "border border-transparent bg-transparent shadow-none"
-            : "border border-white/60 bg-white/70 backdrop-blur-md shadow-[0_4px_20px_rgb(0,0,0,0.03)]"
-        }`}>
-          {navLinks.map((link) => {
-            const isActive = pathname === link.href || (pathname.startsWith(link.href) && link.href !== '/');
-            const isHome = pathname === '/' && link.href === '/';
-            const trulyActive = isActive || isHome;
+            ? "bg-white/80 backdrop-blur-lg shadow-[0_1px_0_0_rgba(0,0,0,0.06),0_8px_24px_rgba(0,0,0,0.04)]"
+            : "bg-transparent"
+        }`}
+      >
+        <div className="w-full px-4 sm:px-6 lg:px-10 h-16 sm:h-[72px] flex items-center">
 
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`font-sans text-[13px] sm:text-sm transition-colors ${trulyActive
-                    ? "font-bold text-[#A67C46]"
-                    : "font-medium text-zinc-800 hover:text-[#A67C46]/80"
-                  }`}
-              >
-                {link.label}
-              </Link>
-            );
-          })}
-        </div>
-
-        {/* Action triggers: Mobile menu toggle */}
-        <div className="pointer-events-auto flex items-center gap-2 sm:gap-4">
-          <button
-            aria-label="Open menu"
-            onClick={() => setMobileOpen(true)}
-            className={`lg:hidden p-2.5 rounded-full transition-all duration-300 text-zinc-800 hover:bg-white/90 ${
-              isScrolled
-                ? "border border-transparent bg-transparent shadow-none"
-                : "border border-white/60 bg-white/70 backdrop-blur-md shadow-[0_4px_20px_rgb(0,0,0,0.03)]"
-            }`}
+          {/* Logo (LEFT) */}
+          <Link
+            href="/"
+            className="flex flex-col items-start gap-[3px] group"
           >
-            <Menu className="w-5 h-5" strokeWidth={2.5} />
-          </button>
+            <span className="font-sans font-bold text-brand-brown text-[16px] sm:text-[19px] leading-none tracking-wide group-hover:opacity-80 transition-opacity duration-200">
+              কলকत्ता SWEETS
+            </span>
+            <span className="font-sans text-[8px] sm:text-[9px] text-zinc-400 uppercase font-semibold tracking-[0.25em] leading-none">
+              EST 2000
+            </span>
+          </Link>
+
+          {/* RIGHT SIDE (fixes awkward gap) */}
+          <div className="ml-auto flex items-center">
+
+            {/* Desktop Nav */}
+            <div className="hidden lg:flex items-center gap-6">
+              {navLinks.map((link) => {
+                const isActive =
+                  pathname === link.href ||
+                  (pathname.startsWith(link.href) && link.href !== "/");
+                const isHome = pathname === "/" && link.href === "/";
+                const trulyActive = isActive || isHome;
+
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`relative font-sans text-[14px] px-2 py-1 transition-all duration-200 ${
+                      trulyActive
+                        ? "font-semibold text-[#A67C46]"
+                        : "font-medium text-brand-brown hover:text-[#A67C46]"
+                    }`}
+                  >
+                    {link.label}
+
+                    {/* Thin underline */}
+                    <span
+                      className={`absolute left-1/2 -translate-x-1/2 bottom-[-2px] h-[1px] bg-[#A67C46] transition-all duration-300 ${
+                        trulyActive ? "w-[60%] opacity-100" : "w-0 opacity-0"
+                      }`}
+                    />
+                  </Link>
+                );
+              })}
+            </div>
+
+            {/* Mobile Button */}
+            <button
+              aria-label="Open menu"
+              onClick={() => setMobileOpen(true)}
+              className="lg:hidden ml-4 flex items-center justify-center w-9 h-9 text-brand-brown hover:text-[#A67C46] transition-colors duration-200"
+            >
+              <Menu className="w-[18px] h-[18px]" strokeWidth={2} />
+            </button>
+          </div>
         </div>
+
+        {/* Bottom border */}
+        <div
+          className={`absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#A67C46]/15 to-transparent transition-opacity duration-500 ${
+            isScrolled ? "opacity-100" : "opacity-0"
+          }`}
+        />
       </nav>
 
-      {/* Full-screen mobile navigation overlay with high-fidelity blur */}
-      {mobileOpen && (
-        <div className="fixed inset-0 z-[100] bg-white/70 backdrop-blur-xl flex flex-col items-center justify-center gap-10 md:hidden border-b border-white/30 shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+      {/* Mobile Menu */}
+      <div
+        className={`fixed inset-0 z-[100] md:hidden transition-all duration-300 ${
+          mobileOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        }`}
+      >
+        <div
+          className="absolute inset-0 bg-white/90 backdrop-blur-2xl"
+          onClick={() => setMobileOpen(false)}
+        />
+
+        <div className="relative h-full flex flex-col items-center justify-center gap-2 px-8">
+
           <button
             aria-label="Close menu"
             onClick={() => setMobileOpen(false)}
-            className="absolute top-5 right-4 p-2 rounded-full border border-white/60 bg-white/40 backdrop-blur-md text-zinc-900 hover:bg-white/60"
+            className="absolute top-5 right-5 w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200/80 bg-white/60 text-brand-brown hover:bg-white transition-colors duration-200"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" strokeWidth={2} />
           </button>
 
-          {navLinks.map((link) => (
+          <div className="absolute top-5 left-6 flex flex-col gap-[3px]">
+            <span className="font-sans font-bold text-brand-brown text-[13px] leading-none tracking-wide">
+              কলকत्ता SWEETS
+            </span>
+            <span className="font-sans text-[7px] text-zinc-400 uppercase font-semibold tracking-[0.25em] leading-none">
+              EST 2000
+            </span>
+          </div>
+
+          {navLinks.map((link, i) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setMobileOpen(false)}
-              className={`font-dm-serif text-4xl transition-colors ${pathname === link.href ? "text-[#A67C46]" : "text-zinc-900"
-                }`}
+              style={{ transitionDelay: mobileOpen ? `${i * 40}ms` : "0ms" }}
+              className={`font-dm-serif text-[40px] leading-tight tracking-tight transition-all duration-300 ${
+                mobileOpen ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
+              } ${
+                pathname === link.href
+                  ? "text-[#A67C46]"
+                  : "text-brand-brown hover:text-[#A67C46]/80"
+              }`}
             >
               {link.label}
             </Link>
           ))}
+
+          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 w-12 h-px bg-[#A67C46]/20" />
         </div>
-      )}
+      </div>
     </>
   );
 }

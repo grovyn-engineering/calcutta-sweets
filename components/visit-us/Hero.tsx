@@ -60,7 +60,7 @@ export default function Hero() {
             className="w-full h-auto block"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/25 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-brown/60 via-brand-brown/25 to-transparent" />
         </motion.div>
 
         {/* Overlay content */}
@@ -77,8 +77,7 @@ export default function Hero() {
           </h1>
 
           <p className="text-xs sm:text-sm text-white/80 max-w-md mb-6 sm:mb-8 leading-relaxed">
-            Step into a world of tradition, cardamom, and handcrafted sweetness.
-            We've been here since 2000 and we're not going anywhere.
+            Come experience the smell of fresh cardamom and the taste of sweets made by hand. We have been part of the Tatibandh neighborhood since 2000, and we are proud to keep the tradition alive.
           </p>
 
           <div className="flex gap-3 flex-wrap">
@@ -94,7 +93,7 @@ export default function Hero() {
 
             {/* Call */}
             <a
-              href="tel:+919876543210"
+              href="tel:+919993060082"
               className="px-5 py-2.5 sm:px-6 sm:py-3 rounded-full border border-white/40 text-white text-xs sm:text-sm font-medium backdrop-blur-sm hover:bg-white hover:text-[#3E2F26] transition active:scale-95"
             >
               Call the Store
@@ -131,7 +130,7 @@ export default function Hero() {
                 key={feature.title}
                 variants={fadeUp}
                 whileHover={hoverScale}
-                className="rounded-2xl overflow-hidden bg-[#ffffff] border border-black/5 group cursor-pointer"
+                className="rounded-2xl overflow-hidden bg-[#ffffff] border border-brand-brown/5 group cursor-pointer"
               >
                 <div className="relative h-[260px] overflow-hidden">
                   <Image
