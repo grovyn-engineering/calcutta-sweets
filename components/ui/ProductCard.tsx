@@ -78,7 +78,7 @@ export default function ProductCard({
             <span className="font-sans text-xs text-zinc-400">/{weight}</span>
           </div>
 
-          <Link href="/menu" className="px-4 py-1.5 rounded-full bg-zinc-900 text-white font-sans font-medium text-xs hover:bg-zinc-800 transition-colors">
+          <Link href="/menu" className="px-4 py-1.5 rounded-full bg-brand-brown text-white font-sans font-medium text-xs hover:bg-brand-brown/90 transition-colors">
             Order Now
           </Link>
         </div>

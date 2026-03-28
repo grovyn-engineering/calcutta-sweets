@@ -10,24 +10,24 @@ import { fadeUp, staggerContainer, hoverScale } from "@/lib/animations";
  */
 const familyMembers = [
   {
-    name: "Anjali Devi",
+    name: "CHEF 1",
     title: "THE MATRIARCH",
     description:
-      "The keeper of the original ledger. She believed that sugar should only ever be second to the richness of milk.",
+      "She kept the original family recipes and always insisted that the quality of the milk is what makes a sweet truly special.",
     image: "/images/chef1.jpg",
   },
   {
-    name: "Debasish Gupta",
+    name: "CHEF 2",
     title: "THE ARCHITECT",
     description:
-      "The visionary who balanced tradition with scale. He introduced the precision of modern kitchen science to ancestral art.",
+      "He helped us grow while keeping our traditional roots, bringing better kitchen standards to our family old school methods.",
     image: "/images/chef2.jpg",
   },
   {
-    name: "Aritra Gupta",
+    name: "Aloke Bera",
     title: "THE CURATOR",
     description:
-      "Ensuring the legacy reaches the next generation through digital craftsmanship and uncompromising quality standards.",
+      "He is making sure our family legacy carries on, focusing on the same high quality while sharing our story with a new generation.",
     image: "/images/chef3.jpg",
   },
 ];
@@ -66,20 +66,17 @@ export default function Family() {
               className={`flex flex-col ${i === 1 ? "md:mt-8" : ""}`}
             >
               {/* Profile card featuring portrait and key designation */}
-              <Link
-                href="/menu"
-                className="bg-white rounded-2xl overflow-hidden shadow-sm border border-zinc-100 group cursor-pointer block"
+              <motion.div
+                whileHover={hoverScale}
+                className="bg-white rounded-2xl overflow-hidden shadow-sm border border-zinc-100 group cursor-pointer"
               >
-                <motion.div 
-                  whileHover={hoverScale}
-                  className="w-full h-full"
-                >
+                <Link href="/menu" className="block">
                   <div className="relative aspect-[4/5] w-full bg-[#F5EDE3]">
                     <Image
                       src={member.image}
                       alt={member.name}
                       fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      className="object-cover"
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />
                   </div>
@@ -92,8 +89,8 @@ export default function Family() {
                       {member.name}
                     </h3>
                   </div>
-                </motion.div>
-              </Link>
+                </Link>
+              </motion.div>
 
               {/* Contextual biography detailing their individual contribution to the legacy */}
               <p className="font-sans text-sm text-[#3E2F26] leading-relaxed mt-5 px-1">

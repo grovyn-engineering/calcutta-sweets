@@ -12,19 +12,19 @@ const steps = [
     icon: "🌅",
     title: "The Morning Curd",
     description:
-      "Each dawn, we receive fresh, full-cream curd-whole milk, split by hand to create the purest Chenna (curd) in Bengal.",
+      "Every morning, we get fresh full cream milk and split it by hand to make our own Chenna. It is the only way to get the texture just right.",
   },
   {
     icon: "🤲",
     title: "The Rhythmic Knead",
     description:
-      "Our master confectioners use the warmth of their palms to mould and refine. Rhythm is key. Machine mixing cannot replicate this.",
+      "Our makers shape every sweet by hand. You just cannot get that same soft delicate texture with a machine.",
   },
   {
     icon: "🍃",
     title: "The Gentle Poach",
     description:
-      "Each sphere is gently lowered in precisely timed oil or syrup till perfection. The precision that gives our confections their hallmark lightness.",
+      "We cook each batch in hot syrup or oil until it is perfectly light. It is all about timing it right to get that signature melt in your mouth feel.",
   },
 ];
 
@@ -44,7 +44,7 @@ export default function ArtOfCraft() {
         >
           <Image
             src="/images/ingredients.png"
-            alt="Hand-kneaded sweet preparation"
+            alt="Hand kneaded sweet preparation"
             fill
             className="object-cover transition-transform duration-1000 group-hover:scale-105"
             sizes="(max-width: 1024px) 100vw, 45vw"
@@ -63,7 +63,7 @@ export default function ArtOfCraft() {
               How We Make It
             </span>
             <h2 className="font-dm-serif text-[2.5rem] sm:text-[3rem] lg:text-[3.2rem] leading-[1.1] text-[#1A110A]">
-              The Art of Hand-Kneaded
+              The Art of Hand Kneaded
               <br />
               Perfection
             </h2>

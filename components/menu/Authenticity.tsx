@@ -33,7 +33,7 @@ export default function Authenticity() {
                   className="object-cover"
                   sizes="(max-width: 640px) 90vw, 380px"
                 />
-                <div className="absolute inset-0 bg-black/20" />
+                <div className="absolute inset-0 bg-brand-brown/20" />
               </div>
 
               {/* Complementary detailed inset with a soft entry reveal */}

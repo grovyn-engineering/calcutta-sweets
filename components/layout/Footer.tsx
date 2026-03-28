@@ -1,116 +1,120 @@
 "use client";
 
 import Link from "next/link";
-import { Twitter, Instagram, ChevronRight } from "lucide-react";
+import { Twitter, Instagram } from "lucide-react";
 
-/**
- * Footer component provides the primary navigational and contact hub for the application,
- * featuring brand identification, localized navigation, and seasonal newsletter subscription.
- */
+const exploreLinks = [
+  { href: "/menu", label: "Menu" },
+  { href: "/story", label: "Story" },
+  { href: "/visit-us", label: "Visit Us" },
+  { href: "/celebration", label: "Celebrations" },
+];
+
 export default function Footer() {
   return (
-    <footer className="w-full bg-[#1C0F07] pt-20 pb-8 px-8 md:px-12 lg:px-24 border-t border-white/5">
-      <div className="max-w-7xl mx-auto flex flex-col">
-        
-        {/* Core footer layout: distributing brand information, navigation, and engagement tools */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-20">
-          
-          {/* Brand summary: establishing legacy and social presence */}
-          <div className="lg:col-span-4 flex flex-col items-start">
-            <Link href="/" className="flex flex-col items-start gap-1 mb-6">
-              <span className="font-dm-serif text-white text-3xl leading-none tracking-wide">
-                কলকत्ता SWEETS
+    <footer className="w-full bg-[#1a1208] text-white">
+
+      {/* Top divider */}
+      <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+      {/* Main footer content */}
+      <div className="w-full px-6 sm:px-10 lg:px-16 py-14 sm:py-16 lg:py-20">
+
+    
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 sm:gap-8 lg:gap-0 lg:justify-between lg:[&>*]:flex-1">
+
+          <div className="flex flex-col items-start">
+            {/* Logo */}
+            <div className="flex flex-col items-start gap-[6px] mb-5">
+              <span className="font-dm-serif text-white text-[32px] sm:text-[30px] lg:text-[36px] leading-none tracking-wide">
+                কলকত্তা SWEETS
               </span>
-              <span className="font-sans text-[10px] text-white/50 uppercase font-medium tracking-[0.2em] leading-none">
+              <span className="font-outfit text-[9px] sm:text-[9px] lg:text-[10px] text-white/40 uppercase tracking-[0.3em] leading-none">
                 THE ART OF BENGALI MITHAI
               </span>
-            </Link>
-            <p className="font-sans text-white/60 text-sm leading-relaxed mb-8 max-w-xs">
+            </div>
+
+            <p className="font-outfit text-[14px] sm:text-[13px] lg:text-[14px] text-white/50 leading-relaxed max-w-[260px] mb-7">
               Bringing the legendary flavors of Bengal to the heart of Chhattisgarh since 2000.
             </p>
-            <div className="flex items-center gap-4">
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full border border-white/20 text-white hover:bg-white/10 transition-colors" aria-label="Twitter">
-                <Twitter className="w-4 h-4" />
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full border border-white/20 text-white hover:bg-white/10 transition-colors" aria-label="Instagram">
-                <Instagram className="w-4 h-4" />
-              </a>
-            </div>
-          </div>
 
-          {/* Primary site navigation organized for desktop and mobile discoverability */}
-          <div className="lg:col-span-2 flex flex-col">
-            <h4 className="font-dm-serif text-white text-xl mb-6">Explore</h4>
-            <div className="flex flex-col gap-4">
-              {[
-                { name: 'Menu', href: '/menu' },
-                { name: 'Story', href: '/story' },
-                { name: 'Visit Us', href: '/visit-us' },
-                { name: 'Celebrations', href: '/celebration' }
-              ].map((link) => (
-                <Link key={link.name} href={link.href} className="font-sans text-white/60 text-sm hover:text-white transition-colors w-fit">
-                  {link.name}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Physical presence and direct contact information */}
-          <div className="lg:col-span-3 flex flex-col">
-            <h4 className="font-dm-serif text-white text-xl mb-6">Visit Us</h4>
-            <div className="flex flex-col gap-4 font-sans text-white/60 text-sm leading-relaxed">
-              <p>
-                Main Road, Tatibandh,<br />
-                Raipur, Chhattisgarh<br />
-                492001
-              </p>
-              <p className="mt-2">+91 98765 43210</p>
-              <p>Open Daily: 9 AM - 10 PM</p>
-            </div>
-          </div>
-
-          {/* Engagement: Seasonal newsletter and promotional updates */}
-          <div className="lg:col-span-3 flex flex-col">
-            <h4 className="font-dm-serif text-white text-xl mb-6">Stay Sweet.</h4>
-            <p className="font-sans text-white/60 text-sm mb-6">
-              Join our list for seasonal specials.
-            </p>
-            <form className="flex items-center gap-2" onSubmit={(e) => e.preventDefault()}>
-              <input 
-                type="email" 
-                placeholder="Email address" 
-                className="flex-1 bg-white/5 border border-white/10 rounded-full px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-white/30 focus:bg-white/10 transition-colors"
-                required
-              />
-              <button 
-                type="submit" 
-                className="p-2.5 rounded-full bg-[#3D2B1F] border border-white/10 text-white hover:bg-[#4A3525] transition-colors flex-shrink-0"
-                aria-label="Subscribe"
+            <div className="flex items-center gap-3">
+              <a
+                href="#"
+                aria-label="Twitter"
+                className="w-8 h-8 rounded-full border border-white/15 flex items-center justify-center text-white/50 hover:text-white hover:border-white/40 transition-all duration-200"
               >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </form>
+                <Twitter className="w-3.5 h-3.5" strokeWidth={1.8} />
+              </a>
+              <a
+                href="#"
+                aria-label="Instagram"
+                className="w-8 h-8 rounded-full border border-white/15 flex items-center justify-center text-white/50 hover:text-white hover:border-white/40 transition-all duration-200"
+              >
+                <Instagram className="w-3.5 h-3.5" strokeWidth={1.8} />
+              </a>
+            </div>
+          </div>
+
+          <div className="flex flex-col items-start lg:items-center lg:justify-self-center">
+            <h3 className="font-dm-serif text-white text-[22px] sm:text-[20px] lg:text-[24px] tracking-[0.04em] mb-5">
+              Explore
+            </h3>
+            <ul className="flex flex-row flex-wrap items-center gap-x-5 gap-y-2">
+              {exploreLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="font-outfit text-[14px] text-white/55 hover:text-white/90 transition-colors duration-200"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="flex flex-col items-start lg:items-center lg:justify-self-center">
+            <h3 className="font-dm-serif text-white text-[22px] sm:text-[20px] lg:text-[24px] tracking-[0.04em] mb-5">
+              Visit Us
+            </h3>
+            <p className="font-outfit text-[14px] text-white/55 leading-relaxed lg:text-center">
+              Main Road, Tatibandh, Raipur, Chhattisgarh 492001
+              <span className="mx-2 text-white/25">|</span>
+              Open Daily: 9 AM – 10 PM
+            </p>
+          </div>
+
+          <div className="flex flex-col items-start lg:items-end lg:justify-self-end">
+            <h3 className="font-dm-serif text-white text-[22px] sm:text-[20px] lg:text-[24px] tracking-[0.04em] mb-5 w-full text-left lg:text-center">
+              Contact Us
+            </h3>
+            <div className="flex flex-col items-start lg:items-center gap-2 w-full">
+              <a
+                href="mailto:calcuttasweets@example.com"
+                className="font-outfit text-[14px] text-white/55 hover:text-white/90 transition-colors duration-200 text-left lg:text-center"
+              >
+                calcuttasweets@example.com
+              </a>
+              <p className="font-outfit text-[14px] text-white/55 text-left lg:text-center">
+                +91 99930 60082
+              </p>
+            </div>
           </div>
 
         </div>
-
-        {/* Global metadata, legal links, and localized attribution */}
-        <div className="w-full pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-6 font-sans text-xs text-white/40">
-            <Link href="#" className="hover:text-white/80 transition-colors">Privacy Policy</Link>
-            <Link href="#" className="hover:text-white/80 transition-colors">Terms of Service</Link>
-          </div>
-          
-          <p className="font-sans text-xs text-white/40">
-            © 2026 Calcutta Sweets. All rights reserved
-          </p>
-
-          <p className="font-sans text-xs text-white/40">
-            Designed with love in Raipur.
-          </p>
-        </div>
-
       </div>
+
+      {/* Bottom bar */}
+      <div className="w-full px-6 sm:px-10 lg:px-16 py-5 border-t border-white/[0.07] flex flex-col sm:flex-row items-center justify-between gap-2">
+        <p className="font-outfit text-[12px] text-white/25 tracking-wide">
+          © {new Date().getFullYear()} কলকত্তা Sweets. All rights reserved.
+        </p>
+        <p className="font-outfit text-[12px] text-white/20 tracking-wide">
+          Raipur, Chhattisgarh
+        </p>
+      </div>
+
     </footer>
   );
 }

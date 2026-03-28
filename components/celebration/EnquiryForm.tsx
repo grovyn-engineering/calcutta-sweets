@@ -39,11 +39,11 @@ export default function EnquiryForm() {
             </div>
             <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm">
               <Snowflake className="w-4 h-4 text-[#A67C46]" />
-              <span className="font-sans text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-white/80">Temp-Controlled</span>
+              <span className="font-sans text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-white/80">Temp Controlled</span>
             </div>
             <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm">
               <Leaf className="w-4 h-4 text-[#A67C46]" />
-              <span className="font-sans text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-white/80">100% Egg-Free</span>
+              <span className="font-sans text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-white/80">100% Egg Free</span>
             </div>
           </div>
         </motion.div>
@@ -80,7 +80,7 @@ export default function EnquiryForm() {
                 <input 
                   type="tel" 
                   id="phone" 
-                  placeholder="+91 98765 43210" 
+                  placeholder="+91 12345 67890" 
                   required
                   className="bg-transparent border-b border-[#D9D1C5] pb-2 text-sm text-[#3E2B1E] placeholder:text-[#3E2B1E]/40 focus:outline-none focus:border-[#A67C46] transition-colors"
                 />

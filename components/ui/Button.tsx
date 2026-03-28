@@ -6,7 +6,7 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 
 export default function Button({ children, ...props }: ButtonProps) {
   return (
-    <button className="px-4 py-2 bg-black text-white rounded" {...props}>
+    <button className="px-4 py-2 bg-brand-brown text-white rounded" {...props}>
       {children}
     </button>
   );

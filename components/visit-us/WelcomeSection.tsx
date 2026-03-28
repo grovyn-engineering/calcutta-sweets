@@ -21,14 +21,14 @@ export default function WelcomeSection() {
             Welcome You.
           </h2>
           <p className="font-sans text-sm sm:text-base text-[#5A4F44] leading-relaxed max-w-md mb-12">
-            Whether you&apos;re picking up a box of Sondesh for a celebration or just stopping by for your morning Roshogolla — our doors have been open since 1947 and will stay that way.
+            Whether you are grabbing a box of Sandesh for a party or just dropping by for a morning Rosogolla, we are always here. We have been serving Raipur since 2000, and our doors are always open.
           </p>
 
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-full overflow-hidden bg-zinc-200 relative shrink-0">
               <Image
-                src="/images/chef1.jpg"
-                alt="Mr. Antony"
+                src="/images/chef3.jpg"
+                alt="Aloke Bera"
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 48px, 48px"
@@ -36,10 +36,10 @@ export default function WelcomeSection() {
             </div>
             <div className="flex flex-col">
               <span className="font-sans font-bold text-sm text-[#3E2B1E]">
-                Mr. Antony
+                Aloke Bera
               </span>
               <span className="font-sans text-xs text-[#5A4F44]">
-                Store Manager, Raipur Branch
+                Owner, Calcutta Sweets
               </span>
             </div>
           </div>
@@ -78,7 +78,7 @@ export default function WelcomeSection() {
           {/* Call Us Card */}
           <motion.a 
             variants={fadeUp}
-            href="tel:+917714052300" className="flex items-center justify-between w-full text-left p-4 sm:p-5 pr-6 sm:pr-8 rounded-full bg-white/40 backdrop-blur-md border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:bg-white/50 transition-all duration-300 group"
+            href="tel:+919993060082" className="flex items-center justify-between w-full text-left p-4 sm:p-5 pr-6 sm:pr-8 rounded-full bg-white/40 backdrop-blur-md border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:bg-white/50 transition-all duration-300 group"
           >
             <div className="flex items-center gap-5 sm:gap-6">
               <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#F0EBE0] flex items-center justify-center shrink-0">
@@ -89,7 +89,7 @@ export default function WelcomeSection() {
                   CALL US
                 </span>
                 <span className="font-serif text-lg sm:text-xl text-[#534031]">
-                  +91 771-4052300
+                  +91 99930 60082
                 </span>
               </div>
             </div>
