@@ -1,8 +1,7 @@
 import { Product } from "./types";
 
 /**
- * Mock data representing the initial product catalog.
- * In production, this data would be fetched from a database.
+ * Mock data
  */
 export const mockProducts: Product[] = [
   {
@@ -165,13 +164,13 @@ export const mockProducts: Product[] = [
 ];
 
 /**
- * Artificial delay to simulate network latency for API-like behavior.
+ * Artificial delay
  */
 const delay = (ms: number = 200): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
 /**
- * Returns all products currently available in the mock database.
+ * Returns all products.
  */
 export async function getAllProducts(): Promise<Product[]> {
   await delay();
@@ -179,7 +178,7 @@ export async function getAllProducts(): Promise<Product[]> {
 }
 
 /**
- * Retrieves a single product by its unique ID.
+ * Retrieves a single product.
  */
 export async function getProductById(id: string): Promise<Product | null> {
   await delay();
@@ -187,7 +186,7 @@ export async function getProductById(id: string): Promise<Product | null> {
 }
 
 /**
- * Filters the product list to return only those in a specific category.
+ * Filters the product list.
  */
 export async function getProductsByCategory(
   category: string
@@ -199,7 +198,7 @@ export async function getProductsByCategory(
 }
 
 /**
- * Searches product names and descriptions for a keyword.
+ * Searches product names and descriptions.
  */
 export async function searchProducts(query: string): Promise<Product[]> {
   await delay();
@@ -212,7 +211,7 @@ export async function searchProducts(query: string): Promise<Product[]> {
 }
 
 /**
- * Returns products that are marked as active for display.
+ * Returns products that are marked as active.
  */
 export async function getActiveProducts(): Promise<Product[]> {
   await delay();

@@ -5,7 +5,7 @@ import EnquiryForm from "@/components/celebration/EnquiryForm";
 
 export default function Page() {
   return (
-    <main className="min-h-screen bg-[#FAF5F0] overflow-x-hidden">
+    <main className="relative min-h-screen bg-[#FAF5F0] overflow-x-hidden">
       <Hero />
       <Occasions />
       <Process />

@@ -4,9 +4,6 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "@/lib/animations";
 
-/**
- * Sequential steps of the traditional manufacturing process.
- */
 const steps = [
   {
     icon: "🌅",
@@ -28,17 +25,12 @@ const steps = [
   },
 ];
 
-/**
- * ArtOfCraft component details the artisanal process of sweet making,
- * combining visual storytelling with a step-by-step narrative.
- */
 export default function ArtOfCraft() {
   return (
     <section className="w-full px-6 sm:px-10 md:px-16 lg:px-24 py-16 md:py-20 bg-white">
       <div className="max-w-[1200px] mx-auto flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
-        
-        {/* Visual representation of the craft with subtle entrance scale */}
-        <motion.div 
+
+        <motion.div
           {...fadeUp}
           className="w-full lg:w-[45%] relative aspect-[3/2] rounded-[2rem] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.06)] shrink-0 group"
         >
@@ -51,11 +43,9 @@ export default function ArtOfCraft() {
           />
         </motion.div>
 
-        {/* Narrative content explaining the "Hand-Kneaded" philosophy */}
         <div className="w-full lg:w-[55%] flex flex-col gap-6">
-          
-          {/* Section introduction and high-level focus */}
-          <motion.div 
+
+          <motion.div
             {...fadeUp}
             className="flex flex-col gap-3"
           >
@@ -69,8 +59,7 @@ export default function ArtOfCraft() {
             </h2>
           </motion.div>
 
-          {/* Staggered process steps showing the sequential journey of the craft */}
-          <motion.div 
+          <motion.div
             variants={staggerContainer}
             initial="initial"
             whileInView="whileInView"
@@ -78,25 +67,21 @@ export default function ArtOfCraft() {
             className="flex flex-col mt-4"
           >
             {steps.map((step, i) => (
-              <motion.div 
-                key={i} 
+              <motion.div
+                key={i}
                 variants={fadeUp}
                 className="flex gap-7 sm:gap-9"
               >
-                {/* Visual timeline indicator with numeric step count */}
                 <div className="flex flex-col items-center">
                   <div className="shrink-0 w-11 h-11 bg-white rounded-full border-[2px] border-[#A87948] flex items-center justify-center shadow-sm z-10 transition-colors group-hover:bg-[#A87948] group-hover:text-white">
                     <span className="text-[#A87948] font-sans font-bold text-sm sm:text-base tracking-widest ml-px">
                       0{i + 1}
                     </span>
                   </div>
-                  {/* Decorative vertical thread connecting the steps */}
                   {i !== steps.length - 1 && (
                     <div className="w-[2px] flex-grow bg-[#E8DCD0] my-1" />
                   )}
                 </div>
-
-                {/* Detailed descriptions for each phase of the production */}
                 <div className={`flex flex-col gap-1.5 pt-1.5 ${i !== steps.length - 1 ? "pb-8 lg:pb-10" : ""}`}>
                   <h3 className="font-sans font-bold text-[16px] xl:text-[17px] text-[#2C241E] leading-tight transition-colors hover:text-[#A87948]">
                     {step.title}

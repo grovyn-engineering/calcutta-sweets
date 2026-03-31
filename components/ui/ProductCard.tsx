@@ -64,7 +64,6 @@ export default function ProductCard({
           {description}
         </p>
 
-        {/* Price + Order Button */}
         <div className="flex items-center justify-between mt-auto">
           <div className="flex items-baseline gap-1.5">
             <span className="font-dm-serif text-lg text-[#3E2F26]">
