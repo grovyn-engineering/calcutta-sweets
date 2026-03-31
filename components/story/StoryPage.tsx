@@ -72,6 +72,7 @@ export default function StoryPage() {
                   fill
                   className="object-cover"
                   priority
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
 
@@ -83,6 +84,7 @@ export default function StoryPage() {
                     alt="Sweets"
                     fill
                     className="object-cover"
+                    sizes="(max-width: 1024px) 50vw, 25vw"
                   />
                 </div>
 
@@ -92,6 +94,7 @@ export default function StoryPage() {
                     alt="Dessert"
                     fill
                     className="object-cover"
+                    sizes="(max-width: 1024px) 50vw, 25vw"
                   />
                 </div>
               </div>
