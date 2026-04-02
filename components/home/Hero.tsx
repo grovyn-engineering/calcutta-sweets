@@ -48,7 +48,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative w-full pt-28 sm:pt-44 md:pt-60 overflow-hidden bg-[var(--background)]"
+      className="relative w-full pt-28 sm:pt-40 md:pt-60 overflow-hidden bg-[var(--background)]"
     >
       {/* Background typography */}
       <div className="absolute inset-0 z-0 flex items-center justify-center overflow-hidden">

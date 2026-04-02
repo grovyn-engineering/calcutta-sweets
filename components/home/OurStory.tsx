@@ -68,7 +68,7 @@ export default function OurStory() {
             </p>
 
             <div className="flex flex-wrap items-center gap-4">
-              <Link href="/story" className="px-8 py-3.5 rounded-full bg-[#C8773A] text-white font-sans font-medium text-sm hover:bg-[#b06832] hover:scale-105 active:scale-95 transition-all shadow-sm">
+              <Link href="/visit-us#find-us" className="px-8 py-3.5 rounded-full bg-[#C8773A] text-white font-sans font-medium text-sm hover:bg-[#b06832] hover:scale-105 active:scale-95 transition-all shadow-sm">
                 Get the Recipe Book
               </Link>
               <Link href="/story" className="px-8 py-3.5 rounded-full border border-brand-brown/20 text-[#3D2B1F] font-sans font-medium text-sm hover:bg-brand-brown/5 hover:scale-105 active:scale-95 transition-all">
