@@ -8,10 +8,10 @@ import { fadeUp } from "@/lib/animations";
 import { preload } from "react-dom";
 
 const sweets = [
-  { name: "Sondesh", image: "/images/hero/sondeshhero.png", alt: "Assorted Sondesh – traditional Bengali milk sweets" },
-  { name: "Chamcham", image: "/images/hero/chamchamhero.png", alt: "Delicious Chamcham sweets" },
-  { name: "Malpua", image: "/images/hero/malpuahero.png", alt: "Golden brown Malpua dessert" },
-  { name: "Roshogulla", image: "/images/hero/roshogullahero.png", alt: "Spongy Roshogulla in sugar syrup" },
+  { name: "Sondesh", image: "/images/hero/sondesh.png", alt: "Assorted Sondesh – traditional Bengali milk sweets" },
+  { name: "Malpua", image: "/images/hero/malpua2.png", alt: "Golden brown Malpua dessert" },
+  { name: "Roshogulla", image: "/images/hero/roshogulla.png", alt: "Spongy Roshogulla in sugar syrup" },
+  { name: "Chamcham", image: "/images/hero/chamcham.png", alt: "Delicious Chamcham sweets" },
 ];
 
 export default function Hero() {
@@ -19,14 +19,12 @@ export default function Hero() {
 
   useEffect(() => {
     const isFirstVisit = !sessionStorage.getItem("hero-first-visited");
-
     let timer: NodeJS.Timeout;
 
     if (isFirstVisit) {
       timer = setTimeout(() => {
         setCurrentIndex(1);
         sessionStorage.setItem("hero-first-visited", "true");
-
         startNormalLoop();
       }, 8000);
     } else {
@@ -39,7 +37,6 @@ export default function Hero() {
       }, 4000);
     }
 
-
     return () => clearInterval(timer);
   }, []);
 
@@ -48,7 +45,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative w-full pt-28 sm:pt-40 md:pt-60 overflow-hidden bg-[var(--background)]"
+      className="relative w-full pt-28 sm:pt-44 md:pt-60 overflow-hidden bg-[var(--background)] lg:h-screen lg:max-h-screen lg:flex lg:flex-col"
     >
       {/* Background typography */}
       <div className="absolute inset-0 z-0 flex items-center justify-center overflow-hidden">
@@ -59,7 +56,7 @@ export default function Hero() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "-100%" }}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute inset-x-0 text-center top-[16%] lg:top-[10%] select-none pointer-events-none z-0 font-dm-serif font-normal text-foreground tracking-wide"
+            className="absolute inset-x-0 text-center top-[16%] lg:top-[16%] select-none pointer-events-none z-0 font-dm-serif font-normal text-foreground tracking-wide"
             style={{
               fontSize: "clamp(4rem, 11vw, 13rem)",
               lineHeight: 1,
@@ -72,7 +69,7 @@ export default function Hero() {
       </div>
 
       {/* Main container */}
-      <div className="relative z-10 w-full aspect-video overflow-hidden">
+      <div className="relative z-10 w-full aspect-video lg:aspect-auto lg:flex-1 lg:min-h-0 overflow-hidden">
         {sweets.map((sweet, index) => (
           <div
             key={sweet.name}
@@ -85,9 +82,9 @@ export default function Hero() {
               fill
               priority={index === 0}
               sizes="100vw"
-              className="object-cover drop-shadow-2xl"
+              className="object-cover object-top drop-shadow-2xl"
             />
-            <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[var(--background)] to-transparent" />
+            <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[var(--background)] to-transparent lg:hidden" />
           </div>
         ))}
 
