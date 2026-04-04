@@ -9,7 +9,7 @@ import { preload } from "react-dom";
 
 const sweets = [
   { name: "Sondesh", image: "/images/hero/sondesh.png", alt: "Assorted Sondesh – traditional Bengali milk sweets" },
-  { name: "Malpua", image: "/images/hero/malpua2.png", alt: "Golden brown Malpua dessert" },
+  { name: "Malpua", image: "/images/hero/malpua.png", alt: "Golden brown Malpua dessert" },
   { name: "Roshogulla", image: "/images/hero/roshogulla.png", alt: "Spongy Roshogulla in sugar syrup" },
   { name: "Chamcham", image: "/images/hero/chamcham.png", alt: "Delicious Chamcham sweets" },
 ];
