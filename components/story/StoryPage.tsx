@@ -13,11 +13,9 @@ export default function StoryPage() {
   return (
     <main className="min-h-screen bg-[#FEF7F2] overflow-x-hidden">
 
-      {/* HERO SECTION */}
       <section className="relative w-full bg-[#F5EDE6] px-6 sm:px-10 lg:px-16 xl:px-24 pt-28 sm:pt-32 lg:pt-36 pb-16">
         <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
 
-          {/* LEFT CONTENT */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
@@ -55,7 +53,6 @@ export default function StoryPage() {
             </div>
           </motion.div>
 
-          {/* RIGHT IMAGE LAYOUT */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
@@ -64,18 +61,17 @@ export default function StoryPage() {
           >
             <div className="flex flex-col gap-3">
 
-              {/* TOP LARGE IMAGE */}
               <div className="relative w-full h-[240px] sm:h-[300px] lg:h-[320px] rounded-2xl overflow-hidden">
                 <Image
                   src="/images/sweet8.jpg"
                   alt="Rasgulla"
                   fill
                   className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   priority
                 />
               </div>
 
-              {/* BOTTOM TWO IMAGES */}
               <div className="grid grid-cols-2 gap-3">
                 <div className="relative w-full h-[140px] sm:h-[180px] rounded-2xl overflow-hidden">
                   <Image
@@ -83,6 +79,7 @@ export default function StoryPage() {
                     alt="Sweets"
                     fill
                     className="object-cover"
+                    sizes="(max-width: 768px) 50vw, 25vw"
                   />
                 </div>
 
@@ -92,6 +89,7 @@ export default function StoryPage() {
                     alt="Dessert"
                     fill
                     className="object-cover"
+                    sizes="(max-width: 768px) 50vw, 25vw"
                   />
                 </div>
               </div>
@@ -101,12 +99,11 @@ export default function StoryPage() {
         </div>
       </section>
 
-      {/* OTHER SECTIONS */}
       <ArtOfCraft />
       <Timeline />
       <Family />
-      <Quote />
       <GiftCTA />
+      <Quote />
 
     </main>
   );

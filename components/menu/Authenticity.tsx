@@ -5,18 +5,13 @@ import { Leaf, ScrollText } from "lucide-react";
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "@/lib/animations";
 
-/**
- * Authenticity component highlights the brand's commitment to traditional methods
- * and natural ingredients, using a distinct architectural visual style.
- */
 export default function Authenticity() {
   return (
     <section className="py-28 px-6 md:px-12 bg-[#FFFFFF] overflow-hidden">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center">
 
-          {/* Visual section: featuring a signature arched frame and inset detail circle */}
-          <motion.div 
+          <motion.div
             {...fadeUp}
             className="flex justify-center md:justify-start pb-20 md:pb-0"
           >
@@ -24,7 +19,6 @@ export default function Authenticity() {
               className="relative w-[280px] sm:w-[340px] md:w-[380px] h-[340px] sm:h-[400px] md:h-[460px] overflow-visible shadow-xl mx-auto md:mx-0 shrink-0"
               style={{ borderRadius: "200px 200px 0 0" }}
             >
-              {/* Primary archival image within the custom arched frame */}
               <div className="absolute inset-0 overflow-hidden" style={{ borderRadius: "200px 200px 0 0" }}>
                 <Image
                   src="/images/shopInterior.png"
@@ -36,8 +30,7 @@ export default function Authenticity() {
                 <div className="absolute inset-0 bg-brand-brown/20" />
               </div>
 
-              {/* Complementary detailed inset with a soft entry reveal */}
-              <motion.div 
+              <motion.div
                 initial={{ scale: 0.8, opacity: 0, x: 20 }}
                 whileInView={{ scale: 1, opacity: 1, x: 0 }}
                 viewport={{ once: true }}
@@ -55,7 +48,6 @@ export default function Authenticity() {
             </div>
           </motion.div>
 
-          {/* Narrative content and core value propositions */}
           <div className="flex flex-col max-w-lg text-center md:text-left items-center md:items-start mt-8 md:mt-0">
             <motion.div {...fadeUp} className="flex flex-col items-center md:items-start">
               <span className="text-[11px] tracking-[0.35em] uppercase text-[#B47B2A] font-semibold mb-6">
@@ -74,8 +66,7 @@ export default function Authenticity() {
               </p>
             </motion.div>
 
-            {/* Staggered feature list highlighting key operational pillars */}
-            <motion.div 
+            <motion.div
               variants={staggerContainer}
               initial="initial"
               whileInView="whileInView"
