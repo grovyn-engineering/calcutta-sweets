@@ -11,62 +11,44 @@ import { getAllProducts } from "@/lib/products";
 import { Product } from "@/lib/types";
 import Image from "next/image";
 
-/**
- * Available taxonomy for filtering products in the menu.
- */
 const categories = ["All category", "Chena", "Fried", "Dessert", "Baked", "Signatures"];
 
-/**
- * MenuPage component serves as the primary catalog for the brand,
- * offering category-based filtering and a responsive product showcase.
- */
 export default function MenuPage() {
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get("category") || "All category";
-  
+
   const [products, setProducts] = useState<Product[]>([]);
   const [activeCategory, setActiveCategory] = useState(initialCategory);
   const [isLoading, setIsLoading] = useState(true);
   const [showAll, setShowAll] = useState(false);
 
-  // State reset handled in onClick to avoid cascading renders
-
-  // Synchronize product data from the localized data layer
   useEffect(() => {
     getAllProducts()
       .then(setProducts)
       .finally(() => setIsLoading(false));
   }, []);
 
-  // Filter application logic based on the current selection in the navigation UI
   const filteredItems =
     activeCategory === "All category"
       ? products
       : activeCategory === "Signatures"
-      ? products.filter((item) => item.isSignature)
-      : products.filter((item) => item.category === activeCategory);
+        ? products.filter((item) => item.isSignature)
+        : products.filter((item) => item.category === activeCategory);
 
   return (
     <main className="pt-20 sm:pt-24 md:pt-28 pb-12 sm:pb-20">
-      
-      {/* High-level heading and category-based navigation triggers */}
-      <section className="text-center mb-12 relative">
-        {/* Decorative accents providing subtle visual depth to the header */}
-        <div className="flex items-center justify-center gap-4 sm:gap-6">
 
-          {/* LEFT SIDE */}
+      <section className="text-center mb-12 relative">
+        <div className="flex items-center justify-center gap-4 sm:gap-6">
           <div className="flex items-center gap-2">
             <div className="h-[1px] w-16 sm:w-32 bg-gradient-to-r from-transparent via-[#9B6E2C]/80 to-[#9B6E2C]" />
             <div className="w-1.5 h-1.5 rounded-full bg-[#9B6E2C]" />
             <div className="w-2 h-2 rounded-full bg-[#9B6E2C]" />
           </div>
 
-          {/* HEADING */}
           <h1 className="font-dm-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-[#3E2F26] whitespace-nowrap">
             Menu
           </h1>
-
-          {/* RIGHT SIDE */}
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-[#9B6E2C]" />
             <div className="w-1.5 h-1.5 rounded-full bg-[#9B6E2C]" />
@@ -75,7 +57,6 @@ export default function MenuPage() {
 
         </div>
 
-        {/* Dynamic filter bar with active state tracking */}
         <div className="flex items-center justify-center gap-2 sm:gap-3 mt-6 sm:mt-8 flex-wrap px-4">
           {categories.map((category) => (
             <button
@@ -95,7 +76,6 @@ export default function MenuPage() {
         </div>
       </section>
 
-      {/* Primary catalog grid: renders product cards or empty/loading states */}
       <section className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 mb-12 md:mb-16">
         {isLoading ? (
           <div className="text-center py-20">
@@ -118,7 +98,6 @@ export default function MenuPage() {
           </div>
         )}
 
-        {/* Dynamic card visibility toggle button */}
         {!isLoading && filteredItems.length > 6 && (
           <div className="flex justify-center mt-8 sm:mt-10">
             <button
@@ -135,7 +114,6 @@ export default function MenuPage() {
           </div>
         )}
 
-        {/* Fallback messaging for empty filter results */}
         {!isLoading && filteredItems.length === 0 && (
           <div className="text-center py-20">
             <p className="font-sans text-zinc-400 text-lg">
@@ -145,7 +123,6 @@ export default function MenuPage() {
         )}
       </section>
 
-      {/* Contextual brand value and catering opportunities */}
       <Authenticity />
       <SpecialOffers />
       <CateringCTA />

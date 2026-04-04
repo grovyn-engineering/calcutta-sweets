@@ -1,9 +1,3 @@
-/**
- * Product type definition — mirrors the Prisma `Product` model.
- *
- * When the backend is connected, this interface should stay in sync
- * with the Prisma-generated types (or be replaced by them entirely).
- */
 export interface Product {
   id: string;
   name: string;

@@ -5,9 +5,6 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer, hoverScale } from "@/lib/animations";
 
-/**
- * Key historical figures and leadership of the brand.
- */
 const familyMembers = [
   {
     name: "CHEF 1",
@@ -32,16 +29,11 @@ const familyMembers = [
   },
 ];
 
-/**
- * Family component introduces the key personalities behind the brand's heritage,
- * using a refined card grid with staggered reveal animations.
- */
 export default function Family() {
   return (
     <section className="w-full px-6 sm:px-10 md:px-16 lg:px-24 py-12 md:py-16 bg-white">
       <div className="max-w-6xl mx-auto">
-        
-        {/* Narrative-style section headline with grounding accent line */}
+
         <motion.div {...fadeUp}>
           <h2 className="font-dm-serif text-3xl sm:text-4xl md:text-5xl text-[#3E2F26] text-center mb-4 leading-tight">
             Three Generations, One
@@ -51,8 +43,7 @@ export default function Family() {
           <div className="w-16 h-0.5 bg-[#C8773A] mx-auto mb-10 md:mb-14" />
         </motion.div>
 
-        {/* Responsive generational grid with deliberate vertical pacing */}
-        <motion.div 
+        <motion.div
           variants={staggerContainer}
           initial="initial"
           whileInView="whileInView"
@@ -65,7 +56,6 @@ export default function Family() {
               variants={fadeUp}
               className={`flex flex-col ${i === 1 ? "md:mt-8" : ""}`}
             >
-              {/* Profile card featuring portrait and key designation */}
               <motion.div
                 whileHover={hoverScale}
                 className="bg-white rounded-2xl overflow-hidden shadow-sm border border-zinc-100 group cursor-pointer"
@@ -92,7 +82,6 @@ export default function Family() {
                 </Link>
               </motion.div>
 
-              {/* Contextual biography detailing their individual contribution to the legacy */}
               <p className="font-sans text-sm text-[#3E2F26] leading-relaxed mt-5 px-1">
                 {member.description}
               </p>

@@ -19,31 +19,50 @@ export default function Navbar() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => {
-      const hero = document.getElementById("hero");
-      const threshold = hero ? hero.offsetHeight - 80 : 64;
-      setIsScrolled(window.scrollY > threshold);
+    const hero = document.getElementById("hero");
+
+    // Fallback 
+    if (!hero) {
+      const handleScrollFallback = () => {
+        const overThreshold = window.scrollY > 60;
+        setIsScrolled((prev) => (prev !== overThreshold ? overThreshold : prev));
+      };
+      window.addEventListener("scroll", handleScrollFallback, { passive: true });
+      handleScrollFallback();
+      return () => window.removeEventListener("scroll", handleScrollFallback);
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const overThreshold = !entry.isIntersecting;
+        setIsScrolled((prev) => (prev !== overThreshold ? overThreshold : prev));
+      },
+      {
+        root: null,
+        threshold: 0,
+        rootMargin: "-80px 0px 0px 0px",
+      }
+    );
+
+    observer.observe(hero);
+
+    return () => {
+      observer.disconnect();
     };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [pathname]);
 
   return (
     <>
       {/* Navbar */}
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isScrolled
-            ? "bg-white/80 backdrop-blur-lg shadow-[0_1px_0_0_rgba(0,0,0,0.06),0_8px_24px_rgba(0,0,0,0.04)]"
-            : "bg-transparent"
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
+          ? "bg-white/80 backdrop-blur-lg shadow-[0_1px_0_0_rgba(0,0,0,0.06),0_8px_24px_rgba(0,0,0,0.04)]"
+          : "bg-transparent"
+          }`}
       >
         <div className="w-full px-4 sm:px-6 lg:px-10 h-16 sm:h-[72px] flex items-center">
 
-          {/* Logo (LEFT) */}
+          {/* Logo*/}
           <Link
             href="/"
             className="flex flex-col items-start gap-[3px] group"
@@ -56,7 +75,7 @@ export default function Navbar() {
             </span>
           </Link>
 
-          {/* RIGHT SIDE (fixes awkward gap) */}
+          {/* RIGHT SIDE*/}
           <div className="ml-auto flex items-center">
 
             {/* Desktop Nav */}
@@ -72,19 +91,16 @@ export default function Navbar() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`relative font-sans text-[14px] px-2 py-1 transition-all duration-200 ${
-                      trulyActive
-                        ? "font-semibold text-[#A67C46]"
-                        : "font-medium text-brand-brown hover:text-[#A67C46]"
-                    }`}
+                    className={`relative font-sans text-[14px] px-2 py-1 transition-all duration-200 ${trulyActive
+                      ? "font-semibold text-[#A67C46]"
+                      : "font-medium text-brand-brown hover:text-[#A67C46]"
+                      }`}
                   >
                     {link.label}
 
-                    {/* Thin underline */}
                     <span
-                      className={`absolute left-1/2 -translate-x-1/2 bottom-[-2px] h-[1px] bg-[#A67C46] transition-all duration-300 ${
-                        trulyActive ? "w-[60%] opacity-100" : "w-0 opacity-0"
-                      }`}
+                      className={`absolute left-1/2 -translate-x-1/2 bottom-[-2px] h-[1px] bg-[#A67C46] transition-all duration-300 ${trulyActive ? "w-[60%] opacity-100" : "w-0 opacity-0"
+                        }`}
                     />
                   </Link>
                 );
@@ -104,19 +120,17 @@ export default function Navbar() {
 
         {/* Bottom border */}
         <div
-          className={`absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#A67C46]/15 to-transparent transition-opacity duration-500 ${
-            isScrolled ? "opacity-100" : "opacity-0"
-          }`}
+          className={`absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#A67C46]/15 to-transparent transition-opacity duration-500 ${isScrolled ? "opacity-100" : "opacity-0"
+            }`}
         />
       </nav>
 
       {/* Mobile Menu */}
       <div
-        className={`fixed inset-0 z-[100] md:hidden transition-all duration-300 ${
-          mobileOpen
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
-        }`}
+        className={`fixed inset-0 z-[100] lg:hidden transition-all duration-300 ${mobileOpen
+          ? "opacity-100 pointer-events-auto"
+          : "opacity-0 pointer-events-none"
+          }`}
       >
         <div
           className="absolute inset-0 bg-white/90 backdrop-blur-2xl"
@@ -148,13 +162,11 @@ export default function Navbar() {
               href={link.href}
               onClick={() => setMobileOpen(false)}
               style={{ transitionDelay: mobileOpen ? `${i * 40}ms` : "0ms" }}
-              className={`font-dm-serif text-[40px] leading-tight tracking-tight transition-all duration-300 ${
-                mobileOpen ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
-              } ${
-                pathname === link.href
+              className={`font-dm-serif text-[40px] leading-tight tracking-tight transition-all duration-300 ${mobileOpen ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
+                } ${pathname === link.href
                   ? "text-[#A67C46]"
                   : "text-brand-brown hover:text-[#A67C46]/80"
-              }`}
+                }`}
             >
               {link.label}
             </Link>

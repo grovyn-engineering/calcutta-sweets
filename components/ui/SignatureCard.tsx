@@ -11,9 +11,6 @@ interface SignatureCardProps {
   className?: string;
 }
 
-/**
- * Individual signature sweet card with high-fidelity hover interactions and reveal overlays.
- */
 export default function SignatureCard({ sweet, className }: SignatureCardProps) {
   return (
     <motion.div
@@ -22,7 +19,6 @@ export default function SignatureCard({ sweet, className }: SignatureCardProps) 
       className={`relative w-full rounded-[2.5rem] overflow-hidden group cursor-pointer shadow-sm block ${className}`}
     >
       <Link href={`/menu`} className="block w-full h-full relative">
-        {/* Background product image with subtle scale transition */}
         <Image
           src={sweet.imageUrl || "/images/chamcham.png"}
           alt={sweet.name}
@@ -31,7 +27,6 @@ export default function SignatureCard({ sweet, className }: SignatureCardProps) 
           sizes="(max-width: 1024px) 100vw, 33vw"
         />
 
-        {/* Informational overlay: reveals title and description on hover */}
         <div className="absolute inset-0 bg-linear-to-t from-[#1F110B]/95 via-[#1F110B]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8 sm:p-10 z-10">
           <div className="flex items-end justify-between translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out">
             <div className="flex flex-col gap-2">
@@ -42,7 +37,6 @@ export default function SignatureCard({ sweet, className }: SignatureCardProps) 
                 {sweet.description || "Freshly Crafted Bengali Delicacy."}
               </p>
             </div>
-            {/* Interactive indicator arrow */}
             <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shrink-0 shadow-xl transition-colors hover:bg-white hover:text-[#3E2F26]">
               ❯
             </div>

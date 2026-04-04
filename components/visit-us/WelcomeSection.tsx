@@ -9,9 +9,8 @@ export default function WelcomeSection() {
   return (
     <section className="w-full bg-[#FAF5F0] px-4 md:px-8 lg:px-12 py-20 pb-32">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-        
-        {/* Left Side: Welcome Text & Profile */}
-        <motion.div 
+
+        <motion.div
           {...fadeUp}
           className="flex flex-col"
         >
@@ -45,17 +44,15 @@ export default function WelcomeSection() {
           </div>
         </motion.div>
 
-        {/* Right Side: Info Cards */}
-        <motion.div 
+        <motion.div
           variants={staggerContainer}
           initial="initial"
           whileInView="whileInView"
           viewport={staggerContainer.viewport}
           className="flex flex-col gap-6"
         >
-          
-          {/* Location Card */}
-          <motion.a 
+
+          <motion.a
             variants={fadeUp}
             href="https://www.google.com/maps/dir/?api=1&destination=Calcutta+Sweets+Tatibandh+Raipur" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between w-full text-left p-4 sm:p-5 pr-6 sm:pr-8 rounded-full bg-white/40 backdrop-blur-md border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:bg-white/50 transition-all duration-300 group"
           >
@@ -75,8 +72,7 @@ export default function WelcomeSection() {
             <ChevronRight className="w-6 h-6 sm:w-7 sm:h-7 text-[#8B7563] group-hover:translate-x-1 transition-transform" />
           </motion.a>
 
-          {/* Call Us Card */}
-          <motion.a 
+          <motion.a
             variants={fadeUp}
             href="tel:+919993060082" className="flex items-center justify-between w-full text-left p-4 sm:p-5 pr-6 sm:pr-8 rounded-full bg-white/40 backdrop-blur-md border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:bg-white/50 transition-all duration-300 group"
           >
@@ -96,8 +92,7 @@ export default function WelcomeSection() {
             <ChevronRight className="w-6 h-6 sm:w-7 sm:h-7 text-[#8B7563] group-hover:translate-x-1 transition-transform" />
           </motion.a>
 
-          {/* Hours Card */}
-          <motion.div 
+          <motion.div
             variants={fadeUp}
             className="flex items-center justify-between w-full text-left p-4 sm:p-5 pr-6 sm:pr-8 rounded-full bg-white/40 backdrop-blur-md border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:bg-white/50 transition-all duration-300 group"
           >

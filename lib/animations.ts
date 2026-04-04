@@ -2,12 +2,12 @@ import { motion } from "framer-motion";
 
 export const fadeUp = {
   initial: { opacity: 0, y: 30 },
-  whileInView: { 
-    opacity: 1, 
+  whileInView: {
+    opacity: 1,
     y: 0,
     transition: {
       duration: 0.8,
-      ease: [0.16, 1, 0.3, 1] as const, // Custom cubic-bezier for "premium" feel
+      ease: [0.16, 1, 0.3, 1] as const,
     }
   },
   viewport: { once: true, margin: "-100px" }
@@ -25,24 +25,24 @@ export const staggerContainer = {
 
 export const hoverScale = {
   scale: 1.03,
-  transition: { 
-    duration: 0.4, 
+  transition: {
+    duration: 0.4,
     ease: "easeOut" as const
   }
 };
 
 export const hoverLift = {
   y: -4,
-  transition: { 
-    duration: 0.3, 
+  transition: {
+    duration: 0.3,
     ease: "easeOut" as const
   }
 };
 
 export const imageReveal = {
   initial: { scale: 1.1, opacity: 0 },
-  animate: { 
-    scale: 1, 
+  animate: {
+    scale: 1,
     opacity: 1,
     transition: {
       duration: 1.2,
@@ -51,4 +51,3 @@ export const imageReveal = {
   }
 };
 
-// No component exports here to keep it server-importable
