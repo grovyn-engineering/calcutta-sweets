@@ -20,6 +20,9 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "Calcutta Sweets",
   description: "Authentic Bengali Mithai in Raipur",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
