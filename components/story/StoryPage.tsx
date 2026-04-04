@@ -69,7 +69,6 @@ export default function StoryPage() {
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, 50vw"
                   priority
-                  sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
 
