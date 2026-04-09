@@ -55,7 +55,7 @@ export default function IntroSplash() {
               ease: [0.76, 0, 0.24, 1],
             },
           }}
-          className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden px-4 sm:px-6 md:px-8"
+          className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden"
           style={{
             background:
               "radial-gradient(circle at 50% 38%, #F8F3ED 0%, #F5EDE6 45%, #ECE0D3 100%)",
@@ -89,7 +89,7 @@ export default function IntroSplash() {
             ))}
           </div>
 
-          <div className="relative flex flex-col items-center text-center w-full max-w-full">
+          <div className="relative flex flex-col items-center text-center w-full px-8 sm:px-12">
 
             <motion.div
               initial={{ x: "-150%", opacity: 0 }}
@@ -105,31 +105,26 @@ export default function IntroSplash() {
               className="absolute inset-0 bg-gradient-to-r from-transparent via-[#D6B97B]/40 to-transparent blur-3xl will-change-transform"
             />
 
-            {/* TEXT */}
-            <h1 className="font-dm-serif text-[2.8rem] sm:text-7xl md:text-8xl lg:text-9xl tracking-[0.14em] text-center flex flex-wrap justify-center">
+            <h1
+              className="font-dm-serif tracking-[0.14em] whitespace-nowrap leading-none"
+              style={{
+                fontSize: "clamp(1.5rem, 8.5vw, 9rem)",
+              }}
+            >
               {letters.map((char, i) => (
                 <motion.span
                   key={i}
-                  initial={{
-                    opacity: 0,
-                    y: 50,
-                    scale: 0.96,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                    scale: 1,
-                  }}
+                  initial={{ opacity: 0, y: 50, scale: 0.96 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{
                     delay: 0.5 + i * 0.045,
                     duration: 1.1,
                     ease: [0.16, 1, 0.3, 1],
                   }}
-                  className="will-change-transform"
+                  className="inline-block will-change-transform"
                   style={{
                     color: "#3E2F26",
                     textShadow: "0 2px 20px rgba(62,47,38,0.08)",
-                    filter: "blur(0px)",
                   }}
                 >
                   {char === " " ? "\u00A0" : char}
@@ -150,7 +145,7 @@ export default function IntroSplash() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 0.5, y: 0 }}
               transition={{ delay: 1.8, duration: 1 }}
-              className="mt-5 text-[10px] tracking-[0.5em] uppercase text-[#7A5C3E] px-2 sm:px-0"
+              className="mt-5 text-[10px] tracking-[0.5em] uppercase text-[#7A5C3E]"
             >
               Handcrafted Luxury Sweets
             </motion.p>
