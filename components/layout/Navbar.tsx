@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -19,9 +20,12 @@ export default function Navbar() {
   const pathname = usePathname();
 
   useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
     const hero = document.getElementById("hero");
 
-    // Fallback 
     if (!hero) {
       const handleScrollFallback = () => {
         const overThreshold = window.scrollY > 60;
@@ -45,11 +49,15 @@ export default function Navbar() {
     );
 
     observer.observe(hero);
-
-    return () => {
-      observer.disconnect();
-    };
+    return () => observer.disconnect();
   }, [pathname]);
+
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
 
   return (
     <>
@@ -60,22 +68,28 @@ export default function Navbar() {
           : "bg-transparent"
           }`}
       >
-        <div className="w-full px-4 sm:px-6 lg:px-10 h-16 sm:h-[72px] flex items-center">
 
-          {/* Logo*/}
-          <Link
-            href="/"
-            className="flex flex-col items-start gap-[3px] group"
-          >
-            <span className="font-sans font-bold text-brand-brown text-[16px] sm:text-[19px] leading-none tracking-wide group-hover:opacity-80 transition-opacity duration-200">
-              কলকत्ता SWEETS
-            </span>
-            <span className="font-sans text-[8px] sm:text-[9px] text-zinc-400 uppercase font-semibold tracking-[0.25em] leading-none">
-              EST 2000
-            </span>
+        <div className="w-full px-4 sm:px-6 lg:px-10 h-[72px] sm:h-20 flex items-center">
+
+          {/* Logo */}
+          <Link href="/" className="flex items-center group">
+            <Image
+              src="/logo.svg"
+              alt="Calcutta Sweets"
+              width={240}
+              height={103}
+              className={`
+                h-12 sm:h-14 md:h-16 lg:h-20
+                w-auto
+                -ml-2
+                group-hover:opacity-80
+                transition-opacity duration-200
+              `}
+              priority
+            />
           </Link>
 
-          {/* RIGHT SIDE*/}
+          {/* RIGHT SIDE */}
           <div className="ml-auto flex items-center">
 
             {/* Desktop Nav */}
@@ -97,7 +111,6 @@ export default function Navbar() {
                       }`}
                   >
                     {link.label}
-
                     <span
                       className={`absolute left-1/2 -translate-x-1/2 bottom-[-2px] h-[1px] bg-[#A67C46] transition-all duration-300 ${trulyActive ? "w-[60%] opacity-100" : "w-0 opacity-0"
                         }`}
@@ -106,10 +119,10 @@ export default function Navbar() {
                 );
               })}
             </div>
-
-            {/* Mobile Button */}
             <button
               aria-label="Open menu"
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-menu"
               onClick={() => setMobileOpen(true)}
               className="lg:hidden ml-4 flex items-center justify-center w-9 h-9 text-brand-brown hover:text-[#A67C46] transition-colors duration-200"
             >
@@ -118,15 +131,18 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Bottom border */}
+        {/* Bottom border on scroll */}
         <div
           className={`absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#A67C46]/15 to-transparent transition-opacity duration-500 ${isScrolled ? "opacity-100" : "opacity-0"
             }`}
         />
       </nav>
-
-      {/* Mobile Menu */}
       <div
+        id="mobile-menu"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Navigation menu"
+        onKeyDown={(e) => e.key === "Escape" && setMobileOpen(false)}
         className={`fixed inset-0 z-[100] lg:hidden transition-all duration-300 ${mobileOpen
           ? "opacity-100 pointer-events-auto"
           : "opacity-0 pointer-events-none"
@@ -147,13 +163,14 @@ export default function Navbar() {
             <X className="w-4 h-4" strokeWidth={2} />
           </button>
 
-          <div className="absolute top-5 left-6 flex flex-col gap-[3px]">
-            <span className="font-sans font-bold text-brand-brown text-[13px] leading-none tracking-wide">
-              কলকत्ता SWEETS
-            </span>
-            <span className="font-sans text-[7px] text-zinc-400 uppercase font-semibold tracking-[0.25em] leading-none">
-              EST 2000
-            </span>
+          <div className="absolute top-5 left-6">
+            <Image
+              src="/logo.svg"
+              alt="Calcutta Sweets"
+              width={240}
+              height={103}
+              className="h-11 w-auto -ml-2"
+            />
           </div>
 
           {navLinks.map((link, i) => (
