@@ -23,6 +23,8 @@ export default function Navbar() {
     setMobileOpen(false);
   }, [pathname]);
 
+  if (pathname.startsWith("/admin")) return null;
+
   useEffect(() => {
     const hero = document.getElementById("hero");
 

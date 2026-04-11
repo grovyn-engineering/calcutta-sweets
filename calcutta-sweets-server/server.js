@@ -1,0 +1,88 @@
+// server.js
+require('dotenv').config();
+
+console.log("--- Environment Check ---");
+console.log("JWT_SECRET Loaded:", process.env.JWT_SECRET ? "YES" : "NO");
+console.log("DB URL Loaded:", process.env.DATABASE_URL ? "YES" : "NO");
+console.log("-------------------------");
+
+const express = require('express');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const rateLimit = require('express-rate-limit');
+const cloudinary = require('cloudinary').v2;
+
+const { prisma } = require('./src/lib/prisma');
+const { login, logout, me } = require('./src/controllers/authController');
+const { protect } = require('./src/middlewares/authMiddleware');
+const { errorHandler } = require('./src/middlewares/errorHandler');
+
+const heroRoutes = require('./src/routes/heroRoutes');
+const uploadRoutes = require('./src/routes/uploadRoutes');
+
+const app = express();
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  credentials: true
+}));
+
+app.use(express.json());
+app.use(cookieParser());
+
+// Rate limiter
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 15,
+  message: { success: false, message: "Too many login attempts. Please try again later." },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+//Routes 
+
+app.use('/api/hero', heroRoutes);
+app.use('/api/upload', uploadRoutes);
+app.use('/api/occasions', require('./src/routes/occasionRoutes'));
+app.use('/api/signature-sweets', require('./src/routes/signatureSweetRoutes'));
+app.use('/api/wedding-stats', require('./src/routes/weddingStatRoutes'));
+app.use('/api/contact', require('./src/routes/contactInfoRoutes'));
+app.use('/api/story', require('./src/routes/storyRoutes'));
+app.use('/api/special-orders', require('./src/routes/specialOrderRoutes'));
+
+const { validate } = require('./src/middlewares/validate');
+const { loginSchema } = require('./src/validators/schemas');
+
+// Auth routes
+app.post('/api/auth/login', loginLimiter, validate(loginSchema), login);
+app.post('/api/auth/logout', logout);
+app.get('/api/auth/me', protect, me);
+
+app.get('/api/admin/dashboard', protect, (req, res) => {
+  res.json({ success: true, message: `Welcome back, ${req.admin.email}!` });
+});
+
+// Health check
+app.get('/health', async (req, res) => {
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+    res.json({ success: true, status: "Server is running smoothly! DB Connection: Alive" });
+  } catch (error) {
+    console.error("Health Check DB Error:", error);
+    res.status(500).json({ success: false, status: "Server is running, but DB Connection failed" });
+  }
+});
+
+// Global Error Handler
+app.use(errorHandler);
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server is live on http://localhost:${PORT}`);
+});

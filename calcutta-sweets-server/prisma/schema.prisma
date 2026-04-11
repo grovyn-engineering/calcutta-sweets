@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Occasion {
+  id        String   @id @default(cuid())
+  title     String   @unique
+  imageUrl  String?
+  publicId  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model HeroSection {
+  id        String   @id @default(cuid())
+  title     String
+  subtitle  String
+  imageUrl  String?
+  publicId  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SignatureSweet {
+  id        String   @id @default(cuid())
+  title     String
+  subTitle  String
+  imageUrl  String?
+  publicId  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model WeddingStat {
+  id        String   @id @default(cuid())
+  label     String
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ContactInfo {
+  id          String   @id @default(cuid())
+  address     String
+  phone       String
+  email       String
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Story {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  imageUrl  String?
+  publicId  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SpecialOrder {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  imageUrl    String?
+  publicId    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
