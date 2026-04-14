@@ -1,32 +1,44 @@
-"use client";
-
 import Image from "next/image";
 import { MoveRight, Heart, Cake, Landmark, Flame, Briefcase } from "lucide-react";
-import { useCallback } from "react";
+import { fetchFromBackend } from "@/lib/serverFetch";
 
-const occasions = [
-  { title: "Weddings", image: "/images/wedding.png", icon: Heart },
-  { title: "Birthdays", image: "/images/birthday.png", icon: Cake },
-  { title: "Durga Puja", image: "/images/puja.png", icon: Landmark },
-  { title: "Diwali", image: "/images/diwali.png", icon: Flame },
-  { title: "Corporate", image: "/images/corporate.png", icon: Briefcase },
+const FALLBACK_OCCASIONS = [
+  { title: "Weddings", image: "/images/wedding.png", iconName: "Heart" },
+  { title: "Birthdays", image: "/images/birthday.png", iconName: "Cake" },
+  { title: "Durga Puja", image: "/images/puja.png", iconName: "Landmark" },
+  { title: "Diwali", image: "/images/diwali.png", iconName: "Flame" },
+  { title: "Corporate", image: "/images/corporate.png", iconName: "Briefcase" },
 ];
 
-export default function Occasions() {
+const ICON_MAP: Record<string, any> = {
+  Heart,
+  Cake,
+  Landmark,
+  Flame,
+  Briefcase
+};
 
-  const handleScrollToForm = useCallback(() => {
-    const el = document.getElementById("enquiry-form");
-    if (!el) return;
+function mapOccasion(o: any) {
+  // Check if it's already using the fallback structure directly
+  if (o.iconName && !o.imageUrl) return o;
 
-    el.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  }, []);
+  return {
+    id: o.id ?? crypto.randomUUID(),
+    title: o.title ?? "Occasion",
+    image: o.imageUrl ?? o.image ?? "/images/default.png",
+    iconName: o.iconName ?? "Heart" 
+  };
+}
+
+export default async function Occasions() {
+  const occasionsData = await fetchFromBackend<any[]>("/occasions", {
+    fallback: FALLBACK_OCCASIONS,
+  });
+
+  const occasions = occasionsData.map(mapOccasion);
 
   return (
     <section className="w-full py-20 bg-[#ffffff]">
-
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12 mb-12">
         <div className="inline-flex flex-col">
           <h2 className="font-dm-serif text-3xl sm:text-[2.5rem] tracking-wide text-[#3E2B1E] mb-4">
@@ -37,60 +49,44 @@ export default function Occasions() {
       </div>
 
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
-        <div className="
-          grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 
-          gap-4 lg:gap-5
-          items-stretch   
-        ">
-          {occasions.map(({ title, image, icon: Icon }) => (
-            <div
-              key={title}
-              className="
-                relative w-full 
-                h-[320px] sm:h-[380px] lg:h-[450px]  
-                rounded-[2rem] overflow-hidden group
-                shadow-md transition-all duration-500
-                hover:-translate-y-4 hover:shadow-xl hover:shadow-brand-brown/10
-              "
-            >
-              <Image
-                src={image}
-                alt={title}
-                fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-              />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-5 items-stretch">
+          {occasions.map(({ title, image, iconName }) => {
+            const Icon = ICON_MAP[iconName] || Heart;
 
-              <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-brand-brown/80 via-brand-brown/30 to-brand-brown/10" />
+            return (
+              <div
+                key={title}
+                className="relative w-full h-[320px] sm:h-[380px] lg:h-[450px] rounded-[2rem] overflow-hidden group shadow-md transition-all duration-500 hover:-translate-y-4 hover:shadow-xl hover:shadow-brand-brown/10"
+              >
+                <Image
+                  src={image}
+                  alt={title}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
 
-              <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6 flex flex-col items-start gap-1">
+                <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-brand-brown/80 via-brand-brown/30 to-brand-brown/10" />
 
-                <Icon className="w-5 h-5 text-white/90 mb-1" strokeWidth={1.5} />
+                <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6 flex flex-col items-start gap-1">
+                  <Icon className="w-5 h-5 text-white/90 mb-1" strokeWidth={1.5} />
 
-                <h3 className="font-dm-serif text-xl sm:text-2xl text-white mb-2 tracking-wide">
-                  {title}
-                </h3>
+                  <h3 className="font-dm-serif text-xl sm:text-2xl text-white mb-2 tracking-wide">
+                    {title}
+                  </h3>
 
-                <button
-                  onClick={handleScrollToForm}
-                  className="
-                    relative z-10 flex items-center gap-2
-                    px-4 py-1.5 rounded-full
-                    border border-white/40
-                    bg-brand-brown/20 hover:bg-brand-brown/40
-                    text-white text-[11px] font-sans
-                    transition-all backdrop-blur-sm
-                  "
-                >
-                  Enquire Now <MoveRight className="w-3 h-3" />
-                </button>
-
+                  <a
+                    href="#enquiry-form"
+                    className="relative z-10 flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/40 bg-brand-brown/20 hover:bg-brand-brown/40 text-white text-[11px] font-sans transition-all backdrop-blur-sm"
+                  >
+                    Enquire Now <MoveRight className="w-3 h-3" />
+                  </a>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
-
     </section>
   );
 }

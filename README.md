@@ -1,105 +1,126 @@
-# Calcutta Sweets - Production Documentation
+# Calcutta Sweets - Full Stack Suite
 
-A production-ready full-stack application for managing and showcasing premium traditional sweets. This project is architected with a clean separation between the Next.js frontend and Express/Prisma backend.
+A premium, production-grade web application for Calcutta Sweets, featuring a dynamic customer-facing website and a secure administrative dashboard.
 
-## 🏗️ Architecture Overview
+## 🏗️ Architecture
 
-The system is organized into a monorepo-style structure:
-- **`/frontend`**: Performance-optimized Next.js web application.
-- **`/backend`**: Secure RESTful API powered by Express and Prisma.
-- **`package.json` (Root)**: The orchestrator that manages both services via `concurrently`.
+The project is architected as a decoupled full-stack application:
 
----
-
-## 🚀 Quick Start (Development)
-
-1. **Install Dependencies:**
-   ```bash
-   npm run install:all
-   ```
-
-2. **Setup Environment Variables:**
-   - Create `backend/.env` (Database, Cloudinary, JWT secrets).
-   - Create `frontend/.env.local` (`NEXT_PUBLIC_API_URL`).
-
-3. **Database Initialization:**
-   ```bash
-   cd backend
-   npx prisma generate
-   npx prisma migrate dev
-   node prisma/seed.js
-   ```
-
-4. **Launch Application:**
-   ```bash
-   npm run dev
-   ```
+- **Frontend**: Next.js (App Router) with Tailwind CSS and Framer Motion for a premium, high-performance user experience.
+- **Backend**: Express.js REST API with Prisma ORM for type-safe database interactions.
+- **Database**: PostgreSQL (Prisma support).
+- **Media**: Cloudinary integration for automated image optimization and storage.
 
 ---
 
-## 📂 Frontend Inventory (`/frontend`)
+## 🛠️ Prerequisites
 
-### Core Infrastructure
-- **`proxy.ts`**: The security gateway. Handles auth-based redirection for the `/admin` routing via Next.js Middleware.
-- **`next.config.ts`**: Configuration for image optimization and remote patterns (Cloudinary).
-- **`tsconfig.json`**: TypeScript configuration with `@/*` aliases for clean imports.
+Ensure you have the following installed on your system:
 
-### Directory Breakdown
-- **`app/`**: Next.js App Router.
-    - `admin/`: All dashboard pages (Hero, Sweets, Occasions).
-    - `layout.tsx`: Root layout with global context providers.
+- **Node.js**: v18.x or higher
+- **npm**: v9.x or higher
+- **PostgreSQL**: A running instance (Local or Managed)
+- **Cloudinary Account**: Required for image uploads
+
+---
+
+## 🚀 Getting Started
+
+### 1. Repository Setup
+
+Clone the repository and install all dependencies:
+
+```bash
+# Install root, frontend, and backend dependencies automatically
+npm run install:all
+```
+
+### 2. Environment Configuration
+
+The application requires environment variables in both the `frontend` and `backend` directories. 
+
+#### Backend (`/backend/.env`)
+Copy the template and fill in your credentials:
+```bash
+cp backend/.env.example backend/.env
+```
+Key variables:
+- `DATABASE_URL`: Connection string to your PostgreSQL.
+- `CLOUDINARY_*`: Your Cloudinary API credentials.
+- `JWT_SECRET`: A long random string for securing admin sessions.
+
+#### Frontend (`/frontend/.env.local`)
+Copy the template:
+```bash
+cp frontend/.env.example frontend/.env.local
+```
+Key variable:
+- `NEXT_PUBLIC_API_URL`: The URL where your backend server is running (Default: `http://localhost:5000/api`).
+
+### 3. Database Initialization
+
+Once your `DATABASE_URL` is set, run the following inside the `backend` directory:
+
+```bash
+cd backend
+
+# Generate Prisma Client
+npx prisma generate
+
+# Run migrations to create tables
+npx prisma migrate dev --name init
+
+# Create the initial Admin account
+node prisma/seed.js
+```
+
+### 4. Launching the Application
+
+You can start both the frontend and backend simultaneously from the root directory:
+
+```bash
+# Starts Frontend (Port 3000) and Backend (Port 5000)
+npm run dev
+```
+
+---
+
+## 📂 Project Organization
+
+### 🔌 Backend (`/backend`)
+- **`src/controllers/`**: Business logic implementations.
+- **`src/routes/`**: API endpoint definitions.
+- **`src/middlewares/`**: Security (JWT), validation (Zod), and error handling.
+- **`prisma/`**: Database schema and seed scripts.
+- **`server.js`**: Application entry point and configuration.
+
+### 🎨 Frontend (`/frontend`)
+- **`app/`**: Next.js pages and layouts (Includes Customer pages and Admin dashboard).
 - **`components/`**: Reusable UI components.
-    - `admin/`: Specialized dashboard tools like `ImageUploader`.
-    - `layout/`: Global navigation (`Navbar`, `Footer`).
-- **`hooks/`**: Custom hooks extracting business logic.
-    - `useAdminData.ts`: Centralized fetcher for all admin dashboard stats.
-    - `useOccasions.ts`: Logic for CRUD operations on celebrations.
-- **`lib/`**: Utilities and Fetchers.
-    - `apiHelper.ts`: The standardized fetching wrapper that handles `credentials: "include"` and automatic redirects.
-- **`store/`**: Zustand state management.
-    - `authStore.ts`: Global state for the administrator's session.
-- **`types/`**: Global TypeScript interfaces. Shared between components and hooks.
+- **`lib/`**: Utilities like `serverFetch.ts` (Resilient backend communication with fallbacks).
+- **`hooks/`**: Custom React hooks for data fetching and state.
+- **`store/`**: Global state management (Zustand).
 
 ---
 
-## 📂 Backend Inventory (`/backend`)
+## 🛡️ Key Features
 
-### Core Entry Point
-- **`server.js`**: The Express application hub. Configures CORS, Rate Limiting, Cloudinary, and Routes.
-- **`src/lib/prisma.js`**: Critical Prisma Singleton pattern to prevent database connection pool exhaustion.
-
-### Application Logic (`/src`)
-- **`controllers/`**: Pure logic for handling requests.
-    - `authController.js`: JWT generation and cookie management.
-    - `occasionController.js`: CRUD logic with image cleanup integration.
-- **`routes/`**: Express route definitions mapping URLs to controllers.
-- **`middlewares/`**: Security and integrity guards.
-    - `authMiddleware.js`: Verifies HttpOnly JWT cookies.
-    - `errorHandler.js`: Standardized global error responses.
-    - `validate.js`: Interceptor that runs Zod schemas against `req.body`.
-- **`validators/`**: Persistence integrity.
-    - `schemas.js`: Strict Zod schemas for every model (Hero, Sweet, Stat).
-- **`utils/`**: Shared helpers.
-    - `cloudinary.js`: Logic for secure uploads and deleting orphaned assets.
-
-### Database (`/prisma`)
-- **`schema.prisma`**: The source of truth. Defines the CUID-based ID system and `createdAt/updatedAt` timestamps for all models.
-- **`seed.js`**: Recovery script that recreates the primary Admin account.
+- **Resilient Fetching**: The website uses a custom `serverFetch` utility that automatically falls back to local static data if the API is offline, ensuring the site never crashes for customers.
+- **Secure Admin Panel**: Protected via HttpOnly JWT cookies and Next.js middleware.
+- **Automated Image Management**: Uploading a new image automatically deletes the old asset from Cloudinary to save storage.
+- **Schema Validation**: All incoming data is validated using Zod schemas before hitting the database.
 
 ---
 
-## 🔐 Key Security Patterns
+## ❓ Troubleshooting
 
-1. **Authentication:** Uses **HttpOnly Cookies** for JWT storage. This prevents XSS-based token theft.
-2. **Standardized IDs:** All records use **CUIDs** (strings) instead of auto-incrementing integers, preventing ID enumeration attacks.
-3. **Data Integrity:** No request reaches the database without passing through the **Zod Validation** middleware.
-4. **CORS:** Only the authorized `FRONTEND_URL` is permitted to make requests, and `credentials: true` is enforced for secure cookie handling.
+- **Port Conflict**: If port 3000 or 5000 is taken, the startup will fail. You can kill existing Node processes using `taskkill /F /IM node.exe` (Windows) or `killall node` (Mac/Linux).
+- **Prisma Issues**: If you change the `schema.prisma` file, always run `npx prisma migrate dev` and `npx prisma generate`.
+- **Cloudinary Errors**: Ensure your credentials are correct in the `.env` file and that you haven't exceeded your monthly transformation limits.
+- **Module Not Found**: If you receive import errors, ensure you've run `npm run install:all` to install dependencies in both sub-directories.
 
 ---
 
-## 🛠️ Troubleshooting & Troubleshooting
+## 📄 License
 
-- **ID Errors:** If you see `parseInt` errors, remember the system has migrated to **CUID String IDs**.
-- **Auth Issues:** Ensure your `backend/.env` has a correct `JWT_SECRET` and `backend/server.js` logs `JWT_SECRET Loaded: YES`.
-- **Image Uploads:** Verify Cloudinary credentials in `.env`. The system automatically deletes old images from Cloudinary when records are updated or deleted.
-- **Port Conflict:** Root dev runs Frontend on 3000 and Backend on 5000. Use `taskkill /F /IM node.exe` if ports are locked.
+This project is private and proprietary.
