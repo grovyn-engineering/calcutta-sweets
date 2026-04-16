@@ -4,8 +4,13 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "@/lib/animations";
 import { Map, Phone, Clock, ChevronRight } from "lucide-react";
+import { useContactInfo } from "@/hooks/useAdminData";
 
 export default function WelcomeSection() {
+  const { data } = useContactInfo();
+  const rawContact = Array.isArray(data) ? data[0] : data;
+  const phone = rawContact?.phone || "+91 99930 60082";
+
   return (
     <section className="w-full bg-[#FAF5F0] px-4 md:px-8 lg:px-12 py-20 pb-32">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
@@ -74,7 +79,7 @@ export default function WelcomeSection() {
 
           <motion.a
             variants={fadeUp}
-            href="tel:+919993060082" className="flex items-center justify-between w-full text-left p-4 sm:p-5 pr-6 sm:pr-8 rounded-full bg-white/40 backdrop-blur-md border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:bg-white/50 transition-all duration-300 group"
+            href={`tel:${phone}`} className="flex items-center justify-between w-full text-left p-4 sm:p-5 pr-6 sm:pr-8 rounded-full bg-white/40 backdrop-blur-md border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:bg-white/50 transition-all duration-300 group"
           >
             <div className="flex items-center gap-5 sm:gap-6">
               <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#F0EBE0] flex items-center justify-center shrink-0">
@@ -85,7 +90,7 @@ export default function WelcomeSection() {
                   CALL US
                 </span>
                 <span className="font-serif text-lg sm:text-xl text-[#534031]">
-                  +91 99930 60082
+                  {phone}
                 </span>
               </div>
             </div>

@@ -3,39 +3,40 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "@/lib/animations";
+import { useSpecialOrders, useWeddingStats } from "@/hooks/useAdminData";
 
-/**
- * Key performance indicators and booking requirements for catering.
- */
-const stats = [
+const FALLBACK_STATS = [
   { value: "500+", label: "ORDERS MONTHLY" },
   { value: "3 Days", label: "ADVANCE BOOKING" },
   { value: "100%", label: "PURE DESI GHEE" },
   { value: "20+", label: "AWARDED RECIPES" },
 ];
 
-/**
- * CateringCTA component invites users to explore bulk order services,
- * presenting high-level statistics in a refined, high-fidelity card.
- */
+// Catering section for weddings and large gatherings
 export default function CateringCTA() {
+  const { data: specialOrder } = useSpecialOrders();
+  const { data: weddingStats } = useWeddingStats();
+
+  const title = specialOrder?.title || "Planning a wedding or gathering?";
+  const description = specialOrder?.description || "Make your special occasions even sweeter with our bulk catering services. We offer customized packaging and fresh delivery for events of all sizes.";
+
+  const displayStats = weddingStats && weddingStats.length > 0 ? weddingStats : FALLBACK_STATS;
+
   return (
     <section className="py-20 px-6 md:px-12 bg-[#FAF3E8] overflow-hidden">
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         
-        {/* Descriptive content: Addressing event planning needs and offering bulk solutions */}
+        {/* Link to catering enquiry form and brochure */}
         <motion.div {...fadeUp}>
           <h2 className="text-3xl md:text-4xl font-serif text-[#3E2F26] leading-tight mb-4">
-            Planning a wedding or gathering?
+            {title}
           </h2>
 
-          <p className="text-sm text-[#6F6F6F] leading-relaxed mb-8 max-w-md">
-            Make your special occasions even sweeter with our bulk catering
-            services. We offer customized packaging and fresh delivery for
-            events of all sizes.
+          <p className="text-sm text-[#6F6F6F] leading-relaxed mb-8 max-w-md whitespace-pre-line">
+            {description}
           </p>
 
-          {/* Primary actions for enquiries and informational downloads */}
+          {/* Form and brochure actions */}
           <div className="flex flex-wrap gap-4">
             <Link
               href="/celebration#enquiry-form"
@@ -53,9 +54,9 @@ export default function CateringCTA() {
           </div>
         </motion.div>
 
-        {/* Informational stats card with high-fidelity gradient branding */}
+        {/* Stats card display */}
         <motion.div 
-          initial={{ opacity: 0, x: 40 }}
+          initial={{ opacity: 0, x: 40 }}>,StartLine:60,TargetContent:
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -63,7 +64,7 @@ export default function CateringCTA() {
         >
           <div className="rounded-2xl bg-gradient-to-br from-[#4B2E1E] to-[#2E1B12] text-white p-8 md:p-10 shadow-xl overflow-hidden">
             
-            {/* Staggered statistical grid highlighting scale and quality standards */}
+            {/* Quality and scale stats grid */}
             <motion.div 
               variants={staggerContainer}
               initial="initial"
@@ -71,7 +72,7 @@ export default function CateringCTA() {
               viewport={staggerContainer.viewport}
               className="grid grid-cols-2"
             >
-              {stats.map((stat, index) => (
+              {displayStats.map((stat, index) => (
                 <motion.div
                   key={stat.label}
                   variants={fadeUp}

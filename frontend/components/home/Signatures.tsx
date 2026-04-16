@@ -19,6 +19,18 @@ const FALLBACK_SIGNATURES = [
     name: "Golden Gulab Jamun",
     description: "Deep fried dumplings made of milk solids, dipped in rose scented sugar syrup.",
     imageUrl: "/images/sweet3.jpg",
+  },
+  {
+    id: "4",
+    name: "Bengali Malpua",
+    description: "Traditional sweet pancakes, fried until golden and soaked in cardamom sugar syrup.",
+    imageUrl: "/images/sweet4.jpg",
+  },
+  {
+    id: "5",
+    name: "Mishti Doi",
+    description: "Thick, creamy fermented sweet yogurt served in traditional clay pots.",
+    imageUrl: "/images/sweet5.jpg",
   }
 ];
 

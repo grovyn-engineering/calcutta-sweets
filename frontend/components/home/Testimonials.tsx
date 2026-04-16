@@ -23,7 +23,7 @@ export default function Testimonials() {
     <section className="w-full bg-[#3D2B1F] py-24 px-8 md:px-12 lg:px-24">
       <div className="max-w-7xl mx-auto flex flex-col items-center">
         
-        {/* Section Header */}
+        {/* Testimonial header */}
         <div className="flex flex-col items-center text-center gap-4 mb-20">
           <span className="font-sans text-[#C8773A] font-bold tracking-[0.15em] uppercase text-sm">
             WHAT PEOPLE SAY
@@ -33,7 +33,7 @@ export default function Testimonials() {
           </h2>
         </div>
 
-        {/* Testimonials Grid */}
+        {/* GRID OF TESTIMONIALS */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
           {testimonials.map((testimonial, index) => (
             <TestimonialCard 

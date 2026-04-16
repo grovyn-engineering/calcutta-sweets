@@ -10,6 +10,7 @@ import CateringCTA from "@/components/menu/CateringCTA";
 import { getAllProducts } from "@/lib/products";
 import { Product } from "@/lib/types";
 import Image from "next/image";
+import { useSignatureSweets } from "@/hooks/useAdminData";
 
 const categories = ["All category", "Chena", "Fried", "Dessert", "Baked", "Signatures"];
 
@@ -22,17 +23,35 @@ export default function MenuPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [showAll, setShowAll] = useState(false);
 
+  const { data: dbSignatures } = useSignatureSweets();
+
   useEffect(() => {
     getAllProducts()
       .then(setProducts)
       .finally(() => setIsLoading(false));
   }, []);
 
+  const signatureItems = dbSignatures && dbSignatures.length > 0
+    ? dbSignatures.map((sweet: any) => ({
+        id: sweet.id,
+        name: sweet.title || "Untitled Sweet",
+        description: sweet.subTitle || "",
+        price: 250, /* Fallback standard price for DB signatures */
+        unit: "200g",
+        category: "Signatures",
+        imageUrl: sweet.imageUrl || "/images/sweet.jpg",
+        isSignature: true,
+      } as Product))
+    : products.filter((item) => item.isSignature);
+
   const filteredItems =
     activeCategory === "All category"
-      ? products
+      ? [
+          ...products.filter(p => !p.isSignature),
+          ...(dbSignatures && dbSignatures.length > 0 ? signatureItems : products.filter(p => p.isSignature))
+        ]
       : activeCategory === "Signatures"
-        ? products.filter((item) => item.isSignature)
+        ? signatureItems
         : products.filter((item) => item.category === activeCategory);
 
   return (

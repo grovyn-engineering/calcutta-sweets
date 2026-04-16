@@ -2,8 +2,9 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
+import { useTimelineEvents } from "@/hooks/useAdminData";
 
-const milestones = [
+const FALLBACK_MILESTONES = [
   {
     year: "1947",
     title: "The Humble Threshold",
@@ -26,7 +27,7 @@ const milestones = [
   },
 ];
 
-const TimelineItem = ({ item, index }: { item: typeof milestones[0], index: number }) => {
+const TimelineItem = ({ item, index }: { item: typeof FALLBACK_MILESTONES[0], index: number }) => {
   const ref = useRef(null);
 
   const isInView = useInView(ref, { margin: "-48% 0px -48% 0px", once: false });
@@ -76,6 +77,8 @@ const TimelineItem = ({ item, index }: { item: typeof milestones[0], index: numb
 
 export default function Timeline() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const { data, loading } = useTimelineEvents();
+  const milestones = !loading && data && data.length > 0 ? data : FALLBACK_MILESTONES;
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -127,8 +130,8 @@ export default function Timeline() {
           </motion.div>
 
           <div className="relative z-20 pt-4 pb-4">
-            {milestones.map((item, index) => (
-              <TimelineItem key={item.year} item={item} index={index} />
+            {milestones.map((item: any, index: number) => (
+              <TimelineItem key={item.id || item.year} item={item} index={index} />
             ))}
           </div>
 

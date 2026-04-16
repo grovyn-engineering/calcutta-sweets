@@ -6,8 +6,9 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeUp } from "@/lib/animations";
 import { preload } from "react-dom";
+import { useHeroSlides } from "@/hooks/useAdminData";
 
-const sweets = [
+const FALLBACK_SWEETS = [
   { name: "Sondesh", image: "/images/hero/sondesh.png", alt: "Assorted Sondesh – traditional Bengali milk sweets" },
   { name: "Malpua", image: "/images/hero/malpua.png", alt: "Golden brown Malpua dessert" },
   { name: "Roshogulla", image: "/images/hero/roshogulla.png", alt: "Spongy Roshogulla in sugar syrup" },
@@ -15,6 +16,19 @@ const sweets = [
 ];
 
 export default function Hero() {
+  const { data: slidesData } = useHeroSlides();
+
+  // Enforce 4 slides, merging DB data over the fallbacks
+  const displaySlides = [0, 1, 2, 3].map(i => {
+    const dbSlide = slidesData && slidesData[i];
+    return {
+      name: dbSlide?.title || FALLBACK_SWEETS[i].name,
+      subtitle: dbSlide?.subtitle || "",
+      image: dbSlide?.imageUrl || FALLBACK_SWEETS[i].image,
+      alt: dbSlide?.subtitle || FALLBACK_SWEETS[i].alt
+    };
+  });
+
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -33,21 +47,21 @@ export default function Hero() {
 
     function startNormalLoop() {
       timer = setInterval(() => {
-        setCurrentIndex((prev) => (prev + 1) % sweets.length);
+        setCurrentIndex((prev) => (prev + 1) % displaySlides.length);
       }, 4000);
     }
 
     return () => clearInterval(timer);
-  }, []);
+  }, [displaySlides.length]);
 
-  preload(sweets[1].image, { as: "image", fetchPriority: "low" });
+  preload(displaySlides[1].image, { as: "image", fetchPriority: "low" });
 
   return (
     <section
       id="hero"
       className="relative w-full pt-28 sm:pt-44 md:pt-60 overflow-hidden bg-[var(--background)] lg:h-screen lg:max-h-screen lg:flex lg:flex-col"
     >
-      {/* Background typography */}
+      {/* Desktop background typography */}
       <div className="absolute inset-0 z-0 flex items-center justify-center overflow-hidden">
         <AnimatePresence mode="popLayout">
           <motion.h1
@@ -63,16 +77,16 @@ export default function Hero() {
               whiteSpace: "nowrap",
             }}
           >
-            {sweets[currentIndex].name}
+            {displaySlides[currentIndex].name}
           </motion.h1>
         </AnimatePresence>
       </div>
 
-      {/* Main container */}
+      {/* Carousel image containers */}
       <div className="relative z-10 w-full aspect-video lg:aspect-auto lg:flex-1 lg:min-h-0 overflow-hidden">
-        {sweets.map((sweet, index) => (
+        {displaySlides.map((sweet, index) => (
           <div
-            key={sweet.name}
+            key={`${sweet.name}-${index}`}
             className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
               }`}
           >
@@ -88,9 +102,9 @@ export default function Hero() {
           </div>
         ))}
 
-        {/* Dots */}
+        {/* Slider dots pagination */}
         <div className="absolute bottom-6 left-0 right-0 z-20 flex justify-center items-center gap-3">
-          {sweets.map((_, index) => (
+          {displaySlides.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
@@ -104,7 +118,7 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* CTA for large screens */}
+      {/* Explore menu CTA */}
       <div className="absolute top-1/2 right-24 z-20 -translate-y-1/2 hidden lg:block">
         <motion.div
           {...fadeUp}
@@ -117,6 +131,7 @@ export default function Hero() {
           </Link>
         </motion.div>
       </div>
+      
     </section>
   );
 }

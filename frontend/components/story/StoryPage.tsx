@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -8,8 +9,20 @@ import Timeline from "@/components/story/Timeline";
 import Family from "@/components/story/Family";
 import Quote from "@/components/story/Quote";
 import GiftCTA from "@/components/story/GiftCTA";
+import { useStory } from "@/hooks/useAdminData";
 
 export default function StoryPage() {
+  const { data: story, loading } = useStory();
+
+  const titleFallback = "A Recipe \n Older \n Than Raipur";
+  const contentFallback = "Making the perfect Mishti takes time and a lot of practice. It is about knowing exactly when the milk is ready. This is a skill passed down through three generations of our family.";
+  
+  const titleText = story?.title || titleFallback;
+  const content = story?.content || contentFallback;
+  const imageUrl = story?.imageUrl || "/images/sweet8.jpg";
+
+  const titleLines = titleText.split(/,|\n/).map((t: string) => t.trim()).filter(Boolean);
+
   return (
     <main className="min-h-screen bg-[#FEF7F2] overflow-x-hidden">
 
@@ -27,13 +40,16 @@ export default function StoryPage() {
             </span>
 
             <h1 className="font-dm-serif text-[3rem] sm:text-[4rem] lg:text-[5rem] leading-[1.05] text-[#2C1D13]">
-              A Recipe <br />
-              Older <br />
-              Than Raipur
+              {titleLines.map((line: string, i: number) => (
+                <React.Fragment key={i}>
+                  {line}
+                  {i < titleLines.length - 1 && <br />}
+                </React.Fragment>
+              ))}
             </h1>
 
             <p className="text-[#5A4D40] text-sm sm:text-base leading-[1.8] max-w-md">
-              Making the perfect Mishti takes time and a lot of practice. It is about knowing exactly when the milk is ready. This is a skill passed down through three generations of our family.
+              {content}
             </p>
 
             <div className="flex flex-wrap gap-4 pt-2">
@@ -59,41 +75,15 @@ export default function StoryPage() {
             transition={{ duration: 0.8 }}
             className="w-full lg:w-1/2"
           >
-            <div className="flex flex-col gap-3">
-
-              <div className="relative w-full h-[240px] sm:h-[300px] lg:h-[320px] rounded-2xl overflow-hidden">
-                <Image
-                  src="/images/sweet8.jpg"
-                  alt="Rasgulla"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  priority
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div className="relative w-full h-[140px] sm:h-[180px] rounded-2xl overflow-hidden">
-                  <Image
-                    src="/images/sweet5.jpg"
-                    alt="Sweets"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 50vw, 25vw"
-                  />
-                </div>
-
-                <div className="relative w-full h-[140px] sm:h-[180px] rounded-2xl overflow-hidden">
-                  <Image
-                    src="/images/sweet6.jpg"
-                    alt="Dessert"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 50vw, 25vw"
-                  />
-                </div>
-              </div>
-
+            <div className="relative w-full h-[400px] sm:h-[480px] lg:h-[550px] rounded-2xl overflow-hidden shadow-sm">
+              <Image
+                src={imageUrl}
+                alt="Sweets Story Hero"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                priority
+              />
             </div>
           </motion.div>
         </div>

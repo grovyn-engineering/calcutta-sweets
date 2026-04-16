@@ -81,3 +81,12 @@ model SpecialOrder {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+model TimelineEvent {
+  id          String   @id @default(cuid())
+  year        String
+  title       String
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

@@ -88,9 +88,9 @@ export default function ImageUploader({ onUploadSuccess, defaultImage, className
 
       <div
         {...getRootProps()}
-        className={`relative border border-dashed rounded flex flex-col items-center justify-center transition-colors cursor-pointer min-h-[200px] overflow-hidden ${isDragActive
+        className={`relative border border-dashed rounded flex flex-col items-center justify-center transition-colors cursor-pointer min-h-50 overflow-hidden ${isDragActive
           ? "border-[#C8773A] bg-[#C8773A]/5"
-          : "border-[#3E2F26]/20 bg-[#FAF3E8] hover:border-[#C8773A]/50 hover:bg-[#C8773A]/5"
+          : "border-brand-brown/20 bg-[#FAF3E8] hover:border-[#C8773A]/50 hover:bg-[#C8773A]/5"
           }`}
       >
         <input {...getInputProps()} />
@@ -103,12 +103,12 @@ export default function ImageUploader({ onUploadSuccess, defaultImage, className
                 <Spinner />
               </div>
             ) : (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 opacity-0 hover:opacity-100 transition-opacity bg-[#3E2F26]/60">
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 opacity-0 hover:opacity-100 transition-opacity bg-brand-brown/60">
                 <p className="text-white text-xs font-semibold tracking-wide">Click or drag to replace</p>
                 <button
                   type="button"
                   onClick={handleRemove}
-                  className="bg-white text-[#3E2F26] hover:bg-[#FAF3E8] px-4 py-1.5 rounded text-xs font-semibold transition-colors"
+                  className="bg-white text-brand-brown hover:bg-[#FAF3E8] px-4 py-1.5 rounded text-xs font-semibold transition-colors"
                 >
                   Remove Image
                 </button>
@@ -126,14 +126,14 @@ export default function ImageUploader({ onUploadSuccess, defaultImage, className
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
                 </div>
-                <p className="text-sm text-[#3E2F26]/70 mb-1">
+                <p className="text-sm text-brand-brown/70 mb-1">
                   <span className="text-[#C8773A] font-semibold">Image Manager</span>
                 </p>
-                <p className="text-xs text-[#3E2F26]/40">Drag and drop your photos or click to browse.</p>
-                <p className="text-xs text-[#3E2F26]/30 mt-1">Supports image formats like JPG, PNG, and WEBP.</p>
+                <p className="text-xs text-brand-brown/40">Drag and drop your photos or click to browse.</p>
+                <p className="text-xs text-brand-brown/30 mt-1">Supports image formats like JPG, PNG, and WEBP.</p>
                 <div className="flex gap-2 justify-center mt-4">
-                  <span className="px-3 py-1 border border-[#3E2F26]/15 rounded text-[10px] text-[#3E2F26]/50 tracking-wide">Add New Image</span>
-                  <span className="px-3 py-1 border border-[#3E2F26]/15 rounded text-[10px] text-[#3E2F26]/50 tracking-wide">Browse All</span>
+                  <span className="px-3 py-1 border border-brand-brown/15 rounded text-[10px] text-brand-brown/50 tracking-wide">Add New Image</span>
+                  <span className="px-3 py-1 border border-brand-brown/15 rounded text-[10px] text-brand-brown/50 tracking-wide">Browse All</span>
                 </div>
               </>
             )}

@@ -1,54 +1,71 @@
 const { prisma } = require('../lib/prisma');
 const { deleteImage } = require('../utils/cloudinary');
 
-const getHero = async (req, res) => {
+const getMany = async (req, res) => {
   try {
-    const hero = await prisma.heroSection.findFirst();
-    res.json({ success: true, data: hero || null });
+    const data = await prisma.heroSection.findMany();
+    res.json({ success: true, data });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Error fetching hero data" });
+    res.status(500).json({ success: false, message: "Error fetching data" });
   }
 };
 
-const updateHero = async (req, res) => {
+const createOne = async (req, res) => {
   try {
     const { title, subtitle, imageUrl, cloudinaryPublicId } = req.body;
-    const existingHero = await prisma.heroSection.findFirst();
-    
-    let oldImageToDelete = null;
-
-    if (existingHero?.publicId) {
-      if (cloudinaryPublicId && existingHero.publicId !== cloudinaryPublicId) {
-        oldImageToDelete = existingHero.publicId;
-      } else if (!cloudinaryPublicId && existingHero.publicId) {
-        oldImageToDelete = existingHero.publicId;
-      }
-    }
-
-    const updatedHero = await prisma.heroSection.upsert({
-      where: { id: existingHero?.id || "nonexistent" },
-      update: { 
-        title, 
-        subtitle, 
-        imageUrl: imageUrl !== undefined ? imageUrl : existingHero?.imageUrl,
-        publicId: cloudinaryPublicId !== undefined ? cloudinaryPublicId : existingHero?.publicId
-      },
-      create: { 
-        title, 
-        subtitle, 
-        imageUrl: imageUrl || "", 
-        publicId: cloudinaryPublicId || "" 
-      },
+    const item = await prisma.heroSection.create({
+      data: { title: title || "", subtitle: subtitle || "", imageUrl: imageUrl || "", publicId: cloudinaryPublicId || "" }
     });
-
-    if (oldImageToDelete) {
-      deleteImage(oldImageToDelete);
-    }
-
-    res.json({ success: true, data: updatedHero });
+    res.status(201).json({ success: true, data: item });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Update failed" });
+    res.status(500).json({ success: false, message: "Error creating item" });
   }
 };
 
-module.exports = { getHero, updateHero };
+const updateOne = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, subtitle, imageUrl, cloudinaryPublicId } = req.body;
+    
+    const existing = await prisma.heroSection.findUnique({ where: { id } });
+    if (!existing) return res.status(404).json({ success: false, message: "Not found" });
+
+    let oldImageToDelete = null;
+    if (existing.publicId) {
+      if (cloudinaryPublicId && existing.publicId !== cloudinaryPublicId) oldImageToDelete = existing.publicId;
+      else if (!cloudinaryPublicId && existing.publicId && imageUrl === "") oldImageToDelete = existing.publicId;
+    }
+
+    const updated = await prisma.heroSection.update({
+      where: { id },
+      data: {
+        title: title !== undefined ? title : existing.title,
+        subtitle: subtitle !== undefined ? subtitle : existing.subtitle,
+        imageUrl: imageUrl !== undefined ? imageUrl : existing.imageUrl,
+        publicId: cloudinaryPublicId !== undefined ? cloudinaryPublicId : existing.publicId
+      }
+    });
+
+    if (oldImageToDelete) deleteImage(oldImageToDelete);
+    res.json({ success: true, data: updated });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error updating" });
+  }
+};
+
+const deleteOne = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const existing = await prisma.heroSection.findUnique({ where: { id } });
+    if (!existing) return res.status(404).json({ success: false, message: "Not found" });
+
+    await prisma.heroSection.delete({ where: { id } });
+    if (existing.publicId) deleteImage(existing.publicId);
+    
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error deleting" });
+  }
+};
+
+module.exports = { getMany, createOne, updateOne, deleteOne };

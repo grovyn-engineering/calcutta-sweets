@@ -6,6 +6,7 @@ import { fadeUp, staggerContainer, hoverScale } from "@/lib/animations";
 import FindUs from "@/components/visit-us/FindUs";
 import StoreStats from "@/components/visit-us/StoreStats";
 import WelcomeSection from "@/components/visit-us/WelcomeSection";
+import { useContactInfo } from "@/hooks/useAdminData";
 
 const storeFeatures = [
   {
@@ -26,6 +27,11 @@ const storeFeatures = [
 ];
 
 export default function Hero() {
+  const { data } = useContactInfo();
+  // Contact info may be returned as an array or a single object.
+  const rawContact = Array.isArray(data) ? data[0] : data;
+  const phone = rawContact?.phone || "+91 99930 60082";
+
   return (
     <main className="relative min-h-screen bg-[#FAF3E8]">
       <section className="px-4 md:px-8 lg:px-12 pt-28 pb-10">
@@ -79,7 +85,7 @@ export default function Hero() {
                 </a>
 
                 <a
-                  href="tel:+919993060082"
+                  href={`tel:${phone}`}
                   className="px-4 py-2 sm:px-6 sm:py-3 rounded-full border border-white/40 text-white text-xs sm:text-sm font-medium backdrop-blur-sm hover:bg-white hover:text-[#3E2F26] transition active:scale-95"
                 >
                   Call the Store

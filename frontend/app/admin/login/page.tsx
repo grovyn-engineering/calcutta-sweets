@@ -17,12 +17,17 @@ export default function AdminLogin() {
     setLoading(true);
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api"}/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ email, password }),
-      });
+      const url = `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api"}/auth/login`;
+      console.log("API URL:", url);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api"}/auth/login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ email, password }),
+        },
+      );
 
       const data = await res.json();
 
@@ -39,16 +44,29 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#FAF3E8]" style={{ fontFamily: "'Poppins', sans-serif" }}>
+    <div
+      className="min-h-screen flex items-center justify-center bg-[#FAF3E8]"
+      style={{ fontFamily: "'Poppins', sans-serif" }}
+    >
       <div className="w-full max-w-sm">
         <div className="flex justify-center mb-10">
-          <Image src="/logo.svg" alt="Calcutta Sweets" width={200} height={82} className="h-14 w-auto" />
+          <Image
+            src="/logo.svg"
+            alt="Calcutta Sweets"
+            width={200}
+            height={82}
+            className="h-14 w-auto"
+          />
         </div>
 
-        <div className="bg-white rounded-lg border border-[#3E2F26]/10 p-8 shadow-sm">
+        <div className="bg-white rounded-lg border border-brand-brown/10 p-8 shadow-sm">
           <div className="mb-7">
-            <h1 className="text-xl font-semibold text-[#3E2F26] mb-1">Admin Sign In</h1>
-            <p className="text-xs text-[#3E2F26]/45 tracking-wide">Access the content management system</p>
+            <h1 className="text-xl font-semibold text-brand-brown mb-1">
+              Admin Sign In
+            </h1>
+            <p className="text-xs text-brand-brown/45 tracking-wide">
+              Access the content management system
+            </p>
           </div>
 
           {error && (
@@ -59,14 +77,14 @@ export default function AdminLogin() {
 
           <form onSubmit={handleLogin} className="space-y-5">
             <div>
-              <label className="block text-xs font-semibold text-[#3E2F26]/60 tracking-widest uppercase mb-2">
+              <label className="block text-xs font-semibold text-brand-brown/60 tracking-widest uppercase mb-2">
                 Email Address
               </label>
               <input
                 type="text"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 bg-[#FAF3E8] border border-[#3E2F26]/15 rounded text-[#3E2F26] text-sm placeholder-[#3E2F26]/30 focus:outline-none focus:border-[#C8773A] transition-colors"
+                className="w-full px-4 py-3 bg-[#FAF3E8] border border-brand-brown/15 rounded text-brand-brown text-sm placeholder-brand-brown/30 focus:outline-none focus:border-[#C8773A] transition-colors"
                 placeholder="admin@calcuttasweets.com"
                 required
               />
@@ -74,10 +92,13 @@ export default function AdminLogin() {
 
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="block text-xs font-semibold text-[#3E2F26]/60 tracking-widest uppercase">
+                <label className="block text-xs font-semibold text-brand-brown/60 tracking-widest uppercase">
                   Password
                 </label>
-                <a href="#" className="text-xs text-[#C8773A] hover:opacity-70 transition-opacity">
+                <a
+                  href="#"
+                  className="text-xs text-[#C8773A] hover:opacity-70 transition-opacity"
+                >
                   Forgot password?
                 </a>
               </div>
@@ -85,7 +106,7 @@ export default function AdminLogin() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 bg-[#FAF3E8] border border-[#3E2F26]/15 rounded text-[#3E2F26] text-sm placeholder-[#3E2F26]/30 focus:outline-none focus:border-[#C8773A] transition-colors"
+                className="w-full px-4 py-3 bg-[#FAF3E8] border border-brand-brown/15 rounded text-brand-brown text-sm placeholder-brand-brown/30 focus:outline-none focus:border-[#C8773A] transition-colors"
                 placeholder="••••••••"
                 required
               />
@@ -100,7 +121,6 @@ export default function AdminLogin() {
             </button>
           </form>
         </div>
-
       </div>
     </div>
   );

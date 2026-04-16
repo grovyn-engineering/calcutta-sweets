@@ -1,6 +1,27 @@
+"use client";
+
 import { MapPin, Phone, Clock, Star } from "lucide-react";
+import { useContactInfo } from "@/hooks/useAdminData";
+
+const FALLBACK_CONTACT = {
+  address: "Main Road, Tatibandh, \nRaipur, Chhattisgarh 492099",
+  phone: "+91 99930 60082",
+  hours: "9 AM – 10 PM | Monday – Sunday"
+};
 
 export default function FindUs() {
+  const { data } = useContactInfo();
+
+  // Contact info may be returned as an array or a single object.
+  const rawContact = Array.isArray(data) ? data[0] : data;
+  
+  const addressText = rawContact?.address || FALLBACK_CONTACT.address;
+  const addressLines = addressText.split('\n');
+
+  const phone = rawContact?.phone || FALLBACK_CONTACT.phone;
+  // The backend model currently doesn't hold 'hours' according to footer notes, so we rely on fallback
+  const hours = FALLBACK_CONTACT.hours;
+
   return (
     <section id="find-us" className="w-full px-4 md:px-8 lg:px-12 py-20 bg-[#FAF5F0]">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
@@ -42,13 +63,17 @@ export default function FindUs() {
                   Address
                 </h3>
                 <p className="font-sans text-xs text-[#5A4F44] leading-relaxed group-hover:text-[#D38B57] transition-colors">
-                  Main Road, Tatibandh, <br />
-                  Raipur, Chhattisgarh 492099
+                  {addressLines.map((line: string, idx: number) => (
+                    <span key={idx}>
+                      {line}
+                      {idx < addressLines.length - 1 && <br />}
+                    </span>
+                  ))}
                 </p>
               </div>
             </a>
 
-            <a href="tel:+919993060082" className="flex items-start gap-5 group">
+            <a href={`tel:${phone}`} className="flex items-start gap-5 group">
               <div className="w-10 h-10 rounded-full bg-[#F6EDDF] flex items-center justify-center shrink-0 group-hover:bg-[#D38B57] transition-colors">
                 <Phone className="w-4 h-4 text-[#D38B57] group-hover:text-white transition-colors" />
               </div>
@@ -57,7 +82,7 @@ export default function FindUs() {
                   Contact
                 </h3>
                 <p className="font-sans text-xs text-[#5A4F44] group-hover:text-[#D38B57] transition-colors">
-                  +91 99930 60082
+                  {phone}
                 </p>
               </div>
             </a>
@@ -71,7 +96,7 @@ export default function FindUs() {
                   Hours
                 </h3>
                 <p className="font-sans text-xs text-[#5A4F44]">
-                  9 AM – 10 PM | Monday – Sunday
+                  {hours}
                 </p>
               </div>
             </div>

@@ -56,9 +56,13 @@ export interface WeddingStat { id: string; label: string; value: string; }
 export interface ContactInfo { id: string; address: string; phone: string; email: string; description: string; }
 export interface Story { id: string; title: string; content: string; imageUrl: string; publicId: string; }
 export interface SpecialOrder { id: string; title: string; description: string; imageUrl: string; publicId: string; }
+export interface TimelineEvent { id: string; year: string; title: string; description: string; }
+export interface HeroData { id: string; title: string; subtitle: string; imageUrl: string; publicId: string; }
 
 export const useSignatureSweets = createDataHook<SignatureSweet[]>("/signature-sweets", false);
 export const useWeddingStats = createDataHook<WeddingStat[]>("/wedding-stats", false);
 export const useContactInfo = createDataHook<ContactInfo | null>("/contact", true);
 export const useStory = createDataHook<Story | null>("/story", true);
 export const useSpecialOrders = createDataHook<SpecialOrder | null>("/special-orders", true);
+export const useTimelineEvents = createDataHook<TimelineEvent[]>("/timeline-events", false);
+export const useHeroSlides = createDataHook<HeroData[]>("/hero", false);

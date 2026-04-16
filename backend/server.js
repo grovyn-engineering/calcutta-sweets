@@ -28,8 +28,22 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+const allowedOrigins = process.env.FRONTEND_URL 
+  ? process.env.FRONTEND_URL.split(',').map(origin => origin.trim()) 
+  : ['http://localhost:3000', 'http://127.0.0.1:3000', 'http://localhost:3001'];
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      console.log(`CORS blocked for origin: ${origin}`);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
 
@@ -55,6 +69,7 @@ app.use('/api/wedding-stats', require('./src/routes/weddingStatRoutes'));
 app.use('/api/contact', require('./src/routes/contactInfoRoutes'));
 app.use('/api/story', require('./src/routes/storyRoutes'));
 app.use('/api/special-orders', require('./src/routes/specialOrderRoutes'));
+app.use('/api/timeline-events', require('./src/routes/timelineEventRoutes'));
 
 const { validate } = require('./src/middlewares/validate');
 const { loginSchema } = require('./src/validators/schemas');
