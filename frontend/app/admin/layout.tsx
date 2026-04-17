@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import { fetchWithAuth } from "@/lib/apiHelper";
+import { clearAdminToken } from "@/lib/adminToken";
 import { Toaster } from "react-hot-toast";
 import {
   LayoutDashboard,
@@ -75,7 +76,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         const res = await fetchWithAuth("/auth/me", { method: "GET" });
         const data = await res.json();
         if (data.success) setIsAuthenticated(true);
-        else router.push("/admin/login");
+        else {
+          if (res.status === 401) clearAdminToken();
+          router.push("/admin/login");
+        }
       } catch {
         router.push("/admin/login");
       } finally {
@@ -88,6 +92,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   const handleLogout = async () => {
     await fetchWithAuth("/auth/logout", { method: "POST" });
+    clearAdminToken();
     router.push("/admin/login");
   };
 

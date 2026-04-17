@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { FourDotsLoader } from "@/components/admin/FourDotsLoader";
+import { setAdminToken } from "@/lib/adminToken";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
@@ -33,6 +34,8 @@ export default function AdminLogin() {
       const data = await res.json();
 
       if (data.success) {
+        const jwt = data.data?.token as string | undefined;
+        if (jwt) setAdminToken(jwt);
         router.push("/admin");
       } else {
         setError(data.message || "Failed to login");
