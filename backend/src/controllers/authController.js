@@ -2,6 +2,17 @@ const { prisma } = require('../lib/prisma');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+function tokenCookieOptions() {
+  const isProd = process.env.NODE_ENV === 'production';
+  return {
+    httpOnly: true,
+    secure: isProd,
+    sameSite: isProd ? 'none' : 'lax',
+    maxAge: 24 * 60 * 60 * 1000,
+    path: '/',
+  };
+}
+
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -22,12 +33,7 @@ const login = async (req, res) => {
       { expiresIn: '24h' }
     );
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 24 * 60 * 60 * 1000
-    });
+    res.cookie('token', token, tokenCookieOptions());
 
     res.json({
       success: true,
@@ -45,8 +51,8 @@ const login = async (req, res) => {
 };
 
 const logout = (req, res) => {
-  res.clearCookie("token");
-  res.json({ success: true, message: "Logged out successfully" });
+  res.clearCookie('token', tokenCookieOptions());
+  res.json({ success: true, message: 'Logged out successfully' });
 };
 
 const me = async (req, res) => {
