@@ -4,7 +4,7 @@ const { deleteImage } = require('../utils/cloudinary');
 const getOccasions = async (req, res) => {
   try {
     const occasions = await prisma.occasion.findMany({
-      orderBy: { createdAt: 'desc' }
+      orderBy: [{ sortOrder: 'asc' }, { title: 'asc' }],
     });
     res.json({ success: true, data: occasions });
   } catch (error) {
@@ -14,8 +14,8 @@ const getOccasions = async (req, res) => {
 
 const createOccasion = async (req, res) => {
   try {
-    const { title, imageUrl, cloudinaryPublicId } = req.body;
-    
+    const { title, imageUrl, cloudinaryPublicId, iconKey, sortOrder } = req.body;
+
     if (!title) {
       return res.status(400).json({ success: false, message: "Title is required" });
     }
@@ -24,8 +24,10 @@ const createOccasion = async (req, res) => {
       data: {
         title,
         imageUrl: imageUrl || "",
-        publicId: cloudinaryPublicId || ""
-      }
+        publicId: cloudinaryPublicId || "",
+        iconKey: iconKey || "Heart",
+        sortOrder: sortOrder ?? 0,
+      },
     });
 
     res.status(201).json({ success: true, data: newOccasion });
@@ -37,7 +39,7 @@ const createOccasion = async (req, res) => {
 const updateOccasion = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, imageUrl, cloudinaryPublicId } = req.body;
+    const { title, imageUrl, cloudinaryPublicId, iconKey, sortOrder } = req.body;
 
     const existingOccasion = await prisma.occasion.findUnique({ where: { id } });
 
@@ -60,8 +62,10 @@ const updateOccasion = async (req, res) => {
       data: {
         title: title !== undefined ? title : existingOccasion.title,
         imageUrl: imageUrl !== undefined ? imageUrl : existingOccasion.imageUrl,
-        publicId: cloudinaryPublicId !== undefined ? cloudinaryPublicId : existingOccasion.publicId
-      }
+        publicId: cloudinaryPublicId !== undefined ? cloudinaryPublicId : existingOccasion.publicId,
+        iconKey: iconKey !== undefined ? iconKey : existingOccasion.iconKey,
+        sortOrder: sortOrder !== undefined ? sortOrder : existingOccasion.sortOrder,
+      },
     });
 
     if (oldImageToDelete) {

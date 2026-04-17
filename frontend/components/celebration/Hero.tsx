@@ -60,7 +60,7 @@ export default function Hero() {
 
         {/* Interactive image grid for hero assets */}
         <motion.div 
-          variants={staggerContainer}>,StartLine:65,TargetContent:
+          variants={staggerContainer}
           initial="initial"
           whileInView="whileInView"
           viewport={staggerContainer.viewport}

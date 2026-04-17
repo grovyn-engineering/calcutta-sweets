@@ -3,31 +3,9 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
 import { useTimelineEvents } from "@/hooks/useAdminData";
+import type { TimelineEvent } from "@/hooks/useAdminData";
 
-const FALLBACK_MILESTONES = [
-  {
-    year: "1947",
-    title: "The Humble Threshold",
-    description: "Our family started with a tiny wooden shop in North Calcutta, where we sold just three kinds of traditional sweets.",
-  },
-  {
-    year: "1978",
-    title: "The Pehla Revolution",
-    description: "We launched our winter Nolen Gur sweets and they quickly became a favorite across the city.",
-  },
-  {
-    year: "2005",
-    title: "Legacy Modernised",
-    description: "We moved to Raipur and opened our flagship store, still using the same traditional techniques we started with decades ago.",
-  },
-  {
-    year: "Today",
-    title: "A Taste of Heritage",
-    description: "We are still making everything by hand, sharing the sweets we love with a whole new generation.",
-  },
-];
-
-const TimelineItem = ({ item, index }: { item: typeof FALLBACK_MILESTONES[0], index: number }) => {
+const TimelineItem = ({ item, index }: { item: TimelineEvent; index: number }) => {
   const ref = useRef(null);
 
   const isInView = useInView(ref, { margin: "-48% 0px -48% 0px", once: false });
@@ -75,10 +53,16 @@ const TimelineItem = ({ item, index }: { item: typeof FALLBACK_MILESTONES[0], in
 };
 
 
-export default function Timeline() {
+export default function Timeline({
+  heading,
+  subtitle,
+}: {
+  heading: string;
+  subtitle: string;
+}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { data, loading } = useTimelineEvents();
-  const milestones = !loading && data && data.length > 0 ? data : FALLBACK_MILESTONES;
+  const milestones = data ?? [];
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -105,11 +89,13 @@ export default function Timeline() {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <h2 className="font-dm-serif text-4xl sm:text-5xl md:text-6xl text-[#3E2F26] mb-6">
-              Our Journey Through Time
+              {heading}
             </h2>
-            <p className="font-sans text-zinc-600 max-w-2xl mx-auto text-base sm:text-lg">
-              Tracing our steps from a humble sweet shop to a nationwide celebration of original Bengali craftsmanship.
-            </p>
+            {subtitle ? (
+              <p className="font-sans text-zinc-600 max-w-2xl mx-auto text-base sm:text-lg">
+                {subtitle}
+              </p>
+            ) : null}
           </motion.div>
         </div>
 
@@ -130,9 +116,15 @@ export default function Timeline() {
           </motion.div>
 
           <div className="relative z-20 pt-4 pb-4">
-            {milestones.map((item: any, index: number) => (
-              <TimelineItem key={item.id || item.year} item={item} index={index} />
-            ))}
+            {loading ? (
+              <p className="text-center text-sm text-zinc-500 py-12">Loading timeline…</p>
+            ) : milestones.length === 0 ? (
+              <p className="text-center text-sm text-zinc-500 py-12">No timeline milestones yet.</p>
+            ) : (
+              milestones.map((item, index) => (
+                <TimelineItem key={item.id} item={item} index={index} />
+              ))
+            )}
           </div>
 
         </div>

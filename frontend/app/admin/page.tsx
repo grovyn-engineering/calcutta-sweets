@@ -1,85 +1,206 @@
+"use client";
+
+import Link from "next/link";
+import {
+  Images,
+  PartyPopper,
+  Candy,
+  BookOpen,
+  Heart,
+  Package,
+  MapPin,
+  MessageSquareQuote,
+  BarChart3,
+  ListOrdered,
+  UtensilsCrossed,
+} from "lucide-react";
+import { useAdminStats, type AdminStats } from "@/hooks/useAdminData";
+import { AdminDashboardSkeleton } from "@/components/admin/AdminDashboardSkeleton";
+import { AdminBreadcrumbs } from "@/components/admin/AdminBreadcrumbs";
+
+const quickLinks: {
+  href: string;
+  title: string;
+  description: string;
+  icon: typeof Images;
+  statKey?: keyof AdminStats;
+}[] = [
+  {
+    href: "/admin/hero",
+    title: "Hero carousel",
+    description: "Headlines, subtitles, and full-width images for the homepage slider.",
+    icon: Images,
+    statKey: "heroSlides",
+  },
+  {
+    href: "/admin/occasions",
+    title: "Celebrations",
+    description: "Seasonal boxes and occasion imagery shown on the celebrations page.",
+    icon: PartyPopper,
+    statKey: "occasions",
+  },
+  {
+    href: "/admin/signature-sweets",
+    title: "Signature sweets",
+    description: "Featured items and imagery for your bestsellers section.",
+    icon: Candy,
+    statKey: "signatureSweets",
+  },
+  {
+    href: "/admin/menu-products",
+    title: "Menu",
+    description: "Storefront menu items, prices, categories, and product detail pages.",
+    icon: UtensilsCrossed,
+    statKey: "menuProducts",
+  },
+  {
+    href: "/admin/story",
+    title: "Story & journey",
+    description: "Long-form story, portrait image, and timeline milestones.",
+    icon: BookOpen,
+    statKey: "timelineEvents",
+  },
+  {
+    href: "/admin/wedding-stats",
+    title: "Wedding stats",
+    description: "Numbers and labels for the wedding experience section.",
+    icon: Heart,
+    statKey: "weddingStats",
+  },
+  {
+    href: "/admin/special-orders",
+    title: "Special orders",
+    description: "Copy and banner for bulk or custom order requests.",
+    icon: Package,
+    statKey: "specialOrders",
+  },
+  {
+    href: "/admin/contact",
+    title: "Visit us",
+    description: "Address, phone, email, hours, and notes for the flagship location.",
+    icon: MapPin,
+    statKey: "contacts",
+  },
+  {
+    href: "/admin/testimonials",
+    title: "Testimonials",
+    description: "Customer quotes shown on the homepage when enabled.",
+    icon: MessageSquareQuote,
+    statKey: "testimonials",
+  },
+  {
+    href: "/admin/visit-highlights",
+    title: "Visit page strip",
+    description: "Three highlights under the map (heritage, natural, taste).",
+    icon: BarChart3,
+    statKey: "visitUsStats",
+  },
+  {
+    href: "/admin/celebration-process",
+    title: "Celebration steps",
+    description: "Four-step process cards on the celebrations page.",
+    icon: ListOrdered,
+    statKey: "celebrationSteps",
+  },
+];
+
+const summaryCards: { label: string; statKey: keyof AdminStats; icon: typeof Images }[] = [
+  { label: "Hero slides", statKey: "heroSlides", icon: Images },
+  { label: "Celebrations", statKey: "occasions", icon: PartyPopper },
+  { label: "Signature items", statKey: "signatureSweets", icon: Candy },
+  { label: "Menu items", statKey: "menuProducts", icon: UtensilsCrossed },
+  { label: "Timeline events", statKey: "timelineEvents", icon: BookOpen },
+];
+
 export default function AdminDashboard() {
-  const instructions = [
-    {
-      id: "01",
-      title: "Menu Navigation",
-      description: "Use the menu on the left to find the page you want to change. Each button takes you to a different part of your website."
-    },
-    {
-      id: "02",
-      title: "Homepage Banner",
-      description: "Change the main heading and the big photo at the very top of your website. This is the first thing people see when they open the site."
-    },
-    {
-      id: "03",
-      title: "Celebrations",
-      description: "Update your special event boxes. You can add, change, or remove items like Diwali specials or wedding collections here."
-    },
-    {
-      id: "04",
-      title: "Signature Sweets",
-      description: "Showcase your best-selling items. Add photos and descriptions for your famous sweets and traditional recipes."
-    },
-    {
-      id: "05",
-      title: "Our Story",
-      description: "Share your shop's history and values. You can update the text and image that tells the story of your brand's journey."
-    },
-    {
-      id: "06",
-      title: "Wedding Stats",
-      description: "Show your wedding experience. Update the numbers and stats that show how many successful weddings you've served."
-    },
-    {
-      id: "07",
-      title: "Special Orders",
-      description: "Manage custom and bulk orders. Update the text and banner that explains how customers can place special requests."
-    },
-    {
-      id: "08",
-      title: "Visit Us",
-      description: "Keep your contact details correct. Update your shop address, phone number, and email so customers can find you easily."
-    }
-  ];
+  const { data: stats, loading, error } = useAdminStats();
+
+  if (loading && stats === null) {
+    return <AdminDashboardSkeleton />;
+  }
+
+  if (error && stats === null) {
+    return (
+      <div className="w-full rounded-xl border border-red-200 bg-red-50 px-4 py-6 text-sm text-red-700">
+        Could not load dashboard stats: {error}
+      </div>
+    );
+  }
 
   return (
-    <div className="max-w-4xl">
-      <h1 className="text-2xl font-semibold text-[#3E2F26] mb-1">Dashboard Overview</h1>
-      <p className="text-sm text-[#3E2F26]/50 italic mb-8">"Update your shop's website content effortlessly."</p>
-
-      <div className="bg-white border border-[#3E2F26]/8 rounded-lg shadow-sm overflow-hidden">
-        {/* Header */}
-        <div className="px-8 py-6 border-b border-[#3E2F26]/5 flex items-center gap-4">
-          <div className="w-10 h-10 rounded-lg bg-[#FAF3E8] flex items-center justify-center text-[#C8773A]">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-            </svg>
+    <div className="w-full min-w-0 space-y-10">
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+        <div className="min-w-0 flex-1 space-y-4">
+          <AdminBreadcrumbs
+            items={[
+              { label: "Admin", href: "/admin" },
+              { label: "Dashboard" },
+            ]}
+          />
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-neutral-900 sm:text-3xl">Admin dashboard</h1>
+            <p className="mt-1 max-w-2xl text-sm text-neutral-500">
+              Manage live site content from one place. Counts update from your database; open a card to edit.
+            </p>
           </div>
-          <h2 className="text-xl font-semibold text-[#3E2F26]">Administrator&apos;s Instruction Guide</h2>
         </div>
-
-        {/* Content */}
-        <div className="p-8 space-y-10">
-          {instructions.map((item) => (
-            <div key={item.id} className="flex gap-8 group">
-              <div className="text-3xl font-bold text-[#C8773A]/20 tracking-tighter shrink-0 transition-colors group-hover:text-[#C8773A]/40">
-                {item.id}
-              </div>
-              <div className="space-y-1.5 pt-1.5">
-                <h3 className="text-base font-bold text-[#3E2F26] tracking-tight">{item.title}</h3>
-                <p className="text-[13px] leading-relaxed text-[#3E2F26]/60">
-                  {item.description}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Footer Quote */}
-        <div className="px-8 py-10 text-center border-t border-[#3E2F26]/5 bg-[#FAF3E8]/30">
-          <p className="text-xs text-[#3E2F26]/30 italic tracking-wide">
-            &quot;Tradition is not the worship of ashes, but the preservation of fire.&quot;
+        <div className="shrink-0 rounded-lg border border-neutral-200/70 bg-gradient-to-b from-neutral-50/90 to-neutral-50/40 px-3 py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] lg:max-w-[220px] lg:text-right">
+          <div className="flex items-center justify-between gap-2 lg:justify-end">
+            <p className="min-w-0 text-sm font-semibold leading-snug text-neutral-900">Admin panel</p>
+            <span
+              className="shrink-0 rounded-md bg-[#C8773A]/14 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#8f4f20] ring-1 ring-[#C8773A]/20"
+              title="Content management system"
+            >
+              CMS
+            </span>
+          </div>
+          <p className="mt-2 border-t border-neutral-200/60 pt-2 text-[11px] leading-relaxed text-neutral-500 lg:text-right">
+            Storefront content
           </p>
+        </div>
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {summaryCards.map(({ label, statKey, icon: Icon }) => (
+          <div
+            key={statKey}
+            className="flex items-center justify-between rounded-xl border border-neutral-200/80 bg-white p-5 shadow-sm"
+          >
+            <div>
+              <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">{label}</p>
+              <p className="mt-1 text-3xl font-semibold tabular-nums text-neutral-900">
+                {loading ? "—" : stats?.[statKey] ?? 0}
+              </p>
+            </div>
+            <Icon className="h-11 w-11 text-[#C8773A]/25" strokeWidth={1.25} />
+          </div>
+        ))}
+      </div>
+
+      <div>
+        <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-neutral-500">Manage content</h2>
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          {quickLinks.map(({ href, title, description, icon: Icon, statKey }) => (
+            <Link
+              key={href}
+              href={href}
+              className="group flex flex-col rounded-xl border border-neutral-200/80 bg-white p-5 shadow-sm transition hover:border-[#C8773A]/40 hover:shadow-md"
+            >
+              <Icon className="mb-3 h-8 w-8 text-[#C8773A]" strokeWidth={1.5} />
+              <div className="flex items-start justify-between gap-2">
+                <h3 className="font-semibold text-neutral-900">{title}</h3>
+                {statKey && stats && (
+                  <span className="rounded-full bg-neutral-100 px-2 py-0.5 text-xs font-medium tabular-nums text-neutral-600">
+                    {stats[statKey]}
+                  </span>
+                )}
+              </div>
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-neutral-500">{description}</p>
+              <span className="mt-4 text-xs font-semibold text-[#C8773A] opacity-0 transition group-hover:opacity-100">
+                Open →
+              </span>
+            </Link>
+          ))}
         </div>
       </div>
     </div>

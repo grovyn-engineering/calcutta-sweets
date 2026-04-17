@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useSpecialOrders } from "@/hooks/useAdminData";
 import ImageUploader from "@/components/admin/ImageUploader";
+import { AdminLoadingState } from "@/components/admin/AdminLoadingState";
+import { AdminBreadcrumbs } from "@/components/admin/AdminBreadcrumbs";
 
 export default function SpecialOrdersAdminPage() {
   const { data, loading, updateItem } = useSpecialOrders();
@@ -26,10 +28,17 @@ export default function SpecialOrdersAdminPage() {
     catch { toast.error("Something went wrong"); } finally { setSaving(false); }
   };
 
-  if (loading) return <div className="text-[#3E2F26]/40 text-sm">Loading...</div>;
+  if (loading) return <AdminLoadingState message="Loading special orders…" />;
 
   return (
-    <div className="max-w-2xl">
+    <div className="w-full min-w-0">
+      <AdminBreadcrumbs
+        items={[
+          { label: "Admin", href: "/admin" },
+          { label: "Special orders", href: "/admin/special-orders" },
+          { label: "Banner & copy" },
+        ]}
+      />
       <h1 className="text-2xl font-semibold text-[#3E2F26] mb-1">Special Orders</h1>
       <p className="text-sm text-[#3E2F26]/50 italic mb-8">"Manage information for custom and bulk orders."</p>
 

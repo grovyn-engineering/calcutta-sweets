@@ -6,7 +6,6 @@ export function proxy(request: NextRequest) {
 
   if (request.nextUrl.pathname.startsWith('/admin/login')) {
     if (token) {
-      // If already logged in, redirect to admin dashboard
       return NextResponse.redirect(new URL('/admin', request.url));
     }
     return NextResponse.next();

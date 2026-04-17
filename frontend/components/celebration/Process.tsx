@@ -2,86 +2,81 @@
 
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "@/lib/animations";
-import { ClipboardEdit, Palette, CookingPot, Truck } from "lucide-react";
+import {
+  ClipboardEdit,
+  Palette,
+  CookingPot,
+  Truck,
+  Sparkles,
+  Gift,
+  Heart,
+  type LucideIcon,
+} from "lucide-react";
+import { useCelebrationProcessSteps } from "@/hooks/useAdminData";
+
+const ICONS: Record<string, LucideIcon> = {
+  ClipboardEdit,
+  Palette,
+  CookingPot,
+  Truck,
+  Sparkles,
+  Gift,
+  Heart,
+};
 
 export default function Process() {
-  const steps = [
-    {
-      number: "01",
-      title: "Enquire & Select",
-      description: "Fill the form or call us to share your event details and sweet preferences.",
-      icon: ClipboardEdit,
-    },
-    {
-      number: "02",
-      title: "Customize",
-      description: "Choose flavors, packaging styles, and personalized branding options.",
-      icon: Palette,
-    },
-    {
-      number: "03",
-      title: "Freshly Prepared",
-      description: "Our Karigars craft your order 6 hours prior to delivery for maximum freshness.",
-      icon: CookingPot,
-    },
-    {
-      number: "04",
-      title: "Timely Delivery",
-      description: "Carefully packed and shipped to your venue via our temperature-controlled fleet.",
-      icon: Truck,
-    },
-  ];
+  const { data, loading } = useCelebrationProcessSteps();
+
+  if (loading) {
+    return (
+      <section className="w-full bg-[#FEF7F2] py-24">
+        <div className="mx-auto max-w-[1400px] px-6 text-center text-sm text-[#7D7063] sm:px-10 lg:px-12">
+          Loading…
+        </div>
+      </section>
+    );
+  }
+
+  if (!data?.length) return null;
 
   return (
-    <section className="w-full py-24 bg-[#FEF7F2]">
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
-        {/* Heading */}
-        <motion.div 
-          {...fadeUp}
-          className="text-center mb-16"
-        >
-          <h2 className="font-dm-serif text-3xl sm:text-4xl md:text-[2.5rem] text-[#2C1D13] mb-4 tracking-wide">
+    <section className="w-full bg-[#FEF7F2] py-24">
+      <div className="mx-auto max-w-[1400px] px-6 sm:px-10 lg:px-12">
+        <motion.div {...fadeUp} className="mb-16 text-center">
+          <h2 className="font-dm-serif text-3xl tracking-wide text-[#2C1D13] sm:text-4xl md:text-[2.5rem] mb-4">
             Seamless Celebrations
           </h2>
         </motion.div>
 
-        {/* Process Steps */}
-        <motion.div 
+        <motion.div
           variants={staggerContainer}
           initial="initial"
           whileInView="whileInView"
           viewport={staggerContainer.viewport}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 relative lg:px-10"
+          className="relative grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4 lg:gap-8 lg:px-10"
         >
-          {steps.map((step) => {
-            const Icon = step.icon;
+          {data.map((step) => {
+            const Icon = ICONS[step.iconKey] ?? ClipboardEdit;
             return (
-              <motion.div 
-                key={step.number} 
+              <motion.div
+                key={step.id}
                 variants={fadeUp}
-                className="relative bg-[#FFFDFA] rounded-[2rem] p-6 lg:p-8 border border-[#F4EBE3] shadow-[0_8px_30px_rgb(0,0,0,0.03)] hover:shadow-[0_12px_40px_rgb(0,0,0,0.06)] transition-all duration-300 flex flex-col justify-between min-h-[260px]"
+                className="relative flex min-h-[260px] flex-col justify-between rounded-[2rem] border border-[#F4EBE3] bg-[#FFFDFA] p-6 shadow-[0_8px_30px_rgb(0,0,0,0.03)] transition-all duration-300 hover:shadow-[0_12px_40px_rgb(0,0,0,0.06)] lg:p-8"
               >
-                {/* Top Row: Icon and Number */}
-                <div className="flex items-start justify-between w-full mb-8">
-                  {/* Icon */}
-                  <div className="text-[#A27339] mt-2">
-                    <Icon className="w-6 h-6 lg:w-7 lg:h-7" strokeWidth={1.5} />
+                <div className="mb-8 flex w-full items-start justify-between">
+                  <div className="mt-2 text-[#A27339]">
+                    <Icon className="h-6 w-6 lg:h-7 lg:w-7" strokeWidth={1.5} />
                   </div>
-
-                  {/* Number */}
-                  <div className="font-dm-serif text-[4rem] lg:text-[5rem] text-[#F1E7DD] leading-[0.8] select-none">
-                    {step.number}
+                  <div className="pointer-events-none select-none font-dm-serif text-[4rem] leading-[0.8] text-[#F1E7DD] lg:text-[5rem]">
+                    {step.stepNumber}
                   </div>
                 </div>
-                
-                {/* Bottom Row: Text Content */}
+
                 <div className="mt-auto">
-                  <h3 className="font-sans font-extrabold text-[#2C1D13] text-sm lg:text-[15px] tracking-wide mb-3">
+                  <h3 className="mb-3 font-sans text-sm font-extrabold tracking-wide text-[#2C1D13] lg:text-[15px]">
                     {step.title}
                   </h3>
-                  <p className="font-sans text-[11px] lg:text-xs text-[#7D7063] leading-[1.8]">
-                    {step.description}
-                  </p>
+                  <p className="font-sans text-[11px] leading-[1.8] text-[#7D7063] lg:text-xs">{step.description}</p>
                 </div>
               </motion.div>
             );

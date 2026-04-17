@@ -2,47 +2,54 @@
 
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "@/lib/animations";
-
-const stats = [
-  {
-    value: "Since 2000",
-    label: "HERITAGE ESTABLISHED",
-  },
-  {
-    value: "100% Natural",
-    label: "NO PRESERVATIVES",
-  },
-  {
-    value: "Loved by Generations",
-    label: "AUTHENTIC TASTE",
-  },
-];
+import { useVisitUsStats, type VisitUsStat } from "@/hooks/useAdminData";
+import { VISIT_STORE_STATS_DEFAULT } from "@/lib/visitUsPageDefaults";
 
 export default function StoreStats() {
+  const { data, loading } = useVisitUsStats();
+
+  if (loading) {
+    return (
+      <section className="w-full border-y border-[#3E2B1E]/10 bg-[#FAF5F0]">
+        <div className="mx-auto max-w-7xl px-6 py-12 text-center text-sm text-[#5A4F44]/50 sm:px-10 md:px-16 lg:px-24 md:py-16">
+          Loading…
+        </div>
+      </section>
+    );
+  }
+
+  const rows: VisitUsStat[] =
+    data && data.length > 0
+      ? data
+      : [...VISIT_STORE_STATS_DEFAULT].map((s) => ({
+          id: s.id,
+          value: s.value,
+          label: s.label,
+          sortOrder: s.sortOrder,
+        }));
+
   return (
-    <section className="w-full bg-[#FAF5F0] border-y border-[#3E2B1E]/10">
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 md:px-16 lg:px-24 py-12 md:py-16">
-        <motion.div 
+    <section className="w-full border-y border-[#3E2B1E]/10 bg-[#FAF5F0]">
+      <div className="mx-auto max-w-7xl px-6 py-12 sm:px-10 md:px-16 lg:px-24 md:py-16">
+        <motion.div
           variants={staggerContainer}
           initial="initial"
           whileInView="whileInView"
           viewport={staggerContainer.viewport}
-          className="grid grid-cols-1 md:grid-cols-3 gap-0 text-center md:divide-x divide-[#3E2B1E]/10"
+          className="grid grid-cols-1 gap-0 text-center md:grid-cols-3 md:divide-x md:divide-[#3E2B1E]/10"
         >
-          {stats.map((s, idx) => (
+          {rows.map((s, idx) => (
             <motion.div
-              key={s.label}
+              key={s.id}
               variants={fadeUp}
               className={`flex flex-col items-center gap-2 py-8 md:py-0
-                ${idx !== 0 ? 'border-t border-[#3E2B1E]/10 md:border-t-0' : ''}
-                ${idx === 0 ? 'pt-0 md:py-0' : ''}
-                ${idx === stats.length - 1 ? 'pb-0 md:py-0' : ''}
+                ${idx !== 0 ? "border-t border-[#3E2B1E]/10 md:border-t-0" : ""}
+                ${idx === 0 ? "pt-0 md:py-0" : ""}
+                ${idx === data.length - 1 ? "pb-0 md:py-0" : ""}
               `}
             >
-              <h3 className="font-dm-serif text-2xl sm:text-3xl text-[#3E2B1E]">
-                {s.value}
-              </h3>
-              <span className="font-sans text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] text-[#5A4F44]">
+              <h3 className="font-dm-serif text-2xl text-[#3E2B1E] sm:text-3xl">{s.value}</h3>
+              <span className="font-sans text-[9px] font-bold uppercase tracking-[0.2em] text-[#5A4F44] sm:text-[10px]">
                 {s.label}
               </span>
             </motion.div>

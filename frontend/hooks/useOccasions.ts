@@ -6,6 +6,8 @@ export interface Occasion {
   title: string;
   imageUrl: string;
   publicId: string;
+  iconKey?: string;
+  sortOrder?: number;
 }
 
 export function useOccasions() {
@@ -18,12 +20,14 @@ export function useOccasions() {
     try {
       const res = await apiFetch("/occasions");
       if (res.success) {
-        setOccasions(res.data);
+        setOccasions(Array.isArray(res.data) ? res.data : []);
       } else {
-        setError(res.message);
+        setError(res.message || "Failed to fetch occasions");
+        setOccasions([]);
       }
     } catch (err: any) {
       setError(err.message || "Failed to fetch occasions");
+      setOccasions([]);
     } finally {
       setLoading(false);
     }
@@ -42,7 +46,7 @@ export function useOccasions() {
     return res;
   };
 
-  const updateOccasion = async (id: number, data: Partial<Occasion>) => {
+  const updateOccasion = async (id: string, data: Partial<Occasion>) => {
     const res = await apiFetch(`/occasions/${id}`, {
       method: "PUT",
       body: JSON.stringify(data),
@@ -51,7 +55,7 @@ export function useOccasions() {
     return res;
   };
 
-  const deleteOccasion = async (id: number) => {
+  const deleteOccasion = async (id: string) => {
     const res = await apiFetch(`/occasions/${id}`, {
       method: "DELETE",
     });

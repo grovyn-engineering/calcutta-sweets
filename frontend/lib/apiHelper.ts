@@ -1,4 +1,4 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5050/api";
 
 export const fetchWithAuth = async (url: string, options: RequestInit = {}) => {
   const finalUrl = url.startsWith("http") ? url : `${BASE_URL}${url}`;

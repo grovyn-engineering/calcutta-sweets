@@ -3,11 +3,11 @@ import { MoveRight, Heart, Cake, Landmark, Flame, Briefcase } from "lucide-react
 import { fetchFromBackend } from "@/lib/serverFetch";
 
 const FALLBACK_OCCASIONS = [
-  { title: "Weddings", image: "/images/wedding.png", iconName: "Heart" },
-  { title: "Birthdays", image: "/images/birthday.png", iconName: "Cake" },
-  { title: "Durga Puja", image: "/images/puja.png", iconName: "Landmark" },
-  { title: "Diwali", image: "/images/diwali.png", iconName: "Flame" },
-  { title: "Corporate", image: "/images/corporate.png", iconName: "Briefcase" },
+  { id: "fallback-weddings", title: "Weddings", image: "/images/wedding.png", iconName: "Heart" },
+  { id: "fallback-birthdays", title: "Birthdays", image: "/images/birthday.png", iconName: "Cake" },
+  { id: "fallback-puja", title: "Durga Puja", image: "/images/puja.png", iconName: "Landmark" },
+  { id: "fallback-diwali", title: "Diwali", image: "/images/diwali.png", iconName: "Flame" },
+  { id: "fallback-corporate", title: "Corporate", image: "/images/corporate.png", iconName: "Briefcase" },
 ];
 
 const ICON_MAP: Record<string, any> = {
@@ -19,14 +19,13 @@ const ICON_MAP: Record<string, any> = {
 };
 
 function mapOccasion(o: any) {
-  // Check if it's already using the fallback structure directly
   if (o.iconName && !o.imageUrl) return o;
 
   return {
-    id: o.id ?? crypto.randomUUID(),
+    id: o.id ?? `occ-${(o.title || "x").replace(/\s+/g, "-").toLowerCase()}`,
     title: o.title ?? "Occasion",
     image: o.imageUrl ?? o.image ?? "/images/default.png",
-    iconName: o.iconName ?? "Heart" 
+    iconName: o.iconKey ?? o.iconName ?? "Heart",
   };
 }
 
@@ -50,12 +49,12 @@ export default async function Occasions() {
 
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-5 items-stretch">
-          {occasions.map(({ title, image, iconName }) => {
+          {occasions.map(({ id, title, image, iconName }) => {
             const Icon = ICON_MAP[iconName] || Heart;
 
             return (
               <div
-                key={title}
+                key={id}
                 className="relative w-full h-[320px] sm:h-[380px] lg:h-[450px] rounded-[2rem] overflow-hidden group shadow-md transition-all duration-500 hover:-translate-y-4 hover:shadow-xl hover:shadow-brand-brown/10"
               >
                 <Image

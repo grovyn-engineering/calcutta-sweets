@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { History } from "lucide-react";
 import { useTimelineEvents, TimelineEvent } from "@/hooks/useAdminData";
+import { AdminEmptyState } from "@/components/admin/AdminEmptyState";
+import { AdminLoadingState } from "@/components/admin/AdminLoadingState";
+import { FourDotsLoader } from "@/components/admin/FourDotsLoader";
 
 export default function TimelineEditor() {
   const { data: events, loading, error, createItem, updateItem, deleteItem } = useTimelineEvents();
@@ -68,28 +72,41 @@ export default function TimelineEditor() {
   };
 
   if (loading) {
-    return <div className="text-brand-brown/50 text-sm animate-pulse mt-12">Loading timeline events...</div>;
+    return (
+      <div className="mt-16 w-full border-t border-brand-brown/10 pt-12">
+        <AdminLoadingState message="Loading timeline events…" />
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="text-red-500 bg-red-50 p-4 rounded text-sm mb-4 mt-12">Error loading events: {error}</div>;
+    return (
+      <div className="mt-16 w-full border-t border-brand-brown/10 pt-12">
+        <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-6 text-sm text-red-700">
+          Error loading events: {error}
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="w-full mt-16 pt-12 border-t border-brand-brown/10">
+    <div className="w-full min-w-0 mt-16 pt-12 border-t border-brand-brown/10">
       <h2 className="text-xl font-semibold text-brand-brown mb-1">Timeline Events</h2>
       <p className="text-sm text-brand-brown/50 italic mb-8">
         Manage the milestones for the "Our Journey Through Time" section on your Story page.
       </p>
 
-      {/* Item List */}
       <div className="bg-white border border-brand-brown/10 rounded-lg shadow-sm p-6 mb-8">
         <h3 className="text-xs font-semibold text-brand-brown/60 tracking-widest uppercase mb-4">
           Current Events
         </h3>
 
         {(!events || events.length === 0) ? (
-          <p className="text-xs text-brand-brown/40 italic">No events have been added yet.</p>
+          <AdminEmptyState
+            icon={History}
+            title="No timeline events yet"
+            description='Add milestones for the "Our Journey Through Time" section on the Story page. Use the form below to create your first event.'
+          />
         ) : (
           <div className="space-y-4">
             {events.map((event) => (
@@ -118,7 +135,6 @@ export default function TimelineEditor() {
         )}
       </div>
 
-      {/* Editor Form */}
       <h3 className="text-xs font-semibold text-brand-brown/60 tracking-widest uppercase mb-4 pl-1">
         {editingId ? "Edit Event" : "Add New Event"}
       </h3>
@@ -183,10 +199,19 @@ export default function TimelineEditor() {
           )}
           <button
             type="submit"
-            className="px-5 py-2.5 bg-[#C8773A] hover:bg-[#b5692e] text-white text-xs font-semibold tracking-widest uppercase rounded transition-colors disabled:opacity-50"
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-[#C8773A] hover:bg-[#b5692e] text-white text-xs font-semibold tracking-widest uppercase rounded transition-colors disabled:opacity-50"
             disabled={saving}
           >
-            {saving ? "Saving..." : editingId ? "Update Event" : "Create Event"}
+            {saving ? (
+              <>
+                <FourDotsLoader size="sm" aria-label="Saving" />
+                Saving…
+              </>
+            ) : editingId ? (
+              "Update Event"
+            ) : (
+              "Create Event"
+            )}
           </button>
         </div>
       </form>

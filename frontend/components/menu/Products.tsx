@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import ProductCard from "@/components/ui/ProductCard";
@@ -9,49 +9,51 @@ import SpecialOffers from "@/components/menu/SpecialOffers";
 import CateringCTA from "@/components/menu/CateringCTA";
 import { getAllProducts } from "@/lib/products";
 import { Product } from "@/lib/types";
-import Image from "next/image";
-import { useSignatureSweets } from "@/hooks/useAdminData";
 
-const categories = ["All category", "Chena", "Fried", "Dessert", "Baked", "Signatures"];
+const ALL_LABEL = "All category";
+const SIGNATURES_LABEL = "Signatures";
 
 export default function MenuPage() {
   const searchParams = useSearchParams();
-  const initialCategory = searchParams.get("category") || "All category";
+  const initialCategory = searchParams.get("category") || ALL_LABEL;
 
   const [products, setProducts] = useState<Product[]>([]);
   const [activeCategory, setActiveCategory] = useState(initialCategory);
   const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [showAll, setShowAll] = useState(false);
 
-  const { data: dbSignatures } = useSignatureSweets();
-
   useEffect(() => {
+    setLoadError(null);
     getAllProducts()
       .then(setProducts)
+      .catch((e: Error) => setLoadError(e.message || "Could not load menu"))
       .finally(() => setIsLoading(false));
   }, []);
 
-  const signatureItems = dbSignatures && dbSignatures.length > 0
-    ? dbSignatures.map((sweet: any) => ({
-        id: sweet.id,
-        name: sweet.title || "Untitled Sweet",
-        description: sweet.subTitle || "",
-        price: 250, /* Fallback standard price for DB signatures */
-        unit: "200g",
-        category: "Signatures",
-        imageUrl: sweet.imageUrl || "/images/sweet.jpg",
-        isSignature: true,
-      } as Product))
-    : products.filter((item) => item.isSignature);
+  const categories = useMemo(() => {
+    const fromDb = new Set<string>();
+    for (const p of products) {
+      if (p.category?.trim()) fromDb.add(p.category.trim());
+    }
+    const sorted = [...fromDb].sort((a, b) => a.localeCompare(b));
+    const hasSignatures = products.some((p) => p.isSignature);
+    const tabs = [ALL_LABEL, ...sorted];
+    if (hasSignatures) tabs.push(SIGNATURES_LABEL);
+    return tabs;
+  }, [products]);
+
+  useEffect(() => {
+    if (!categories.includes(activeCategory)) {
+      setActiveCategory(categories[0] ?? ALL_LABEL);
+    }
+  }, [categories, activeCategory]);
 
   const filteredItems =
-    activeCategory === "All category"
-      ? [
-          ...products.filter(p => !p.isSignature),
-          ...(dbSignatures && dbSignatures.length > 0 ? signatureItems : products.filter(p => p.isSignature))
-        ]
-      : activeCategory === "Signatures"
-        ? signatureItems
+    activeCategory === ALL_LABEL
+      ? products
+      : activeCategory === SIGNATURES_LABEL
+        ? products.filter((item) => item.isSignature)
         : products.filter((item) => item.category === activeCategory);
 
   return (
@@ -102,6 +104,12 @@ export default function MenuPage() {
               Loading products...
             </p>
           </div>
+        ) : loadError ? (
+          <div className="text-center py-20 px-4">
+            <p className="font-sans text-red-600/90 text-sm max-w-md mx-auto">
+              {loadError}
+            </p>
+          </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredItems.slice(0, showAll ? undefined : 6).map((item) => (
@@ -112,12 +120,13 @@ export default function MenuPage() {
                 price={item.price}
                 weight={item.unit ?? "200g"}
                 image={item.imageUrl ?? "/images/sweet5.png"}
+                href={`/menu/${item.id}`}
               />
             ))}
           </div>
         )}
 
-        {!isLoading && filteredItems.length > 6 && (
+        {!isLoading && !loadError && filteredItems.length > 6 && (
           <div className="flex justify-center mt-8 sm:mt-10">
             <button
               onClick={() => setShowAll(!showAll)}
@@ -133,7 +142,7 @@ export default function MenuPage() {
           </div>
         )}
 
-        {!isLoading && filteredItems.length === 0 && (
+        {!isLoading && !loadError && filteredItems.length === 0 && (
           <div className="text-center py-20">
             <p className="font-sans text-zinc-400 text-lg">
               No items found in this category.

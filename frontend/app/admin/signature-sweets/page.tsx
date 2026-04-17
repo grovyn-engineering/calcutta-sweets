@@ -2,13 +2,17 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { Candy } from "lucide-react";
 import toast from "react-hot-toast";
 import { useSignatureSweets, SignatureSweet } from "@/hooks/useAdminData";
 import ImageUploader from "@/components/admin/ImageUploader";
+import { AdminLoadingState } from "@/components/admin/AdminLoadingState";
+import { AdminEmptyState } from "@/components/admin/AdminEmptyState";
+import { AdminBreadcrumbs } from "@/components/admin/AdminBreadcrumbs";
 
 export default function SignatureSweetsAdminPage() {
-  const { data, loading, createItem, updateItem, deleteItem } = useSignatureSweets();
-  const [editingId, setEditingId] = useState<number | null>(null);
+  const { data, loading, error, createItem, updateItem, deleteItem } = useSignatureSweets();
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [saving, setSaving] = useState(false);
   const [title, setTitle] = useState("");
@@ -30,18 +34,36 @@ export default function SignatureSweetsAdminPage() {
     } catch { toast.error("Something went wrong"); } finally { setSaving(false); }
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: string) => {
     if (window.confirm("Delete this item?")) {
       setSaving(true);
       try { await deleteItem(id); toast.success("Deleted"); } catch { toast.error("Something went wrong"); } finally { setSaving(false); }
     }
   };
 
-  if (loading && (!data || data.length === 0)) return <div className="text-[#3E2F26]/40 text-sm">Loading...</div>;
+  if (error) {
+    return (
+      <div className="w-full rounded-xl border border-red-200 bg-red-50 px-4 py-6 text-sm text-red-700">
+        Could not load signature sweets: {error}
+      </div>
+    );
+  }
+  if (loading) return <AdminLoadingState message="Loading signature sweets…" />;
   const isFormOpen = isCreating || editingId !== null;
 
   return (
-    <div className="max-w-3xl">
+    <div className="w-full min-w-0">
+      <AdminBreadcrumbs
+        items={[
+          { label: "Admin", href: "/admin" },
+          isFormOpen
+            ? { label: "Signature sweets", onNavigate: resetForm }
+            : { label: "Signature sweets", href: "/admin/signature-sweets" },
+          ...(isFormOpen
+            ? [{ label: isCreating ? "Create item" : "Edit item" }]
+            : []),
+        ]}
+      />
       <div className="flex justify-between items-start mb-8">
         <div>
           <h1 className="text-2xl font-semibold text-[#3E2F26]">Signature Sweets</h1>
@@ -81,9 +103,23 @@ export default function SignatureSweetsAdminPage() {
       {!isFormOpen && (
         <div className="bg-white border border-[#3E2F26]/8 rounded-lg overflow-hidden shadow-sm">
           {data?.length === 0 ? (
-            <div className="p-12 text-center">
-              <p className="text-sm text-[#3E2F26]/40 mb-4">No items found</p>
-              <button onClick={() => { resetForm(); setIsCreating(true); }} className="text-xs text-[#C8773A] font-semibold">+ Add new</button>
+            <div className="p-4 sm:p-6">
+              <AdminEmptyState
+                icon={Candy}
+                title="No signature sweets yet"
+                description="Showcase bestsellers on the homepage with titles, subtitles, and photos."
+              >
+                <button
+                  type="button"
+                  onClick={() => {
+                    resetForm();
+                    setIsCreating(true);
+                  }}
+                  className="rounded-lg bg-[#C8773A] px-4 py-2.5 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-[#b5692e]"
+                >
+                  + Add item
+                </button>
+              </AdminEmptyState>
             </div>
           ) : (
             <table className="w-full text-left">

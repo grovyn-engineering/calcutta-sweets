@@ -10,18 +10,40 @@ import Family from "@/components/story/Family";
 import Quote from "@/components/story/Quote";
 import GiftCTA from "@/components/story/GiftCTA";
 import { useStory } from "@/hooks/useAdminData";
+import { AdminLoadingState } from "@/components/admin/AdminLoadingState";
+import {
+  STORY_QUOTE_DEFAULT_ATTRIBUTION,
+  STORY_QUOTE_DEFAULT_TEXT,
+} from "@/lib/storyQuoteDefaults";
 
 export default function StoryPage() {
-  const { data: story, loading } = useStory();
+  const { data: story, loading, error } = useStory();
 
-  const titleFallback = "A Recipe \n Older \n Than Raipur";
-  const contentFallback = "Making the perfect Mishti takes time and a lot of practice. It is about knowing exactly when the milk is ready. This is a skill passed down through three generations of our family.";
-  
-  const titleText = story?.title || titleFallback;
-  const content = story?.content || contentFallback;
-  const imageUrl = story?.imageUrl || "/images/sweet8.jpg";
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-[#FEF7F2] flex items-center justify-center py-32">
+        <AdminLoadingState message="Loading story…" />
+      </main>
+    );
+  }
 
+  if (error || !story) {
+    return (
+      <main className="min-h-screen bg-[#FEF7F2] flex items-center justify-center px-6 py-32">
+        <p className="text-center text-[#5A4D40] text-sm max-w-md">
+          {error ? `Could not load this page: ${error}` : "Story content is not available yet."}
+        </p>
+      </main>
+    );
+  }
+
+  const titleText = story.title;
+  const content = story.content;
+  const imageUrl = story.imageUrl || "/images/sweet8.jpg";
   const titleLines = titleText.split(/,|\n/).map((t: string) => t.trim()).filter(Boolean);
+
+  const craftSteps = Array.isArray(story.craftSteps) ? story.craftSteps : [];
+  const familyMembers = Array.isArray(story.familyMembers) ? story.familyMembers : [];
 
   return (
     <main className="min-h-screen bg-[#FEF7F2] overflow-x-hidden">
@@ -35,9 +57,11 @@ export default function StoryPage() {
             transition={{ duration: 0.8 }}
             className="w-full lg:w-1/2 flex flex-col gap-6"
           >
-            <span className="text-[10px] sm:text-xs tracking-[0.25em] uppercase text-[#9A6B29] font-semibold">
-              CALCUTTA SWEETS
-            </span>
+            {(story.heroEyebrow || "").trim() ? (
+              <span className="text-[10px] sm:text-xs tracking-[0.25em] uppercase text-[#9A6B29] font-semibold">
+                {(story.heroEyebrow || "").trim()}
+              </span>
+            ) : null}
 
             <h1 className="font-dm-serif text-[3rem] sm:text-[4rem] lg:text-[5rem] leading-[1.05] text-[#2C1D13]">
               {titleLines.map((line: string, i: number) => (
@@ -89,11 +113,37 @@ export default function StoryPage() {
         </div>
       </section>
 
-      <ArtOfCraft />
-      <Timeline />
-      <Family />
+      {craftSteps.length > 0 && (
+        <ArtOfCraft
+          overline={(story.craftOverline || "").trim()}
+          headline={(story.craftHeadline || "").trim()}
+          imageUrl={(story.craftImageUrl || "").trim() || "/images/ingredients.png"}
+          steps={craftSteps}
+        />
+      )}
+
+      <Timeline
+        heading={(story.timelineTitle || "").trim()}
+        subtitle={(story.timelineSubtitle || "").trim()}
+      />
+
+      {familyMembers.length > 0 && (
+        <Family
+          sectionTitle={(story.familySectionTitle || "").trim()}
+          members={familyMembers}
+        />
+      )}
+
       <GiftCTA />
-      <Quote />
+      <Quote
+        quoteText={
+          (story.quoteText || "").trim() || STORY_QUOTE_DEFAULT_TEXT
+        }
+        attribution={
+          (story.quoteAttribution || "").trim() ||
+          STORY_QUOTE_DEFAULT_ATTRIBUTION
+        }
+      />
 
     </main>
   );

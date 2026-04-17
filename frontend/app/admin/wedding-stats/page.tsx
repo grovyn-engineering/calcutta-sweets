@@ -1,12 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import { Heart } from "lucide-react";
 import toast from "react-hot-toast";
 import { useWeddingStats, WeddingStat } from "@/hooks/useAdminData";
+import { AdminLoadingState } from "@/components/admin/AdminLoadingState";
+import { AdminEmptyState } from "@/components/admin/AdminEmptyState";
+import { AdminBreadcrumbs } from "@/components/admin/AdminBreadcrumbs";
 
 export default function WeddingStatsAdminPage() {
   const { data, loading, createItem, updateItem, deleteItem } = useWeddingStats();
-  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [saving, setSaving] = useState(false);
   const [label, setLabel] = useState("");
@@ -23,18 +27,29 @@ export default function WeddingStatsAdminPage() {
     } catch { toast.error("Something went wrong"); } finally { setSaving(false); }
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: string) => {
     if (window.confirm("Delete this stat?")) {
       setSaving(true);
       try { await deleteItem(id); toast.success("Deleted"); } catch { toast.error("Something went wrong"); } finally { setSaving(false); }
     }
   };
 
-  if (loading && (!data || data.length === 0)) return <div className="text-[#3E2F26]/40 text-sm">Loading...</div>;
+  if (loading && (!data || data.length === 0)) return <AdminLoadingState message="Loading wedding stats…" />;
   const isFormOpen = isCreating || editingId !== null;
 
   return (
-    <div className="max-w-3xl">
+    <div className="w-full min-w-0">
+      <AdminBreadcrumbs
+        items={[
+          { label: "Admin", href: "/admin" },
+          isFormOpen
+            ? { label: "Wedding stats", onNavigate: resetForm }
+            : { label: "Wedding stats", href: "/admin/wedding-stats" },
+          ...(isFormOpen
+            ? [{ label: isCreating ? "Create stat" : "Edit stat" }]
+            : []),
+        ]}
+      />
       <div className="flex justify-between items-start mb-8">
         <div>
           <h1 className="text-2xl font-semibold text-[#3E2F26]">Wedding Stats</h1>
@@ -74,9 +89,23 @@ export default function WeddingStatsAdminPage() {
       {!isFormOpen && (
         <div className="bg-white border border-[#3E2F26]/8 rounded-lg overflow-hidden shadow-sm">
           {data?.length === 0 ? (
-            <div className="p-12 text-center">
-              <p className="text-sm text-[#3E2F26]/40 mb-4">No stats found</p>
-              <button onClick={() => { resetForm(); setIsCreating(true); }} className="text-xs text-[#C8773A] font-semibold">+ Add new stat</button>
+            <div className="p-4 sm:p-6">
+              <AdminEmptyState
+                icon={Heart}
+                title="No wedding stats yet"
+                description="Add numbers and labels for the wedding experience section on your site."
+              >
+                <button
+                  type="button"
+                  onClick={() => {
+                    resetForm();
+                    setIsCreating(true);
+                  }}
+                  className="rounded-lg bg-[#C8773A] px-4 py-2.5 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-[#b5692e]"
+                >
+                  + Add stat
+                </button>
+              </AdminEmptyState>
             </div>
           ) : (
             <table className="w-full text-left">

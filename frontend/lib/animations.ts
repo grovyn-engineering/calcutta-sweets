@@ -1,16 +1,15 @@
 import { motion } from "framer-motion";
 
 export const fadeUp = {
-  initial: { opacity: 0, y: 30 },
+  initial: { y: 20 },
   whileInView: {
-    opacity: 1,
     y: 0,
     transition: {
-      duration: 0.8,
+      duration: 0.55,
       ease: [0.16, 1, 0.3, 1] as const,
-    }
+    },
   },
-  viewport: { once: true, margin: "-100px" }
+  viewport: { once: true, amount: 0.08, margin: "0px 0px 120px 0px" },
 };
 
 export const staggerContainer = {
@@ -18,9 +17,9 @@ export const staggerContainer = {
   whileInView: {
     transition: {
       staggerChildren: 0.1,
-    }
+    },
   },
-  viewport: { once: true, margin: "-50px" }
+  viewport: { once: true, amount: 0.06, margin: "0px 0px 160px 0px" },
 };
 
 export const hoverScale = {

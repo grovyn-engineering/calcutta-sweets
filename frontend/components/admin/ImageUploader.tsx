@@ -83,12 +83,12 @@ export default function ImageUploader({ onUploadSuccess, defaultImage, className
   };
 
   return (
-    <div className={`space-y-3 ${className}`}>
+    <div className={`w-full min-w-0 space-y-3 ${className}`}>
       {error && <p className="text-red-500 text-xs">{error}</p>}
 
       <div
         {...getRootProps()}
-        className={`relative border border-dashed rounded flex flex-col items-center justify-center transition-colors cursor-pointer min-h-50 overflow-hidden ${isDragActive
+        className={`relative flex w-full min-w-0 cursor-pointer flex-col items-center justify-center overflow-hidden rounded border border-dashed transition-colors min-h-[13rem] sm:min-h-[15rem] md:min-h-[17rem] ${isDragActive
           ? "border-[#C8773A] bg-[#C8773A]/5"
           : "border-brand-brown/20 bg-[#FAF3E8] hover:border-[#C8773A]/50 hover:bg-[#C8773A]/5"
           }`}
@@ -116,7 +116,7 @@ export default function ImageUploader({ onUploadSuccess, defaultImage, className
             )}
           </div>
         ) : (
-          <div className="text-center p-8">
+          <div className="w-full px-6 py-8 text-center">
             {uploading ? (
               <Spinner />
             ) : (

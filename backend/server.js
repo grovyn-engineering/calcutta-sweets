@@ -70,6 +70,11 @@ app.use('/api/contact', require('./src/routes/contactInfoRoutes'));
 app.use('/api/story', require('./src/routes/storyRoutes'));
 app.use('/api/special-orders', require('./src/routes/specialOrderRoutes'));
 app.use('/api/timeline-events', require('./src/routes/timelineEventRoutes'));
+app.use('/api/testimonials', require('./src/routes/testimonialRoutes'));
+app.use('/api/visit-us-stats', require('./src/routes/visitUsStatRoutes'));
+app.use('/api/celebration-process', require('./src/routes/celebrationProcessRoutes'));
+app.use('/api/menu-products', require('./src/routes/menuProductRoutes'));
+app.use('/api/visit-us-features', require('./src/routes/visitUsFeatureRoutes'));
 
 const { validate } = require('./src/middlewares/validate');
 const { loginSchema } = require('./src/validators/schemas');
@@ -81,6 +86,61 @@ app.get('/api/auth/me', protect, me);
 
 app.get('/api/admin/dashboard', protect, (req, res) => {
   res.json({ success: true, message: `Welcome back, ${req.admin.email}!` });
+});
+
+app.get('/api/admin/stats', protect, async (req, res) => {
+  try {
+    const [
+      heroSlides,
+      occasions,
+      signatureSweets,
+      weddingStats,
+      timelineEvents,
+      stories,
+      contacts,
+      specialOrders,
+      testimonials,
+      visitUsStats,
+      celebrationSteps,
+      menuProducts,
+      visitUsFeatures,
+    ] = await Promise.all([
+      prisma.heroSection.count(),
+      prisma.occasion.count(),
+      prisma.signatureSweet.count(),
+      prisma.weddingStat.count(),
+      prisma.timelineEvent.count(),
+      prisma.story.count(),
+      prisma.contactInfo.count(),
+      prisma.specialOrder.count(),
+      prisma.testimonial.count(),
+      prisma.visitUsStat.count(),
+      prisma.celebrationProcessStep.count(),
+      prisma.menuProduct.count(),
+      prisma.visitUsFeature.count(),
+    ]);
+    res.json({
+      success: true,
+      data: {
+        heroSlides,
+        occasions,
+        signatureSweets,
+        weddingStats,
+        timelineEvents,
+        stories,
+        contacts,
+        specialOrders,
+        testimonials,
+        visitUsStats,
+        celebrationSteps,
+        menuProducts,
+        visitUsFeatures,
+      },
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ success: false, message: 'Failed to load admin stats' });
+  }
 });
 
 // Health check
@@ -97,7 +157,7 @@ app.get('/health', async (req, res) => {
 // Global Error Handler
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5050;
 app.listen(PORT, () => {
   console.log(`Server is live on http://localhost:${PORT}`);
 });

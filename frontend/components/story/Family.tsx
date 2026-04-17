@@ -4,41 +4,29 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer, hoverScale } from "@/lib/animations";
+import type { StoryFamilyMember } from "@/hooks/useAdminData";
 
-const familyMembers = [
-  {
-    name: "CHEF 1",
-    title: "THE MATRIARCH",
-    description:
-      "She kept the original family recipes and always insisted that the quality of the milk is what makes a sweet truly special.",
-    image: "/images/chef1.jpg",
-  },
-  {
-    name: "CHEF 2",
-    title: "THE ARCHITECT",
-    description:
-      "He helped us grow while keeping our traditional roots, bringing better kitchen standards to our family old school methods.",
-    image: "/images/chef2.jpg",
-  },
-  {
-    name: "Aloke Bera",
-    title: "THE CURATOR",
-    description:
-      "He is making sure our family legacy carries on, focusing on the same high quality while sharing our story with a new generation.",
-    image: "/images/chef3.jpg",
-  },
-];
+export default function Family({
+  sectionTitle,
+  members,
+}: {
+  sectionTitle: string;
+  members: StoryFamilyMember[];
+}) {
+  const titleLines = sectionTitle.split(/\n/).map((t) => t.trim()).filter(Boolean);
 
-export default function Family() {
   return (
     <section className="w-full px-6 sm:px-10 md:px-16 lg:px-24 py-12 md:py-16 bg-white">
       <div className="max-w-6xl mx-auto">
 
         <motion.div {...fadeUp}>
           <h2 className="font-dm-serif text-3xl sm:text-4xl md:text-5xl text-[#3E2F26] text-center mb-4 leading-tight">
-            Three Generations, One
-            <br />
-            Family.
+            {titleLines.map((line, i) => (
+              <span key={i}>
+                {line}
+                {i < titleLines.length - 1 ? <br /> : null}
+              </span>
+            ))}
           </h2>
           <div className="w-16 h-0.5 bg-[#C8773A] mx-auto mb-10 md:mb-14" />
         </motion.div>
@@ -50,9 +38,9 @@ export default function Family() {
           viewport={staggerContainer.viewport}
           className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6 items-start"
         >
-          {familyMembers.map((member, i) => (
+          {members.map((member, i) => (
             <motion.div
-              key={member.name}
+              key={`${member.name}-${i}`}
               variants={fadeUp}
               className={`flex flex-col ${i === 1 ? "md:mt-8" : ""}`}
             >

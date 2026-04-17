@@ -12,15 +12,13 @@ const FALLBACK_CONTACT = {
 export default function FindUs() {
   const { data } = useContactInfo();
 
-  // Contact info may be returned as an array or a single object.
   const rawContact = Array.isArray(data) ? data[0] : data;
   
   const addressText = rawContact?.address || FALLBACK_CONTACT.address;
   const addressLines = addressText.split('\n');
 
   const phone = rawContact?.phone || FALLBACK_CONTACT.phone;
-  // The backend model currently doesn't hold 'hours' according to footer notes, so we rely on fallback
-  const hours = FALLBACK_CONTACT.hours;
+  const hours = rawContact?.hours?.trim() || FALLBACK_CONTACT.hours;
 
   return (
     <section id="find-us" className="w-full px-4 md:px-8 lg:px-12 py-20 bg-[#FAF5F0]">

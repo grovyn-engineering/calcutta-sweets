@@ -2,32 +2,31 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeUp } from "@/lib/animations";
 import { preload } from "react-dom";
 import { useHeroSlides } from "@/hooks/useAdminData";
 
-const FALLBACK_SWEETS = [
-  { name: "Sondesh", image: "/images/hero/sondesh.png", alt: "Assorted Sondesh – traditional Bengali milk sweets" },
-  { name: "Malpua", image: "/images/hero/malpua.png", alt: "Golden brown Malpua dessert" },
-  { name: "Roshogulla", image: "/images/hero/roshogulla.png", alt: "Spongy Roshogulla in sugar syrup" },
-  { name: "Chamcham", image: "/images/hero/chamcham.png", alt: "Delicious Chamcham sweets" },
-];
+const PLACEHOLDER = {
+  name: "Calcutta Sweets",
+  subtitle: "",
+  image: "/images/hero/sondesh.png",
+  alt: "Calcutta Sweets",
+};
 
 export default function Hero() {
   const { data: slidesData } = useHeroSlides();
 
-  // Enforce 4 slides, merging DB data over the fallbacks
-  const displaySlides = [0, 1, 2, 3].map(i => {
-    const dbSlide = slidesData && slidesData[i];
-    return {
-      name: dbSlide?.title || FALLBACK_SWEETS[i].name,
-      subtitle: dbSlide?.subtitle || "",
-      image: dbSlide?.imageUrl || FALLBACK_SWEETS[i].image,
-      alt: dbSlide?.subtitle || FALLBACK_SWEETS[i].alt
-    };
-  });
+  const displaySlides = useMemo(() => {
+    if (!slidesData?.length) return [PLACEHOLDER];
+    return slidesData.map((s) => ({
+      name: s.title,
+      subtitle: s.subtitle || "",
+      image: s.imageUrl || PLACEHOLDER.image,
+      alt: (s.subtitle && s.subtitle.trim()) || s.title,
+    }));
+  }, [slidesData]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -54,7 +53,11 @@ export default function Hero() {
     return () => clearInterval(timer);
   }, [displaySlides.length]);
 
-  preload(displaySlides[1].image, { as: "image", fetchPriority: "low" });
+  useEffect(() => {
+    if (displaySlides.length > 1) {
+      preload(displaySlides[1].image, { as: "image", fetchPriority: "low" });
+    }
+  }, [displaySlides]);
 
   return (
     <section

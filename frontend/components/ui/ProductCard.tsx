@@ -1,7 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Star } from "lucide-react";
-
 interface ProductCardProps {
   name: string;
   description: string;
@@ -23,7 +21,7 @@ export default function ProductCard({
   rating = 4.9,
   reviewCount,
   image,
-  href = "#",
+  href = "/menu",
 }: ProductCardProps) {
   return (
     <div className="flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group">
@@ -77,7 +75,10 @@ export default function ProductCard({
             <span className="font-sans text-xs text-zinc-400">/{weight}</span>
           </div>
 
-          <Link href="/menu" className="px-4 py-1.5 rounded-full bg-brand-brown text-white font-sans font-medium text-xs hover:bg-brand-brown/90 transition-colors">
+          <Link
+            href={href}
+            className="px-4 py-1.5 rounded-full bg-brand-brown text-white font-sans font-medium text-xs hover:bg-brand-brown/90 transition-colors"
+          >
             Order Now
           </Link>
         </div>

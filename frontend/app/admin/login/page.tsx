@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { FourDotsLoader } from "@/components/admin/FourDotsLoader";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
@@ -17,10 +18,10 @@ export default function AdminLogin() {
     setLoading(true);
 
     try {
-      const url = `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api"}/auth/login`;
+      const url = `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5050/api"}/auth/login`;
       console.log("API URL:", url);
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api"}/auth/login`,
+        `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5050/api"}/auth/login`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -45,7 +46,7 @@ export default function AdminLogin() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-[#FAF3E8]"
+      className="min-h-screen flex items-center justify-center bg-white"
       style={{ fontFamily: "'Poppins', sans-serif" }}
     >
       <div className="w-full max-w-sm">
@@ -84,7 +85,7 @@ export default function AdminLogin() {
                 type="text"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 bg-[#FAF3E8] border border-brand-brown/15 rounded text-brand-brown text-sm placeholder-brand-brown/30 focus:outline-none focus:border-[#C8773A] transition-colors"
+                className="w-full px-4 py-3 bg-neutral-50 border border-brand-brown/15 rounded text-brand-brown text-sm placeholder-brand-brown/30 focus:outline-none focus:border-[#C8773A] transition-colors"
                 placeholder="admin@calcuttasweets.com"
                 required
               />
@@ -106,7 +107,7 @@ export default function AdminLogin() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 bg-[#FAF3E8] border border-brand-brown/15 rounded text-brand-brown text-sm placeholder-brand-brown/30 focus:outline-none focus:border-[#C8773A] transition-colors"
+                className="w-full px-4 py-3 bg-neutral-50 border border-brand-brown/15 rounded text-brand-brown text-sm placeholder-brand-brown/30 focus:outline-none focus:border-[#C8773A] transition-colors"
                 placeholder="••••••••"
                 required
               />
@@ -115,9 +116,16 @@ export default function AdminLogin() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#C8773A] hover:bg-[#b5692e] text-white text-sm font-semibold py-3 px-4 rounded transition-colors disabled:opacity-50 tracking-wide mt-2"
+              className="flex w-full items-center justify-center gap-2 bg-[#C8773A] hover:bg-[#b5692e] text-white text-sm font-semibold py-3 px-4 rounded transition-colors disabled:opacity-50 tracking-wide mt-2"
             >
-              {loading ? "Signing in..." : "Sign In"}
+              {loading ? (
+                <>
+                  <FourDotsLoader size="sm" className="!h-6 !w-6" aria-label="Signing in" />
+                  Signing in…
+                </>
+              ) : (
+                "Sign In"
+              )}
             </button>
           </form>
         </div>

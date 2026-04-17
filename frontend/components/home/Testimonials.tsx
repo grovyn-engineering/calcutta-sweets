@@ -1,50 +1,39 @@
-import TestimonialCard from "@/components/ui/TestimonialCard";
+"use client";
 
-const testimonials = [
-  {
-    quote: "Every bite feels like a trip to Kolkata. The balance of sweetness is perfect, just like how my Didun used to make it.",
-    name: "Priya Sharma",
-    title: "RAIPUR RESIDENT",
-  },
-  {
-    quote: "Been coming here since childhood. The Malpua is consistent in taste even after 15 years. Truly Raipur's finest treasure.",
-    name: "Rahul Agarwal",
-    title: "LOYAL CUSTOMER",
-  },
-  {
-    quote: "The Mishti Doi alone is worth the trip from Durg. Authentic ingredients and that earthen pot aroma is unbeatable.",
-    name: "Ananya Sen",
-    title: "FOOD BLOGGER",
-  },
-];
+import TestimonialCard from "@/components/ui/TestimonialCard";
+import { useTestimonials } from "@/hooks/useAdminData";
 
 export default function Testimonials() {
+  const { data, loading } = useTestimonials();
+
+  if (loading) {
+    return (
+      <section className="w-full bg-[#3D2B1F] py-24 px-8 md:px-12 lg:px-24">
+        <div className="mx-auto max-w-7xl animate-pulse text-center text-sm text-[#FAF3E8]/40">Loading…</div>
+      </section>
+    );
+  }
+
+  if (!data?.length) return null;
+
   return (
     <section className="w-full bg-[#3D2B1F] py-24 px-8 md:px-12 lg:px-24">
-      <div className="max-w-7xl mx-auto flex flex-col items-center">
-        
-        {/* Testimonial header */}
-        <div className="flex flex-col items-center text-center gap-4 mb-20">
-          <span className="font-sans text-[#C8773A] font-bold tracking-[0.15em] uppercase text-sm">
-            WHAT PEOPLE SAY
-          </span>
-          <h2 className="font-dm-serif text-4xl lg:text-5xl text-[#FAF3E8] leading-tight">
-            Loved across generations.
-          </h2>
+      <div className="mx-auto flex max-w-7xl flex-col items-center">
+        <div className="mb-20 flex flex-col items-center gap-4 text-center">
+          <span className="font-sans text-sm font-bold uppercase tracking-[0.15em] text-[#C8773A]">What people say</span>
+          <h2 className="font-dm-serif text-4xl leading-tight text-[#FAF3E8] lg:text-5xl">Loved across generations.</h2>
         </div>
 
-        {/* GRID OF TESTIMONIALS */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
-          {testimonials.map((testimonial, index) => (
-            <TestimonialCard 
-              key={index}
+        <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-3">
+          {data.map((testimonial) => (
+            <TestimonialCard
+              key={testimonial.id}
               quote={testimonial.quote}
               name={testimonial.name}
               title={testimonial.title}
             />
           ))}
         </div>
-
       </div>
     </section>
   );

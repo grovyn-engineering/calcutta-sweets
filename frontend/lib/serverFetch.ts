@@ -1,14 +1,3 @@
-/**
- * Server-side fetch utility for Next.js App Router Server Components.
- *
- * Guarantees:
- * - ALWAYS returns the provided fallback on ANY failure (never null/undefined)
- * - Handles: network errors, non-200 responses, missing json.data,
- *   empty arrays, null responses, malformed JSON, and timeouts
- * - Uses AbortController with a 5-second timeout
- * - Dev-only console warnings (suppressed in production)
- */
-
 type FetchOptions<T> = {
   fallback: T;
   revalidate?: number;
@@ -44,18 +33,19 @@ export async function fetchFromBackend<T>(
 
     const json = await res.json();
 
-    // Guard: no body at all
-    if (!json) {
+    if (!json || typeof json !== "object") {
       return fallback;
     }
 
-    // Guard: API wraps in { data: ... } but data is missing/null
+    if (!("success" in json) || json.success !== true) {
+      throw new Error(
+        typeof (json as { message?: string }).message === "string"
+          ? (json as { message: string }).message
+          : "API returned success: false"
+      );
+    }
+
     if (json.data === undefined || json.data === null) {
-      return fallback;
-    }
-
-    // Guard: data is an empty array
-    if (Array.isArray(json.data) && json.data.length === 0) {
       return fallback;
     }
 
