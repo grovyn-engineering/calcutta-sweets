@@ -1,61 +1,126 @@
-# Calcutta Sweets
+# Calcutta Sweets - Full Stack Suite
 
-Calcutta Sweets is a high-fidelity, premium web application designed for an artisanal Bengali sweet shop. It blends traditional heritage with a sophisticated, motion-driven web experience to showcase authentic recipes and craftsmanship through an Apple-inspired minimal aesthetic.
+A premium, production-grade web application for Calcutta Sweets, featuring a dynamic customer-facing website and a secure administrative dashboard.
 
-## 🚀 Tech Stack
+## 🏗️ Architecture
 
-- **Framework**: [Next.js 15+](https://nextjs.org/) (App Router, Server Components)
-- **Styling**: [Tailwind CSS 14+](https://tailwindcss.com/)
-- **Animations**: [Framer Motion](https://www.framer.com/motion/) (High-performance transition system)
-- **State Management**: [Zustand](https://zustand-demo.pmnd.rs/)
-- **Icons**: [Lucide React](https://lucide.dev/)
-- **Language**: [TypeScript](https://www.typescriptlang.org/)
+The project is architected as a decoupled full-stack application:
 
-## ✨ Key Features
+- **Frontend**: Next.js (App Router) with Tailwind CSS and Framer Motion for a premium, high-performance user experience.
+- **Backend**: Express.js REST API with Prisma ORM for type-safe database interactions.
+- **Database**: PostgreSQL (Prisma support).
+- **Media**: Cloudinary integration for automated image optimization and storage.
 
-- **High-Fidelity Motion Design**: A unified animation system utilizing custom cubic-bezier easing for smooth, premium transitions across all sections.
-- **Dynamic Storytelling**: An interactive timeline and masonry grid system that reveals the three-generation legacy of the brand.
-- **Arch-and-Circle Revelations**: Custom architectural image reveals in the Menu section to emphasize brand authenticity.
-- **Performance Optimized**: Leveraging React Server Components (RSC) to minimize client-side bundles while maintaining interactive animation layers.
-- **Responsive Excellence**: Fully fluid layouts optimized for everything from ultra-wide monitors to mobile devices.
+---
 
-## 📂 Project Structure
+## 🛠️ Prerequisites
 
-```text
-├── app/                        # Next.js App Router (Pages & Layouts)
-│   ├── celebration/            # Celebration & Events page
-│   ├── menu/                   # Digital Menu & Catalog
-│   ├── story/                  # Heritage & Brand story
-│   ├── visit-us/               # Store location & Contact
-│   └── globals.css             # Global styles & Tailwind layers
-├── components/                 # Atomic and Modular React components
-│   ├── celebration/            # Events & Enquiry components
-│   ├── home/                   # Homepage sections (Hero, Signatures, etc.)
-│   ├── layout/                 # Global UI (Sticky Navbar, Footer)
-│   ├── menu/                   # Menu-specific layers (Authenticity, Catering)
-│   ├── story/                  # Storytelling layers (Timeline, Family, Craft)
-│   └── ui/                     # Shared Design System primitives
-├── lib/                        # Core business logic & Animation tokens
-│   ├── animations.ts           # Centralized Framer Motion variants
-│   ├── products.ts             # Data layer for signature sweets
-│   └── types.ts                # Strict TypeScript interfaces
-├── public/                     # High-resolution visual assets
-└── store/                      # Global state (Cart, User, Inventory)
+Ensure you have the following installed on your system:
+
+- **Node.js**: v18.x or higher
+- **npm**: v9.x or higher
+- **PostgreSQL**: A running instance (Local or Managed)
+- **Cloudinary Account**: Required for image uploads
+
+---
+
+## 🚀 Getting Started
+
+### 1. Repository Setup
+
+Clone the repository and install all dependencies:
+
+```bash
+# Install root, frontend, and backend dependencies automatically
+npm run install:all
 ```
 
-## 🛠️ Getting Started
+### 2. Environment Configuration
 
-### Installation
+The application requires environment variables in both the `frontend` and `backend` directories. 
 
-1. Clone the repository and install dependencies:
-   ```bash
-   npm install
-   ```
+#### Backend (`/backend/.env`)
+Copy the template and fill in your credentials:
+```bash
+cp backend/.env.example backend/.env
+```
+Key variables:
+- `DATABASE_URL`: Connection string to your PostgreSQL.
+- `CLOUDINARY_*`: Your Cloudinary API credentials.
+- `JWT_SECRET`: A long random string for securing admin sessions.
 
-2. Start the development server:
-   ```bash
-   npm run dev
-   ```
+#### Frontend (`/frontend/.env.local`)
+Copy the template:
+```bash
+cp frontend/.env.example frontend/.env.local
+```
+Key variable:
+- `NEXT_PUBLIC_API_URL`: The URL where your backend server is running (Default: `http://localhost:5000/api`).
 
-3. Open [http://localhost:3000](http://localhost:3000) in your browser.
+### 3. Database Initialization
 
+Once your `DATABASE_URL` is set, run the following inside the `backend` directory:
+
+```bash
+cd backend
+
+# Generate Prisma Client
+npx prisma generate
+
+# Run migrations to create tables
+npx prisma migrate dev --name init
+
+# Create the initial Admin account
+node prisma/seed.js
+```
+
+### 4. Launching the Application
+
+You can start both the frontend and backend simultaneously from the root directory:
+
+```bash
+# Starts Frontend (Port 3000) and Backend (Port 5000)
+npm run dev
+```
+
+---
+
+## 📂 Project Organization
+
+### 🔌 Backend (`/backend`)
+- **`src/controllers/`**: Business logic implementations.
+- **`src/routes/`**: API endpoint definitions.
+- **`src/middlewares/`**: Security (JWT), validation (Zod), and error handling.
+- **`prisma/`**: Database schema and seed scripts.
+- **`server.js`**: Application entry point and configuration.
+
+### 🎨 Frontend (`/frontend`)
+- **`app/`**: Next.js pages and layouts (Includes Customer pages and Admin dashboard).
+- **`components/`**: Reusable UI components.
+- **`lib/`**: Utilities like `serverFetch.ts` (Resilient backend communication with fallbacks).
+- **`hooks/`**: Custom React hooks for data fetching and state.
+- **`store/`**: Global state management (Zustand).
+
+---
+
+## 🛡️ Key Features
+
+- **Resilient Fetching**: The website uses a custom `serverFetch` utility that automatically falls back to local static data if the API is offline, ensuring the site never crashes for customers.
+- **Secure Admin Panel**: Protected via HttpOnly JWT cookies and Next.js middleware.
+- **Automated Image Management**: Uploading a new image automatically deletes the old asset from Cloudinary to save storage.
+- **Schema Validation**: All incoming data is validated using Zod schemas before hitting the database.
+
+---
+
+## ❓ Troubleshooting
+
+- **Port Conflict**: If port 3000 or 5000 is taken, the startup will fail. You can kill existing Node processes using `taskkill /F /IM node.exe` (Windows) or `killall node` (Mac/Linux).
+- **Prisma Issues**: If you change the `schema.prisma` file, always run `npx prisma migrate dev` and `npx prisma generate`.
+- **Cloudinary Errors**: Ensure your credentials are correct in the `.env` file and that you haven't exceeded your monthly transformation limits.
+- **Module Not Found**: If you receive import errors, ensure you've run `npm run install:all` to install dependencies in both sub-directories.
+
+---
+
+## 📄 License
+
+This project is private and proprietary.

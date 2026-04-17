@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+:root {
+  --background: #FAF3E8;
+  --foreground: #C8773A;
+}
+
+@theme inline {
+  --color-brand-brown: #3E2F26;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-poppins), sans-serif;
+  --font-dm-serif: var(--font-dm-serif), serif;
+  --font-serif: var(--font-dm-serif), serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@keyframes admin-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.admin-shimmer-surface {
+  background: linear-gradient(
+    90deg,
+    rgb(244 244 245) 0%,
+    rgb(250 250 249) 38%,
+    rgb(255 255 255) 50%,
+    rgb(250 250 249) 62%,
+    rgb(244 244 245) 100%
+  );
+  background-size: 220% 100%;
+  animation: admin-shimmer 1.75s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-shimmer-surface {
+    animation: none;
+    background: rgb(244 244 245);
+  }
+}

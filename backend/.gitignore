@@ -1,0 +1,17 @@
+node_modules/
+
+# environment
+.env
+.env.*
+!.env.example
+
+# logs
+*.log
+logs/
+
+# prisma
+/generated/prisma
+
+# OS / tooling
+.DS_Store
+.eslintcache
