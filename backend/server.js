@@ -59,6 +59,26 @@ const loginLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+app.get('/', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Calcutta Sweets API',
+    health: '/health',
+  });
+});
+
+async function healthCheck(req, res) {
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+    res.json({ success: true, status: 'Server is running smoothly! DB Connection: Alive' });
+  } catch (error) {
+    console.error('Health Check DB Error:', error);
+    res.status(500).json({ success: false, status: 'Server is running, but DB Connection failed' });
+  }
+}
+
+app.get('/health', healthCheck);
+
 //Routes 
 
 app.use('/api/hero', heroRoutes);
@@ -140,17 +160,6 @@ app.get('/api/admin/stats', protect, async (req, res) => {
   } catch (e) {
     console.error(e);
     res.status(500).json({ success: false, message: 'Failed to load admin stats' });
-  }
-});
-
-// Health check
-app.get('/health', async (req, res) => {
-  try {
-    await prisma.$queryRaw`SELECT 1`;
-    res.json({ success: true, status: "Server is running smoothly! DB Connection: Alive" });
-  } catch (error) {
-    console.error("Health Check DB Error:", error);
-    res.status(500).json({ success: false, status: "Server is running, but DB Connection failed" });
   }
 });
 
