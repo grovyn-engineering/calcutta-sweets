@@ -9,6 +9,7 @@ import SpecialOffers from "@/components/menu/SpecialOffers";
 import CateringCTA from "@/components/menu/CateringCTA";
 import { getAllProducts } from "@/lib/products";
 import { Product } from "@/lib/types";
+import { MenuProductGridSkeleton } from "@/components/ui/StorefrontSkeletons";
 
 const ALL_LABEL = "All category";
 const SIGNATURES_LABEL = "Signatures";
@@ -99,11 +100,7 @@ export default function MenuPage() {
 
       <section className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 mb-12 md:mb-16">
         {isLoading ? (
-          <div className="text-center py-20">
-            <p className="font-sans text-zinc-400 text-lg">
-              Loading products...
-            </p>
-          </div>
+          <MenuProductGridSkeleton count={6} />
         ) : loadError ? (
           <div className="text-center py-20 px-4">
             <p className="font-sans text-red-600/90 text-sm max-w-md mx-auto">

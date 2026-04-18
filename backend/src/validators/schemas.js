@@ -68,6 +68,14 @@ const contactInfoSchema = z.object({
   visitOwnerPublicId: z.string().optional().nullable(),
   visitWelcomeLocationLine: z.string().optional().nullable(),
   visitWelcomeHoursLine: z.string().optional().nullable(),
+  socialLinks: z
+    .array(
+      z.object({
+        platform: z.string().trim().min(1, 'Platform is required'),
+        url: z.string().trim().min(1, 'URL is required'),
+      })
+    )
+    .optional(),
 });
 
 // --- Visit Us page feature cards ---
@@ -166,6 +174,19 @@ const menuProductCreateSchema = z.object({
 
 const menuProductUpdateSchema = menuProductCreateSchema.partial();
 
+// --- Celebration page hero (singleton) ---
+const celebrationHeroUpdateSchema = z.object({
+  eyebrow: z.string().trim().optional(),
+  title: z.string().trim().optional(),
+  subtitle: z.string().trim().optional(),
+  mainImageUrl: z.string().optional().nullable(),
+  mainPublicId: z.string().optional().nullable(),
+  secondaryLeftUrl: z.string().optional().nullable(),
+  secondaryLeftPublicId: z.string().optional().nullable(),
+  secondaryRightUrl: z.string().optional().nullable(),
+  secondaryRightPublicId: z.string().optional().nullable(),
+});
+
 module.exports = {
   loginSchema,
   heroSchema,
@@ -189,4 +210,5 @@ module.exports = {
   menuProductUpdateSchema,
   visitUsFeatureCreateSchema,
   visitUsFeatureUpdateSchema,
+  celebrationHeroUpdateSchema,
 };

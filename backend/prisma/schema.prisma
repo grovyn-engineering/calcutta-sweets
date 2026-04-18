@@ -36,6 +36,26 @@ model HeroSection {
   updatedAt DateTime @updatedAt
 }
 
+/// Single-record hero for the public /celebration page (bulk & custom orders).
+model CelebrationHero {
+  id        String   @id @default("default")
+  eyebrow   String
+  title     String
+  subtitle  String
+
+  mainImageUrl    String?
+  mainPublicId    String?
+
+  secondaryLeftUrl       String?
+  secondaryLeftPublicId  String?
+
+  secondaryRightUrl       String?
+  secondaryRightPublicId  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model SignatureSweet {
   id        String   @id @default(cuid())
   title     String
@@ -61,6 +81,9 @@ model ContactInfo {
   email       String
   description String
   hours       String?
+
+  /// Footer social icons: `[{ "platform": "instagram", "url": "https://..." }, ...]`
+  socialLinks Json?
 
   visitHeroImageUrl       String?
   visitHeroPublicId       String?

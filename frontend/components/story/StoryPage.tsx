@@ -2,7 +2,6 @@
 
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import ArtOfCraft from "@/components/story/ArtOfCraft";
 import Timeline from "@/components/story/Timeline";
@@ -10,7 +9,8 @@ import Family from "@/components/story/Family";
 import Quote from "@/components/story/Quote";
 import GiftCTA from "@/components/story/GiftCTA";
 import { useStory } from "@/hooks/useAdminData";
-import { AdminLoadingState } from "@/components/admin/AdminLoadingState";
+import FilledImageWithShimmer from "@/components/ui/FilledImageWithShimmer";
+import { StoryPageSkeleton } from "@/components/ui/StorefrontSkeletons";
 import {
   STORY_QUOTE_DEFAULT_ATTRIBUTION,
   STORY_QUOTE_DEFAULT_TEXT,
@@ -20,11 +20,7 @@ export default function StoryPage() {
   const { data: story, loading, error } = useStory();
 
   if (loading) {
-    return (
-      <main className="min-h-screen bg-[#FEF7F2] flex items-center justify-center py-32">
-        <AdminLoadingState message="Loading story…" />
-      </main>
-    );
+    return <StoryPageSkeleton />;
   }
 
   if (error || !story) {
@@ -100,10 +96,10 @@ export default function StoryPage() {
             className="w-full lg:w-1/2"
           >
             <div className="relative w-full h-[400px] sm:h-[480px] lg:h-[550px] rounded-2xl overflow-hidden shadow-sm">
-              <Image
+              <FilledImageWithShimmer
+                key={imageUrl}
                 src={imageUrl}
                 alt="Sweets Story Hero"
-                fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 50vw"
                 priority

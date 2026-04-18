@@ -1,5 +1,7 @@
-import Image from "next/image";
+"use client";
+
 import Link from "next/link";
+import FilledImageWithShimmer from "@/components/ui/FilledImageWithShimmer";
 interface ProductCardProps {
   name: string;
   description: string;
@@ -27,10 +29,10 @@ export default function ProductCard({
     <div className="flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group">
       {/* Image Container */}
       <div className="relative aspect-[4/3] w-full bg-zinc-100 overflow-hidden">
-        <Image
+        <FilledImageWithShimmer
+          key={image}
           src={image}
           alt={name}
-          fill
           className="object-cover group-hover:scale-105 transition-transform duration-500"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />

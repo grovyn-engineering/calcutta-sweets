@@ -4,18 +4,13 @@ import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "@/lib/animations";
 import { useVisitUsStats, type VisitUsStat } from "@/hooks/useAdminData";
 import { VISIT_STORE_STATS_DEFAULT } from "@/lib/visitUsPageDefaults";
+import { StoreStatsSkeleton } from "@/components/ui/StorefrontSkeletons";
 
 export default function StoreStats() {
   const { data, loading } = useVisitUsStats();
 
   if (loading) {
-    return (
-      <section className="w-full border-y border-[#3E2B1E]/10 bg-[#FAF5F0]">
-        <div className="mx-auto max-w-7xl px-6 py-12 text-center text-sm text-[#5A4F44]/50 sm:px-10 md:px-16 lg:px-24 md:py-16">
-          Loading…
-        </div>
-      </section>
-    );
+    return <StoreStatsSkeleton />;
   }
 
   const rows: VisitUsStat[] =

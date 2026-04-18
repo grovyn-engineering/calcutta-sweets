@@ -3,10 +3,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
 import { getProductById } from "@/lib/products";
 import type { Product } from "@/lib/types";
+import FilledImageWithShimmer from "@/components/ui/FilledImageWithShimmer";
+import { ProductDetailSkeleton } from "@/components/ui/StorefrontSkeletons";
 
 export default function ProductDetailPage() {
   const { id } = useParams();
@@ -45,11 +46,7 @@ export default function ProductDetailPage() {
   }, [productId]);
 
   if (loading) {
-    return (
-      <main className="pt-32 pb-20 px-6 max-w-7xl mx-auto min-h-screen">
-        <p className="font-sans text-zinc-500 text-center py-24">Loading…</p>
-      </main>
-    );
+    return <ProductDetailSkeleton />;
   }
 
   if (error || !product) {
@@ -83,10 +80,10 @@ export default function ProductDetailPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-start">
         <div className="relative aspect-square w-full max-w-xl mx-auto md:mx-0 rounded-3xl overflow-hidden bg-zinc-100 shadow-sm">
-          <Image
+          <FilledImageWithShimmer
+            key={img}
             src={img}
             alt={product.name}
-            fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, 50vw"
             priority

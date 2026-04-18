@@ -1,11 +1,17 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
+import FilledImageWithShimmer from "@/components/ui/FilledImageWithShimmer";
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "@/lib/animations";
 
-export default function OurStoryClient({ story, stats }: { story: any, stats: any[] }) {
+export default function OurStoryClient({
+  story,
+  stats,
+}: {
+  story: { title: string; content: string; imageUrl: string };
+  stats: { id?: string; value: string; label: string }[];
+}) {
   // Safe destructuring of title text to support the custom two-color rendering
   const titleText = story.title || "";
   const titleParts = titleText.split(",");
@@ -27,7 +33,7 @@ export default function OurStoryClient({ story, stats }: { story: any, stats: an
         >
           {stats.map((stat, index) => (
             <motion.div
-              key={index}
+              key={stat.id ?? index}
               variants={fadeUp}
               className={`flex flex-col items-center justify-center py-8 px-4 text-center
                 ${index % 2 !== 0 ? 'border-l border-white/10 lg:border-l-0' : ''}
@@ -95,10 +101,10 @@ export default function OurStoryClient({ story, stats }: { story: any, stats: an
             </motion.div>
 
             <div className="relative w-full h-full rounded-2xl lg:rounded-[2rem] overflow-hidden shadow-2xl group">
-              <Image
+              <FilledImageWithShimmer
+                key={story.imageUrl}
                 src={story.imageUrl}
                 alt="Our Story"
-                fill
                 className="object-cover transition-transform duration-1000 group-hover:scale-105"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />

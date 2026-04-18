@@ -3,7 +3,9 @@ const { deleteImage } = require('../utils/cloudinary');
 
 const getMany = async (req, res) => {
   try {
-    const data = await prisma.signatureSweet.findMany();
+    const data = await prisma.signatureSweet.findMany({
+      orderBy: [{ createdAt: 'asc' }, { id: 'asc' }],
+    });
     res.json({ success: true, data });
   } catch (error) {
     res.status(500).json({ success: false, message: "Error fetching data" });

@@ -1,65 +1,84 @@
-import { fetchFromBackend } from "@/lib/serverFetch";
+"use client";
+
+import { useCallback, useEffect, useState } from "react";
 import SignaturesClient from "./SignaturesClient";
+import SignaturesSkeleton from "./SignaturesSkeleton";
+import { mapSignatureToProduct } from "@/lib/mapSignatureSweet";
+import type { Product } from "@/lib/types";
 
-const FALLBACK_SIGNATURES = [
-  {
-    id: "1",
-    name: "Royal Rasmalai",
-    description: "Soft chenna patties immersed in thickened, sweetened saffron infused milk.",
-    imageUrl: "/images/sweet.jpg",
-  },
-  {
-    id: "2",
-    name: "Spongy Roshogolla",
-    description: "The pride of Bengal. Soft, spongy cheese balls soaked in light sugary syrup.",
-    imageUrl: "/images/sweet2.jpg",
-  },
-  {
-    id: "3",
-    name: "Golden Gulab Jamun",
-    description: "Deep fried dumplings made of milk solids, dipped in rose scented sugar syrup.",
-    imageUrl: "/images/sweet3.jpg",
-  },
-  {
-    id: "4",
-    name: "Bengali Malpua",
-    description: "Traditional sweet pancakes, fried until golden and soaked in cardamom sugar syrup.",
-    imageUrl: "/images/sweet4.jpg",
-  },
-  {
-    id: "5",
-    name: "Mishti Doi",
-    description: "Thick, creamy fermented sweet yogurt served in traditional clay pots.",
-    imageUrl: "/images/sweet5.jpg",
+const SECTION_CLASS =
+  "w-full bg-[#FEF7F2] py-24 sm:py-32 px-6 sm:px-10 md:px-16 lg:px-24";
+
+async function fetchSignatureProducts(): Promise<Product[]> {
+  const base = (process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
+  if (!base) {
+    throw new Error("NEXT_PUBLIC_API_URL is not configured");
   }
-];
 
-function mapSignature(sweet: any) {
-  // If the fallback data is returned directly by our fetch wrapper, it's already mapped
-  if (sweet.name) return sweet; 
+  const controller = new AbortController();
+  const t = setTimeout(() => controller.abort(), 12_000);
 
-  return {
-    id: sweet.id ?? crypto.randomUUID(),
-    name: sweet.title ?? "Untitled Sweet",
-    description: sweet.subTitle ?? "",
-    imageUrl: sweet.imageUrl ?? "/images/sweet.jpg",
-  };
+  try {
+    const res = await fetch(`${base}/signature-sweets`, {
+      cache: "no-store",
+      signal: controller.signal,
+    });
+    const json = (await res.json()) as {
+      success?: boolean;
+      data?: unknown;
+      message?: string;
+    };
+
+    if (!res.ok || !json || json.success !== true || !Array.isArray(json.data)) {
+      throw new Error(
+        typeof json.message === "string" ? json.message : `Request failed (${res.status})`
+      );
+    }
+
+    return json.data.map((row, i) =>
+      mapSignatureToProduct(row as Record<string, unknown>, i)
+    );
+  } finally {
+    clearTimeout(t);
+  }
 }
 
-async function getSignatures() {
-  const data = await fetchFromBackend<any[]>("/signature-sweets", {
-    fallback: FALLBACK_SIGNATURES,
-  });
+export default function Signatures() {
+  const [products, setProducts] = useState<Product[] | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  return data.map(mapSignature);
-}
+  const load = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const list = await fetchSignatureProducts();
+      setProducts(list);
+    } catch (e) {
+      setProducts([]);
+      setError(e instanceof Error ? e.message : "Could not load signature sweets");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-export default async function Signatures() {
-  const products = await getSignatures();
+  useEffect(() => {
+    load();
+  }, [load]);
+
+  if (loading) {
+    return <SignaturesSkeleton />;
+  }
 
   return (
-    <section className="w-full bg-[#FEF7F2] py-24 sm:py-32 px-6 sm:px-10 md:px-16 lg:px-24">
-      <SignaturesClient products={products as any} />
+    <section className={SECTION_CLASS}>
+      {error ? (
+        <div className="max-w-[1400px] mx-auto mb-6 rounded-2xl border border-amber-200/80 bg-amber-50/90 px-4 py-3 text-sm text-amber-950">
+          <p className="font-medium">Featured sweets could not be loaded from the server.</p>
+          <p className="mt-1 text-amber-900/80">{error}</p>
+        </div>
+      ) : null}
+      <SignaturesClient products={products ?? []} loadError={Boolean(error)} />
     </section>
   );
 }

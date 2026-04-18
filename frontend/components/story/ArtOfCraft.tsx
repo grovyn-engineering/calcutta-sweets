@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
+import FilledImageWithShimmer from "@/components/ui/FilledImageWithShimmer";
 import { fadeUp, staggerContainer } from "@/lib/animations";
 import type { StoryCraftStep } from "@/hooks/useAdminData";
 
@@ -26,10 +26,10 @@ export default function ArtOfCraft({
           {...fadeUp}
           className="w-full lg:w-[45%] relative aspect-[3/2] rounded-[2rem] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.06)] shrink-0 group"
         >
-          <Image
+          <FilledImageWithShimmer
+            key={imageUrl}
             src={imageUrl}
             alt="Hand kneaded sweet preparation"
-            fill
             className="object-cover transition-transform duration-1000 group-hover:scale-105"
             sizes="(max-width: 1024px) 100vw, 45vw"
           />

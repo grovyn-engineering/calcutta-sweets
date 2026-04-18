@@ -1,7 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
+import FilledImageWithShimmer from "@/components/ui/FilledImageWithShimmer";
+import { WelcomeSectionSkeleton } from "@/components/ui/StorefrontSkeletons";
 import { fadeUp, staggerContainer } from "@/lib/animations";
 import { Map, Phone, Clock, ChevronRight } from "lucide-react";
 import { useContactInfo, type ContactInfo } from "@/hooks/useAdminData";
@@ -33,8 +34,12 @@ function welcomeHoursLine(c: ContactInfo | null): string {
 }
 
 export default function WelcomeSection() {
-  const { data } = useContactInfo();
+  const { data, loading } = useContactInfo();
   const c = Array.isArray(data) ? data[0] : data;
+
+  if (loading) {
+    return <WelcomeSectionSkeleton />;
+  }
 
   const phone = c?.phone?.trim() || "+91 99930 60082";
   const telHref = `tel:${phone.replace(/\s/g, "")}`;
@@ -80,12 +85,12 @@ export default function WelcomeSection() {
 
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-full overflow-hidden bg-zinc-200 relative shrink-0">
-              <Image
+              <FilledImageWithShimmer
+                key={ownerSrc}
                 src={ownerSrc}
                 alt={ownerName}
-                fill
                 className="object-cover"
-                sizes="(max-width: 768px) 48px, 48px"
+                sizes="48px"
               />
             </div>
             <div className="flex flex-col">

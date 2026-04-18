@@ -13,6 +13,7 @@ import {
   BarChart3,
   ListOrdered,
   UtensilsCrossed,
+  Sparkles,
 } from "lucide-react";
 import { useAdminStats, type AdminStats } from "@/hooks/useAdminData";
 import { AdminDashboardSkeleton } from "@/components/admin/AdminDashboardSkeleton";
@@ -38,6 +39,13 @@ const quickLinks: {
     description: "Seasonal boxes and occasion imagery shown on the celebrations page.",
     icon: PartyPopper,
     statKey: "occasions",
+  },
+  {
+    href: "/admin/celebration-hero",
+    title: "Celebration hero",
+    description: "Top banner copy and the three hero photos on the celebrations landing page.",
+    icon: Sparkles,
+    statKey: "celebrationHero",
   },
   {
     href: "/admin/signature-sweets",

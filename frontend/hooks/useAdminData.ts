@@ -85,6 +85,7 @@ export interface ContactInfo {
   visitOwnerPublicId?: string | null;
   visitWelcomeLocationLine?: string | null;
   visitWelcomeHoursLine?: string | null;
+  socialLinks?: { platform: string; url: string }[] | null;
 }
 
 export interface VisitUsFeature {
@@ -132,6 +133,19 @@ export interface Testimonial { id: string; quote: string; name: string; title: s
 export interface VisitUsStat { id: string; value: string; label: string; sortOrder: number; }
 export interface CelebrationProcessStep { id: string; stepNumber: string; title: string; description: string; iconKey: string; sortOrder: number; }
 
+export interface CelebrationHero {
+  id: string;
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  mainImageUrl: string | null;
+  mainPublicId: string | null;
+  secondaryLeftUrl: string | null;
+  secondaryLeftPublicId: string | null;
+  secondaryRightUrl: string | null;
+  secondaryRightPublicId: string | null;
+}
+
 export interface AdminStats {
   heroSlides: number;
   occasions: number;
@@ -146,6 +160,7 @@ export interface AdminStats {
   celebrationSteps: number;
   menuProducts: number;
   visitUsFeatures: number;
+  celebrationHero: number;
 }
 
 export interface MenuProduct {
@@ -173,6 +188,7 @@ export const useTestimonials = createDataHook<Testimonial[]>("/testimonials", fa
 export const useVisitUsStats = createDataHook<VisitUsStat[]>("/visit-us-stats", false);
 export const useVisitUsFeatures = createDataHook<VisitUsFeature[]>("/visit-us-features", false);
 export const useCelebrationProcessSteps = createDataHook<CelebrationProcessStep[]>("/celebration-process", false);
+export const useCelebrationHero = createDataHook<CelebrationHero | null>("/celebration-hero", true);
 
 export function useMenuProductsManage() {
   const [data, setData] = useState<MenuProduct[]>([]);

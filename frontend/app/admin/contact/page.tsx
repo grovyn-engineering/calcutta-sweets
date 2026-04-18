@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import toast from "react-hot-toast";
-import { LayoutGrid } from "lucide-react";
+import { LayoutGrid, Plus, Trash2 } from "lucide-react";
 import {
   useContactInfo,
   useVisitUsFeatures,
@@ -37,6 +37,14 @@ type ContactFormState = {
   visitWelcomeLocationLine: string;
   visitWelcomeHoursLine: string;
 };
+
+const SOCIAL_PLATFORM_OPTIONS = [
+  { value: "instagram", label: "Instagram" },
+  { value: "facebook", label: "Facebook" },
+  { value: "twitter", label: "Twitter / X" },
+  { value: "youtube", label: "YouTube" },
+  { value: "linkedin", label: "LinkedIn" },
+] as const;
 
 const emptyForm: ContactFormState = {
   address: "",
@@ -83,6 +91,8 @@ export default function ContactInfoAdminPage() {
     publicId: string;
   } | null>(null);
 
+  const [socialLinks, setSocialLinks] = useState<{ platform: string; url: string }[]>([]);
+
   const [featEditingId, setFeatEditingId] = useState<string | null>(null);
   const [featCreating, setFeatCreating] = useState(false);
   const [featSaving, setFeatSaving] = useState(false);
@@ -120,6 +130,14 @@ export default function ContactInfoAdminPage() {
       visitWelcomeLocationLine: data.visitWelcomeLocationLine || "",
       visitWelcomeHoursLine: data.visitWelcomeHoursLine || "",
     });
+    setSocialLinks(
+      Array.isArray(data.socialLinks)
+        ? data.socialLinks.map((row) => ({
+            platform: String((row as { platform?: string }).platform || "instagram"),
+            url: String((row as { url?: string }).url || ""),
+          }))
+        : []
+    );
   }, [data]);
 
   const resetFeatureForm = () => {
@@ -168,12 +186,20 @@ export default function ContactInfoAdminPage() {
           visitOwnerPublicId = ownerUploaded.publicId;
         }
       }
+      const cleanedSocials = socialLinks
+        .map((s) => ({
+          platform: s.platform.trim().toLowerCase(),
+          url: s.url.trim(),
+        }))
+        .filter((s) => s.platform.length > 0 && s.url.length > 0);
+
       const res = await updateItem(null, {
         ...form,
         visitHeroImageUrl,
         visitHeroPublicId,
         visitOwnerImageUrl,
         visitOwnerPublicId,
+        socialLinks: cleanedSocials,
       });
       if (!res.success) throw new Error(res.message || "Save failed");
       toast.success("Saved successfully");
@@ -254,8 +280,8 @@ export default function ContactInfoAdminPage() {
       <div>
         <h1 className="mb-1 text-2xl font-semibold text-neutral-900">Visit us</h1>
         <p className="text-sm text-neutral-500">
-          Flagship address, hours, visit hero, welcome strip, “Experience” section, and feature
-          cards.
+          Flagship address, hours, footer social links, visit hero, welcome strip, “Experience”
+          section, and feature cards.
         </p>
       </div>
 
@@ -296,6 +322,81 @@ export default function ContactInfoAdminPage() {
                 )}
               </div>
             ))}
+          </div>
+        </div>
+
+        <div className="border-t border-neutral-100 pt-8">
+          <h2 className="mb-2 text-sm font-semibold text-neutral-800">Footer — social links</h2>
+          <p className="mb-4 text-xs text-neutral-500">
+            Icons and URLs for the site footer. Only entries with both platform and URL are saved.
+            Links open in a new tab.
+          </p>
+          <div className="space-y-3">
+            {socialLinks.map((row, index) => (
+              <div
+                key={index}
+                className="flex flex-col gap-3 rounded-lg border border-neutral-200 bg-neutral-50/80 p-4 sm:flex-row sm:items-end"
+              >
+                <div className="min-w-0 flex-1">
+                  <label className="mb-1.5 block text-[10px] font-semibold uppercase tracking-wider text-neutral-400">
+                    Platform
+                  </label>
+                  <select
+                    value={row.platform}
+                    onChange={(e) => {
+                      const next = [...socialLinks];
+                      next[index] = { ...next[index], platform: e.target.value };
+                      setSocialLinks(next);
+                    }}
+                    className="w-full rounded-lg border border-neutral-200 bg-white px-3 py-2.5 text-sm text-neutral-900 focus:border-[#C8773A] focus:outline-none"
+                  >
+                    {!SOCIAL_PLATFORM_OPTIONS.some((o) => o.value === row.platform) &&
+                    row.platform.trim() ? (
+                      <option value={row.platform}>{row.platform}</option>
+                    ) : null}
+                    {SOCIAL_PLATFORM_OPTIONS.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="min-w-0 flex-[2]">
+                  <label className="mb-1.5 block text-[10px] font-semibold uppercase tracking-wider text-neutral-400">
+                    URL
+                  </label>
+                  <input
+                    type="text"
+                    value={row.url}
+                    onChange={(e) => {
+                      const next = [...socialLinks];
+                      next[index] = { ...next[index], url: e.target.value };
+                      setSocialLinks(next);
+                    }}
+                    placeholder="https://instagram.com/yourshop"
+                    className="w-full rounded-lg border border-neutral-200 bg-white px-3 py-2.5 text-sm focus:border-[#C8773A] focus:outline-none"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSocialLinks(socialLinks.filter((_, i) => i !== index))}
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-neutral-200 text-neutral-500 transition hover:border-red-200 hover:bg-red-50 hover:text-red-600"
+                  aria-label="Remove social link"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={() =>
+                setSocialLinks([...socialLinks, { platform: "instagram", url: "" }])
+              }
+              className="inline-flex items-center gap-2 rounded-lg border border-dashed border-neutral-300 bg-white px-4 py-2.5 text-xs font-semibold uppercase tracking-wide text-neutral-600 transition hover:border-[#C8773A]/50 hover:text-[#C8773A]"
+            >
+              <Plus className="h-4 w-4" />
+              Add social link
+            </button>
           </div>
         </div>
 

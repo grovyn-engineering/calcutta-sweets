@@ -110,6 +110,8 @@ const updateOne = async (req, res) => {
           email: body.email,
           description: body.description ?? '',
           hours: body.hours !== undefined ? body.hours : existing.hours,
+          socialLinks:
+            body.socialLinks !== undefined ? body.socialLinks : existing.socialLinks,
           ...visitData(existing),
         },
       });
@@ -143,6 +145,7 @@ const updateOne = async (req, res) => {
         email: body.email,
         description: body.description || '',
         hours: body.hours ?? null,
+        socialLinks: body.socialLinks ?? null,
         ...visitData(defaults),
       },
     });

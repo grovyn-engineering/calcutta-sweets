@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useMemo } from "react";
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer, hoverScale } from "@/lib/animations";
@@ -17,6 +16,11 @@ import {
   VISIT_HERO_IMAGE_DEFAULT,
   VISIT_HERO_TITLE_DEFAULT,
 } from "@/lib/visitUsPageDefaults";
+import FilledImageWithShimmer from "@/components/ui/FilledImageWithShimmer";
+import {
+  VisitFeatureCardsSkeleton,
+  VisitHeroBannerSkeleton,
+} from "@/components/ui/StorefrontSkeletons";
 
 const FALLBACK_FEATURE_CARDS = [
   {
@@ -43,7 +47,7 @@ const FALLBACK_FEATURE_CARDS = [
 ];
 
 export default function Hero() {
-  const { data: contactData } = useContactInfo();
+  const { data: contactData, loading: contactLoading } = useContactInfo();
   const { data: featureRows, loading: featuresLoading } = useVisitUsFeatures();
 
   const rawContact = Array.isArray(contactData) ? contactData[0] : contactData;
@@ -93,52 +97,61 @@ export default function Hero() {
               transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
               className="relative w-full"
             >
-              <Image
-                src={heroImage}
-                alt="Calcutta Sweets storefront"
-                width={1920}
-                height={1080}
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1400px"
-                className="w-full h-auto block"
-                priority
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-brown/80 via-brand-brown/30 to-transparent" />
+              {contactLoading ? (
+                <VisitHeroBannerSkeleton />
+              ) : (
+                <>
+                  <div className="relative w-full aspect-[16/9] md:aspect-[21/9] min-h-[220px] max-h-[min(72vh,640px)]">
+                    <FilledImageWithShimmer
+                      key={heroImage}
+                      src={heroImage}
+                      alt="Calcutta Sweets storefront"
+                      className="object-cover object-center"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1400px"
+                      priority
+                    />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-brown/80 via-brand-brown/30 to-transparent pointer-events-none" />
+                </>
+              )}
             </motion.div>
 
-            <motion.div
-              {...fadeUp}
-              className="absolute inset-x-0 bottom-0 flex flex-col justify-end px-5 sm:px-10 md:px-16 pb-6 sm:pb-12 md:pb-16 pt-16 sm:pt-0"
-            >
-              <span className="text-[10px] tracking-[0.3em] uppercase text-white/70 mb-2 sm:mb-3">
-                {heroEyebrow}
-              </span>
+            {!contactLoading ? (
+              <motion.div
+                {...fadeUp}
+                className="absolute inset-x-0 bottom-0 flex flex-col justify-end px-5 sm:px-10 md:px-16 pb-6 sm:pb-12 md:pb-16 pt-16 sm:pt-0"
+              >
+                <span className="text-[10px] tracking-[0.3em] uppercase text-white/70 mb-2 sm:mb-3">
+                  {heroEyebrow}
+                </span>
 
-              <h1 className="text-2xl sm:text-5xl md:text-6xl font-serif text-white leading-[1.1] mb-2 sm:mb-4">
-                {heroTitle}
-              </h1>
+                <h1 className="text-2xl sm:text-5xl md:text-6xl font-serif text-white leading-[1.1] mb-2 sm:mb-4">
+                  {heroTitle}
+                </h1>
 
-              <p className="text-xs sm:text-sm text-white/80 max-w-md mb-6 sm:mb-8 leading-relaxed">
-                {heroDescription}
-              </p>
+                <p className="text-xs sm:text-sm text-white/80 max-w-md mb-6 sm:mb-8 leading-relaxed">
+                  {heroDescription}
+                </p>
 
-              <div className="flex gap-2 sm:gap-3 flex-wrap">
-                <a
-                  href={directionsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-2 sm:px-6 sm:py-3 rounded-full bg-[#B45309] text-white text-xs sm:text-sm font-medium hover:bg-[#9a3f07] transition shadow-sm active:scale-95"
-                >
-                  Get Directions
-                </a>
+                <div className="flex gap-2 sm:gap-3 flex-wrap">
+                  <a
+                    href={directionsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2 sm:px-6 sm:py-3 rounded-full bg-[#B45309] text-white text-xs sm:text-sm font-medium hover:bg-[#9a3f07] transition shadow-sm active:scale-95"
+                  >
+                    Get Directions
+                  </a>
 
-                <a
-                  href={`tel:${phone}`}
-                  className="px-4 py-2 sm:px-6 sm:py-3 rounded-full border border-white/40 text-white text-xs sm:text-sm font-medium backdrop-blur-sm hover:bg-white hover:text-[#3E2F26] transition active:scale-95"
-                >
-                  Call the Store
-                </a>
-              </div>
-            </motion.div>
+                  <a
+                    href={`tel:${phone}`}
+                    className="px-4 py-2 sm:px-6 sm:py-3 rounded-full border border-white/40 text-white text-xs sm:text-sm font-medium backdrop-blur-sm hover:bg-white hover:text-[#3E2F26] transition active:scale-95"
+                  >
+                    Call the Store
+                  </a>
+                </div>
+              </motion.div>
+            ) : null}
 
           </div>
         </div>
@@ -157,14 +170,7 @@ export default function Hero() {
           </motion.div>
 
           {featuresLoading || storeFeatures === null ? (
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-8">
-              {[0, 1, 2].map((i) => (
-                <div
-                  key={i}
-                  className="h-[min(380px,52vh)] rounded-2xl border border-brand-brown/5 bg-white/70 animate-pulse"
-                />
-              ))}
-            </div>
+            <VisitFeatureCardsSkeleton />
           ) : (
             <motion.div
               variants={staggerContainer}
@@ -181,10 +187,10 @@ export default function Hero() {
                   className="rounded-2xl overflow-hidden bg-white border border-brand-brown/5 group cursor-pointer"
                 >
                   <div className="relative h-[220px] sm:h-[240px] lg:h-[260px] overflow-hidden">
-                    <Image
+                    <FilledImageWithShimmer
+                      key={feature.image}
                       src={feature.image}
                       alt={feature.title}
-                      fill
                       className="object-cover transition duration-700 group-hover:scale-110"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />

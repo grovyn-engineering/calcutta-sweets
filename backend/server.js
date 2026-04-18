@@ -93,6 +93,7 @@ app.use('/api/timeline-events', require('./src/routes/timelineEventRoutes'));
 app.use('/api/testimonials', require('./src/routes/testimonialRoutes'));
 app.use('/api/visit-us-stats', require('./src/routes/visitUsStatRoutes'));
 app.use('/api/celebration-process', require('./src/routes/celebrationProcessRoutes'));
+app.use('/api/celebration-hero', require('./src/routes/celebrationHeroRoutes'));
 app.use('/api/menu-products', require('./src/routes/menuProductRoutes'));
 app.use('/api/visit-us-features', require('./src/routes/visitUsFeatureRoutes'));
 
@@ -124,6 +125,7 @@ app.get('/api/admin/stats', protect, async (req, res) => {
       celebrationSteps,
       menuProducts,
       visitUsFeatures,
+      celebrationHero,
     ] = await Promise.all([
       prisma.heroSection.count(),
       prisma.occasion.count(),
@@ -138,6 +140,7 @@ app.get('/api/admin/stats', protect, async (req, res) => {
       prisma.celebrationProcessStep.count(),
       prisma.menuProduct.count(),
       prisma.visitUsFeature.count(),
+      prisma.celebrationHero.count(),
     ]);
     res.json({
       success: true,
@@ -155,6 +158,7 @@ app.get('/api/admin/stats', protect, async (req, res) => {
         celebrationSteps,
         menuProducts,
         visitUsFeatures,
+        celebrationHero,
       },
     });
   } catch (e) {

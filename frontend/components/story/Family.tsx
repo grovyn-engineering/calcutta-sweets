@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
+import FilledImageWithShimmer from "@/components/ui/FilledImageWithShimmer";
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer, hoverScale } from "@/lib/animations";
 import type { StoryFamilyMember } from "@/hooks/useAdminData";
@@ -50,10 +50,10 @@ export default function Family({
               >
                 <Link href="/menu" className="block">
                   <div className="relative aspect-[4/5] w-full bg-[#F5EDE3]">
-                    <Image
+                    <FilledImageWithShimmer
+                      key={member.image}
                       src={member.image}
                       alt={member.name}
-                      fill
                       className="object-cover"
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />

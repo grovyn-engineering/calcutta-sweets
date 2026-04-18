@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
 import { useTimelineEvents } from "@/hooks/useAdminData";
 import type { TimelineEvent } from "@/hooks/useAdminData";
+import { TimelineSkeleton } from "@/components/ui/StorefrontSkeletons";
 
 const TimelineItem = ({ item, index }: { item: TimelineEvent; index: number }) => {
   const ref = useRef(null);
@@ -117,7 +118,7 @@ export default function Timeline({
 
           <div className="relative z-20 pt-4 pb-4">
             {loading ? (
-              <p className="text-center text-sm text-zinc-500 py-12">Loading timeline…</p>
+              <TimelineSkeleton />
             ) : milestones.length === 0 ? (
               <p className="text-center text-sm text-zinc-500 py-12">No timeline milestones yet.</p>
             ) : (

@@ -1,7 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { Twitter, Instagram } from "lucide-react";
+import {
+  Twitter,
+  Instagram,
+  Facebook,
+  Youtube,
+  Linkedin,
+  Link2,
+  type LucideIcon,
+} from "lucide-react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 
@@ -12,16 +20,42 @@ const EXPLORE_LINKS = [
   { href: "/celebration", label: "Celebrations" },
 ];
 
-const SOCIALS = [
-  { icon: Twitter, label: "Twitter", href: "#" },
-  { icon: Instagram, label: "Instagram", href: "#" },
-];
+const PLATFORM_ICONS: Record<string, LucideIcon> = {
+  twitter: Twitter,
+  x: Twitter,
+  instagram: Instagram,
+  facebook: Facebook,
+  youtube: Youtube,
+  linkedin: Linkedin,
+};
 
-export default function FooterClient({ contact }: { contact: any }) {
+function normalizeExternalUrl(raw: string): string {
+  const u = raw.trim();
+  if (!u) return "";
+  if (/^https?:\/\//i.test(u)) return u;
+  return `https://${u}`;
+}
+
+function iconForPlatform(platform: string): LucideIcon {
+  const key = platform.trim().toLowerCase();
+  return PLATFORM_ICONS[key] ?? Link2;
+}
+
+export type FooterContact = {
+  address: string;
+  email: string;
+  phone: string;
+  hours: string;
+  socialLinks: { platform: string; url: string }[];
+};
+
+export default function FooterClient({ contact }: { contact: FooterContact }) {
   const pathname = usePathname();
   const year = new Date().getFullYear();
 
   if (pathname.startsWith("/admin")) return null;
+
+  const socials = contact.socialLinks ?? [];
 
   return (
     <footer className="w-full bg-[#1a1208] text-white">
@@ -47,19 +81,30 @@ export default function FooterClient({ contact }: { contact: any }) {
                 Chhattisgarh since 2000.
               </p>
 
-              <div className="flex items-center gap-3 mt-6">
-                {SOCIALS.map(({ icon: Icon, label, href }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    aria-label={label}
-                    rel="noopener noreferrer"
-                    className="w-9 h-9 rounded-full border border-white/15 flex items-center justify-center text-white/50 hover:text-white hover:border-white/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/30"
-                  >
-                    <Icon className="w-4 h-4" strokeWidth={1.8} />
-                  </a>
-                ))}
-              </div>
+              {socials.length > 0 ? (
+                <div className="flex items-center gap-3 mt-6 flex-wrap">
+                  {socials.map(({ platform, url }, idx) => {
+                    const href = normalizeExternalUrl(url);
+                    if (!href) return null;
+                    const Icon = iconForPlatform(platform);
+                    const label =
+                      platform.trim().charAt(0).toUpperCase() +
+                      platform.trim().slice(1).toLowerCase();
+                    return (
+                      <a
+                        key={`${platform}-${idx}`}
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={label}
+                        className="w-9 h-9 rounded-full border border-white/15 flex items-center justify-center text-white/50 hover:text-white hover:border-white/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/30"
+                      >
+                        <Icon className="w-4 h-4" strokeWidth={1.8} />
+                      </a>
+                    );
+                  })}
+                </div>
+              ) : null}
             </div>
           </div>
 
@@ -106,9 +151,12 @@ export default function FooterClient({ contact }: { contact: any }) {
                 >
                   {contact.email}
                 </a>
-                <p className="text-white/55 text-sm mt-1">
+                <a
+                  href={`tel:${contact.phone.replace(/\s/g, "")}`}
+                  className="block text-white/55 hover:text-white text-sm mt-1 transition-colors duration-200"
+                >
                   {contact.phone}
-                </p>
+                </a>
               </div>
             </div>
           </div>

@@ -8,11 +8,13 @@ import { Product } from "@/lib/types";
 
 interface SignaturesClientProps {
   products: Product[];
+  /** When true, empty grid is expected (e.g. fetch failed); omit “add in admin” hint noise. */
+  loadError?: boolean;
 }
 
 const FEATURED_COUNT = 5;
 
-export default function SignaturesClient({ products }: SignaturesClientProps) {
+export default function SignaturesClient({ products, loadError }: SignaturesClientProps) {
   const featuredSweets = products.slice(0, FEATURED_COUNT);
 
   return (
@@ -37,7 +39,7 @@ export default function SignaturesClient({ products }: SignaturesClientProps) {
         </span>
       </motion.div>
 
-      {featuredSweets.length > 0 && (
+      {featuredSweets.length > 0 ? (
         <motion.div
           variants={staggerContainer}
           initial="initial"
@@ -60,7 +62,12 @@ export default function SignaturesClient({ products }: SignaturesClientProps) {
             />
           ))}
         </motion.div>
-      )}
+      ) : !loadError ? (
+        <p className="font-sans text-sm text-[#6B5344]">
+          No signature sweets in the catalog yet. Add them in{" "}
+          <span className="font-semibold text-[#4A3221]">Admin → Signature sweets</span>.
+        </p>
+      ) : null}
     </div>
   );
 }

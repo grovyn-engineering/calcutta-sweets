@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { fadeUp, hoverScale } from "@/lib/animations";
 import { Product } from "@/lib/types";
+import FilledImageWithShimmer from "@/components/ui/FilledImageWithShimmer";
 
 interface SignatureCardProps {
   sweet: Product;
@@ -19,10 +19,10 @@ export default function SignatureCard({ sweet, className }: SignatureCardProps) 
       className={`relative w-full rounded-[2.5rem] overflow-hidden group cursor-pointer shadow-sm block ${className}`}
     >
       <Link href={`/menu`} className="block w-full h-full relative">
-        <Image
+        <FilledImageWithShimmer
+          key={`${sweet.id}-${sweet.imageUrl ?? ""}`}
           src={sweet.imageUrl || "/images/chamcham.png"}
           alt={sweet.name}
-          fill
           className="object-cover transition-transform duration-700 group-hover:scale-110"
           sizes="(max-width: 1024px) 100vw, 33vw"
         />

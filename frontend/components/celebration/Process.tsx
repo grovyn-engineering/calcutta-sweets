@@ -13,6 +13,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useCelebrationProcessSteps } from "@/hooks/useAdminData";
+import { ProcessStepsSkeleton } from "@/components/ui/StorefrontSkeletons";
 
 const ICONS: Record<string, LucideIcon> = {
   ClipboardEdit,
@@ -28,13 +29,7 @@ export default function Process() {
   const { data, loading } = useCelebrationProcessSteps();
 
   if (loading) {
-    return (
-      <section className="w-full bg-[#FEF7F2] py-24">
-        <div className="mx-auto max-w-[1400px] px-6 text-center text-sm text-[#7D7063] sm:px-10 lg:px-12">
-          Loading…
-        </div>
-      </section>
-    );
+    return <ProcessStepsSkeleton />;
   }
 
   if (!data?.length) return null;

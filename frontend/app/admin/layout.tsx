@@ -23,6 +23,7 @@ import {
   LogOut,
   Menu,
   X,
+  Sparkles,
 } from "lucide-react";
 import { FourDotsLoader } from "@/components/admin/FourDotsLoader";
 
@@ -30,6 +31,7 @@ const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { href: "/admin/hero", label: "Hero", icon: Images },
   { href: "/admin/occasions", label: "Celebrations", icon: PartyPopper },
+  { href: "/admin/celebration-hero", label: "Celebration hero", icon: Sparkles },
   { href: "/admin/signature-sweets", label: "Signature Sweets", icon: Candy },
   { href: "/admin/menu-products", label: "Menu", icon: UtensilsCrossed },
   { href: "/admin/story", label: "Story", icon: BookOpen },

@@ -2,16 +2,13 @@
 
 import TestimonialCard from "@/components/ui/TestimonialCard";
 import { useTestimonials } from "@/hooks/useAdminData";
+import { TestimonialsSectionSkeleton } from "@/components/ui/StorefrontSkeletons";
 
 export default function Testimonials() {
   const { data, loading } = useTestimonials();
 
   if (loading) {
-    return (
-      <section className="w-full bg-[#3D2B1F] py-24 px-8 md:px-12 lg:px-24">
-        <div className="mx-auto max-w-7xl animate-pulse text-center text-sm text-[#FAF3E8]/40">Loading…</div>
-      </section>
-    );
+    return <TestimonialsSectionSkeleton />;
   }
 
   if (!data?.length) return null;

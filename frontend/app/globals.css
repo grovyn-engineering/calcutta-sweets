@@ -49,3 +49,32 @@ body {
     background: rgb(244 244 245);
   }
 }
+
+@keyframes storefront-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.storefront-shimmer-surface {
+  background: linear-gradient(
+    90deg,
+    #ede0d4 0%,
+    #f5ebe0 35%,
+    #faf3e8 50%,
+    #f5ebe0 65%,
+    #ede0d4 100%
+  );
+  background-size: 220% 100%;
+  animation: storefront-shimmer 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .storefront-shimmer-surface {
+    animation: none;
+    background: #ede0d4;
+  }
+}
