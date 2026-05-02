@@ -14,6 +14,13 @@ export default function Family({
   members: StoryFamilyMember[];
 }) {
   const titleLines = sectionTitle.split(/\n/).map((t) => t.trim()).filter(Boolean);
+  const count = members.length;
+  const gridClass =
+    count === 1
+      ? "grid-cols-1 md:max-w-md md:mx-auto"
+      : count === 2
+        ? "grid-cols-1 md:grid-cols-2 md:max-w-4xl md:mx-auto"
+        : "grid-cols-1 md:grid-cols-3";
 
   return (
     <section className="w-full px-6 sm:px-10 md:px-16 lg:px-24 py-12 md:py-16 bg-white">
@@ -36,7 +43,7 @@ export default function Family({
           initial="initial"
           whileInView="whileInView"
           viewport={staggerContainer.viewport}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6 items-start"
+          className={`grid w-full gap-8 md:gap-6 items-start ${gridClass}`}
         >
           {members.map((member, i) => (
             <motion.div

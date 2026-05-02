@@ -11,8 +11,14 @@ import { AdminBreadcrumbs } from "@/components/admin/AdminBreadcrumbs";
 const emptyCraftSteps = (): StoryCraftStep[] =>
   Array.from({ length: 3 }, () => ({ icon: "", title: "", description: "" }));
 
-const emptyFamily = (): StoryFamilyMember[] =>
-  Array.from({ length: 3 }, () => ({ name: "", title: "", description: "", image: "" }));
+const emptyFamilyMember = (): StoryFamilyMember => ({
+  name: "",
+  title: "",
+  description: "",
+  image: "",
+});
+
+const MAX_FAMILY_MEMBERS = 6;
 
 export default function StoryAdminPage() {
   const { data, loading, error, updateItem } = useStory();
@@ -35,7 +41,7 @@ export default function StoryAdminPage() {
   const [timelineTitle, setTimelineTitle] = useState("");
   const [timelineSubtitle, setTimelineSubtitle] = useState("");
   const [familySectionTitle, setFamilySectionTitle] = useState("");
-  const [familyMembers, setFamilyMembers] = useState<StoryFamilyMember[]>(emptyFamily());
+  const [familyMembers, setFamilyMembers] = useState<StoryFamilyMember[]>([emptyFamilyMember()]);
   const [quoteText, setQuoteText] = useState("");
   const [quoteAttribution, setQuoteAttribution] = useState("");
 
@@ -64,16 +70,16 @@ export default function StoryAdminPage() {
       : emptyCraftSteps();
     while (steps.length < 3) steps.push({ icon: "", title: "", description: "" });
     setCraftSteps(steps.slice(0, 6));
-    const fam = Array.isArray(data.familyMembers) && data.familyMembers.length > 0
-      ? data.familyMembers.map((m) => ({
-          name: m.name || "",
-          title: m.title || "",
-          description: m.description || "",
-          image: m.image || "",
-        }))
-      : emptyFamily();
-    while (fam.length < 3) fam.push({ name: "", title: "", description: "", image: "" });
-    setFamilyMembers(fam.slice(0, 6));
+    const fam =
+      Array.isArray(data.familyMembers) && data.familyMembers.length > 0
+        ? data.familyMembers.map((m) => ({
+            name: m.name || "",
+            title: m.title || "",
+            description: m.description || "",
+            image: m.image || "",
+          }))
+        : [emptyFamilyMember()];
+    setFamilyMembers(fam.slice(0, MAX_FAMILY_MEMBERS));
     setQuoteText(data.quoteText || "");
     setQuoteAttribution(data.quoteAttribution || "");
   }, [data]);
@@ -92,6 +98,17 @@ export default function StoryAdminPage() {
       next[i] = { ...next[i], ...patch };
       return next;
     });
+  };
+
+  const addFamilyMember = () => {
+    setFamilyMembers((prev) => {
+      if (prev.length >= MAX_FAMILY_MEMBERS) return prev;
+      return [...prev, emptyFamilyMember()];
+    });
+  };
+
+  const removeFamilyMember = (i: number) => {
+    setFamilyMembers((prev) => prev.filter((_, idx) => idx !== i));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -332,27 +349,54 @@ export default function StoryAdminPage() {
         </div>
 
         <div className="bg-white border border-brand-brown/8 rounded-lg p-6 shadow-sm space-y-4">
-          <h2 className="text-sm font-semibold text-brand-brown">Family section</h2>
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <h2 className="text-sm font-semibold text-brand-brown">Family section</h2>
+            <button
+              type="button"
+              disabled={saving || familyMembers.length >= MAX_FAMILY_MEMBERS}
+              onClick={addFamilyMember}
+              className="text-xs font-semibold tracking-wide text-[#C8773A] hover:text-[#b5692e] disabled:opacity-40 disabled:pointer-events-none"
+            >
+              + Add person
+            </button>
+          </div>
+          <p className="text-xs text-brand-brown/50 -mt-2">
+            Up to {MAX_FAMILY_MEMBERS} people. Empty rows are omitted when you save.
+          </p>
           <div>
             <label className="block text-[10px] font-semibold text-brand-brown/50 tracking-widest uppercase mb-2">Section title (\n for line break)</label>
             <textarea rows={2} value={familySectionTitle} disabled={saving} onChange={(e) => setFamilySectionTitle(e.target.value)}
               className="w-full px-4 py-3 bg-[#FAF3E8] border border-brand-brown/10 rounded text-brand-brown text-sm resize-none" />
           </div>
-          {familyMembers.map((m, i) => (
-            <div key={i} className="rounded-lg border border-brand-brown/10 p-4 space-y-2 bg-[#FAF3E8]/30">
-              <p className="text-[10px] font-bold text-brand-brown/50 uppercase">Person {i + 1}</p>
-              <div className="grid sm:grid-cols-2 gap-2">
-                <input placeholder="Name" value={m.name} disabled={saving} onChange={(e) => updateFamilyMember(i, { name: e.target.value })}
-                  className="px-3 py-2 rounded border border-brand-brown/10 text-sm" />
-                <input placeholder="Role / title" value={m.title} disabled={saving} onChange={(e) => updateFamilyMember(i, { title: e.target.value })}
-                  className="px-3 py-2 rounded border border-brand-brown/10 text-sm" />
+          {familyMembers.length === 0 ? (
+            <p className="text-sm text-brand-brown/50">No cards yet. Use &quot;Add person&quot; to create one.</p>
+          ) : (
+            familyMembers.map((m, i) => (
+              <div key={i} className="rounded-lg border border-brand-brown/10 p-4 space-y-2 bg-[#FAF3E8]/30">
+                <div className="flex items-center justify-between gap-2">
+                  <p className="text-[10px] font-bold text-brand-brown/50 uppercase">Person {i + 1}</p>
+                  <button
+                    type="button"
+                    disabled={saving}
+                    onClick={() => removeFamilyMember(i)}
+                    className="text-[11px] font-semibold text-red-500 hover:opacity-70 transition-opacity disabled:opacity-40"
+                  >
+                    Remove
+                  </button>
+                </div>
+                <div className="grid sm:grid-cols-2 gap-2">
+                  <input placeholder="Name" value={m.name} disabled={saving} onChange={(e) => updateFamilyMember(i, { name: e.target.value })}
+                    className="px-3 py-2 rounded border border-brand-brown/10 text-sm" />
+                  <input placeholder="Role / title" value={m.title} disabled={saving} onChange={(e) => updateFamilyMember(i, { title: e.target.value })}
+                    className="px-3 py-2 rounded border border-brand-brown/10 text-sm" />
+                </div>
+                <textarea placeholder="Description" value={m.description} disabled={saving} rows={2} onChange={(e) => updateFamilyMember(i, { description: e.target.value })}
+                  className="w-full px-3 py-2 rounded border border-brand-brown/10 text-sm resize-none" />
+                <input placeholder="Image path e.g. /images/chef1.jpg" value={m.image} disabled={saving} onChange={(e) => updateFamilyMember(i, { image: e.target.value })}
+                  className="w-full px-3 py-2 rounded border border-brand-brown/10 text-sm" />
               </div>
-              <textarea placeholder="Description" value={m.description} disabled={saving} rows={2} onChange={(e) => updateFamilyMember(i, { description: e.target.value })}
-                className="w-full px-3 py-2 rounded border border-brand-brown/10 text-sm resize-none" />
-              <input placeholder="Image path e.g. /images/chef1.jpg" value={m.image} disabled={saving} onChange={(e) => updateFamilyMember(i, { image: e.target.value })}
-                className="w-full px-3 py-2 rounded border border-brand-brown/10 text-sm" />
-            </div>
-          ))}
+            ))
+          )}
         </div>
 
         <div className="bg-white border border-brand-brown/8 rounded-lg p-6 shadow-sm space-y-4">
