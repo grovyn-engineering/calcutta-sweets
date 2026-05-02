@@ -136,10 +136,8 @@ export default function MenuProductsAdminPage() {
     let updated = 0;
     try {
       const url = `${inventoryApiBase}/public/marketing-sweets/${encodeURIComponent(inventoryShopCode)}`;
-      const res = await fetch(url, {
-        cache: "no-store",
-        headers: { "Cache-Control": "no-cache", Pragma: "no-cache" },
-      });
+      // no-store avoids 304 + empty body; avoid extra request headers so the GET stays CORS-“simple” (no preflight).
+      const res = await fetch(url, { cache: "no-store" });
       const json = (await res.json().catch(() => null)) as
         | { items?: InventoryMarketingItem[]; message?: string }
         | null;
