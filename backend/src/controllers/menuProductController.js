@@ -47,10 +47,16 @@ const createOne = async (req, res) => {
       category,
       imageUrl,
       cloudinaryPublicId,
+      inventoryProductId,
       sortOrder,
       isActive,
       isSignature,
     } = req.body;
+
+    const invId =
+      inventoryProductId && String(inventoryProductId).trim()
+        ? String(inventoryProductId).trim()
+        : null;
 
     const item = await prisma.menuProduct.create({
       data: {
@@ -61,6 +67,7 @@ const createOne = async (req, res) => {
         category: category || '',
         imageUrl: imageUrl || '',
         publicId: cloudinaryPublicId || '',
+        inventoryProductId: invId,
         sortOrder: sortOrder ?? 0,
         isActive: isActive !== undefined ? Boolean(isActive) : true,
         isSignature: isSignature !== undefined ? Boolean(isSignature) : false,
@@ -97,6 +104,12 @@ const updateOne = async (req, res) => {
         imageUrl: body.imageUrl !== undefined ? body.imageUrl : existing.imageUrl,
         publicId:
           body.cloudinaryPublicId !== undefined ? body.cloudinaryPublicId : existing.publicId,
+        inventoryProductId:
+          body.inventoryProductId !== undefined
+            ? body.inventoryProductId && String(body.inventoryProductId).trim()
+              ? String(body.inventoryProductId).trim()
+              : null
+            : existing.inventoryProductId,
         sortOrder: body.sortOrder !== undefined ? body.sortOrder : existing.sortOrder,
         isActive: body.isActive !== undefined ? Boolean(body.isActive) : existing.isActive,
         isSignature:

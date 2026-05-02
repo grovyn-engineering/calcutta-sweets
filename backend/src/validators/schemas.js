@@ -167,6 +167,7 @@ const menuProductCreateSchema = z.object({
   category: z.string().trim().min(1, "Category is required"),
   imageUrl: z.string().optional(),
   cloudinaryPublicId: z.string().optional(),
+  inventoryProductId: z.string().uuid().optional().nullable(),
   sortOrder: z.coerce.number().int().optional(),
   isActive: z.coerce.boolean().optional(),
   isSignature: z.coerce.boolean().optional(),

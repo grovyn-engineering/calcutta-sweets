@@ -172,6 +172,7 @@ export interface MenuProduct {
   category: string;
   imageUrl: string | null;
   publicId: string | null;
+  inventoryProductId: string | null;
   sortOrder: number;
   isActive: boolean;
   isSignature: boolean;

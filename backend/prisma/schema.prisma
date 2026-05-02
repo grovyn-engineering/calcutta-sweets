@@ -201,6 +201,8 @@ model MenuProduct {
   category    String
   imageUrl    String?
   publicId    String?
+  /// Inventory `Product.id` when this row was synced from calcutta-sweets-inventory (dedupe on re-sync).
+  inventoryProductId String? @unique
   sortOrder   Int      @default(0)
   isActive    Boolean  @default(true)
   isSignature Boolean  @default(false)

@@ -10,11 +10,25 @@ import { AdminLoadingState } from "@/components/admin/AdminLoadingState";
 import { AdminEmptyState } from "@/components/admin/AdminEmptyState";
 import { AdminBreadcrumbs } from "@/components/admin/AdminBreadcrumbs";
 
+type InventoryMarketingItem = {
+  inventoryProductId: string;
+  name: string;
+  description: string;
+  price: number;
+  unit: string;
+  categoryLabel: string;
+  imageUrl: string | null;
+};
+
+const inventoryApiBase = (process.env.NEXT_PUBLIC_INVENTORY_API_URL || "").replace(/\/$/, "");
+const inventoryShopCode = process.env.NEXT_PUBLIC_INVENTORY_SHOP_CODE || "SH000001";
+
 export default function MenuProductsAdminPage() {
-  const { data, loading, createItem, updateItem, deleteItem } = useMenuProductsManage();
+  const { data, loading, createItem, updateItem, deleteItem, refetch } = useMenuProductsManage();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [syncing, setSyncing] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("0");
@@ -112,6 +126,87 @@ export default function MenuProductsAdminPage() {
     }
   };
 
+  const handleSyncFromInventory = async () => {
+    if (!inventoryApiBase) {
+      toast.error("Set NEXT_PUBLIC_INVENTORY_API_URL (e.g. https://your-api.onrender.com/api)");
+      return;
+    }
+    setSyncing(true);
+    let created = 0;
+    let updated = 0;
+    try {
+      const url = `${inventoryApiBase}/public/marketing-sweets/${encodeURIComponent(inventoryShopCode)}`;
+      const res = await fetch(url);
+      const json = (await res.json().catch(() => null)) as
+        | { items?: InventoryMarketingItem[]; message?: string }
+        | null;
+      if (!res.ok) {
+        const msg =
+          json && typeof json === "object" && "message" in json && typeof json.message === "string"
+            ? json.message
+            : res.statusText;
+        throw new Error(msg || "Inventory request failed");
+      }
+      const items = Array.isArray(json?.items) ? json.items : [];
+      if (items.length === 0) {
+        toast("No Sweets items returned from inventory (check shop code and listings).", {
+          icon: "ℹ️",
+        });
+        await refetch();
+        return;
+      }
+
+      const origin = inventoryApiBase.replace(/\/api\/?$/i, "");
+      const byInventoryId = new Map(
+        (data ?? [])
+          .filter((m): m is MenuProduct & { inventoryProductId: string } => Boolean(m.inventoryProductId))
+          .map((m) => [m.inventoryProductId, m]),
+      );
+
+      for (let i = 0; i < items.length; i++) {
+        const it = items[i];
+        let imageUrl = it.imageUrl ?? "";
+        if (imageUrl.startsWith("/") && origin) {
+          imageUrl = `${origin}${imageUrl}`;
+        }
+
+        const payload: Record<string, unknown> = {
+          name: it.name.trim(),
+          description: (it.description || "").trim(),
+          price: Math.max(0, Math.round(Number(it.price) || 0)),
+          unit: (it.unit || "200g").trim() || "200g",
+          category: (it.categoryLabel || "Sweets").trim() || "Sweets",
+          imageUrl,
+          inventoryProductId: it.inventoryProductId,
+          sortOrder: i,
+          isActive: true,
+          isSignature: false,
+        };
+
+        const existing = byInventoryId.get(it.inventoryProductId);
+        if (!existing) {
+          payload.cloudinaryPublicId = "";
+        }
+
+        if (existing) {
+          const out = await updateItem(existing.id, payload);
+          if (!out.success) throw new Error(out.message || "Update failed");
+          updated += 1;
+        } else {
+          const out = await createItem(payload);
+          if (!out.success) throw new Error(out.message || "Create failed");
+          created += 1;
+        }
+      }
+
+      toast.success(`Synced ${items.length} sweets (${created} new, ${updated} updated)`);
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Sync failed");
+    } finally {
+      setSyncing(false);
+    }
+  };
+
   if (loading && (!data || data.length === 0)) {
     return <AdminLoadingState message="Loading menu…" />;
   }
@@ -137,16 +232,26 @@ export default function MenuProductsAdminPage() {
           </p>
         </div>
         {!isFormOpen && (
-          <button
-            type="button"
-            onClick={() => {
-              resetForm();
-              setIsCreating(true);
-            }}
-            className="rounded bg-[#C8773A] px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition-colors hover:bg-[#b5692e]"
-          >
-            + Add item
-          </button>
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              onClick={handleSyncFromInventory}
+              disabled={syncing || saving}
+              className="rounded border border-[#C8773A]/40 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-[#C8773A] transition-colors hover:bg-[#FAF3E8] disabled:opacity-50"
+            >
+              {syncing ? "Syncing…" : "Sync items"}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                resetForm();
+                setIsCreating(true);
+              }}
+              className="rounded bg-[#C8773A] px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition-colors hover:bg-[#b5692e]"
+            >
+              + Add item
+            </button>
+          </div>
         )}
       </div>
 
