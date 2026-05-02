@@ -136,7 +136,10 @@ export default function MenuProductsAdminPage() {
     let updated = 0;
     try {
       const url = `${inventoryApiBase}/public/marketing-sweets/${encodeURIComponent(inventoryShopCode)}`;
-      const res = await fetch(url);
+      const res = await fetch(url, {
+        cache: "no-store",
+        headers: { "Cache-Control": "no-cache", Pragma: "no-cache" },
+      });
       const json = (await res.json().catch(() => null)) as
         | { items?: InventoryMarketingItem[]; message?: string }
         | null;
@@ -147,7 +150,10 @@ export default function MenuProductsAdminPage() {
             : res.statusText;
         throw new Error(msg || "Inventory request failed");
       }
-      const items = Array.isArray(json?.items) ? json.items : [];
+      if (!json || typeof json !== "object") {
+        throw new Error("Inventory returned an empty or invalid response. Try again.");
+      }
+      const items = Array.isArray(json.items) ? json.items : [];
       if (items.length === 0) {
         toast("No Sweets items returned from inventory (check shop code and listings).", {
           icon: "ℹ️",
