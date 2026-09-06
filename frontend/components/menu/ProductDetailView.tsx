@@ -80,7 +80,7 @@ export default function ProductDetailView({ productId }: { productId: string }) 
       priceCurrency: "INR",
       price: product.price,
       availability: "https://schema.org/InStock",
-      url: `https://calcuttasweets.in/menu/${product.id}`,
+      url: `https://www.calcutta-sweets.in/menu/${product.id}`,
     },
   };
 

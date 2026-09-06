@@ -17,7 +17,7 @@ const poppins = Poppins({
   subsets: ["latin"],
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://calcuttasweets.in";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.calcutta-sweets.in";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
