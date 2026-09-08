@@ -85,8 +85,8 @@ export const metadata: Metadata = {
       "Handcrafted Bengali Mithai, Sondesh, Roshogolla, & Artisanal Indian Sweets since 2000 in Raipur, Chhattisgarh.",
     images: ["/images/Shop.png"],
   },
-  alternates: {
-    canonical: "./",
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
   },
 };
 
@@ -155,18 +155,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <Script
+        <script
+          async
           src="https://www.googletagmanager.com/gtag/js?id=G-DFKG7RXWQW"
-          strategy="afterInteractive"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-DFKG7RXWQW');
-          `}
-        </Script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-DFKG7RXWQW');
+            `,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrg) }}
